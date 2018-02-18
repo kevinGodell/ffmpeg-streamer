@@ -1,66 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    <link rel="stylesheet" href="/material.red-orange.min.css">
+    <script defer src="/material.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <script src="/javascripts/flv.min.js"></script>
-    <script src="/javascripts/hls.min.js"></script>
+    <script src="/flv.min.js"></script>
+    <script src="/hls.min.js"></script>
+
 </head>
 <body>
-<p>Ffmpeg parameters: <%= params %></p>
-
-<div>
-    <p>progressive mp4</p>
-    <video id="progressive" src="/mp4/test.mp4" autoplay/>
-</div>
-
-<div>
-    <p>flv.js</p>
-    <video id="flv"></video>
-    <script>
-        if (flvjs.isSupported()) {
-            var videoElement = document.getElementById('flv');
-            var flvPlayer = flvjs.createPlayer({
-                type: 'mp4',
-                url: '/mp4/test.mp4'
-            });
-            flvPlayer.attachMediaElement(videoElement);
-            flvPlayer.load();
-            flvPlayer.play();
-        }
-    </script>
-</div>
-
-<div>
-    <p>hls.js</p>
-    <video id="hls"></video>
-    <script>
-        if(Hls.isSupported()) {
-            var video = document.getElementById('hls');
-            var hls = new Hls();
-            hls.loadSource('/hls/test.m3u8');
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED,function() {
-                video.play();
-            });
-        }
-        // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
-        // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
-        // This is using the built-in support of the plain video element, without using hls.js.
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = '/hls/test.m3u8';
-            video.addEventListener('canplay',function() {
-                video.play();
-            });
-        }
-    </script>
-</div>
-
-<br/>
-
-<form method="POST" action="/">
-    <input name="action" type="submit" value="Stop">
-</form>
+<table width="100%">
+    <thead>
+    <tr>
+        <th>progressive mp4</th>
+        <th>flv.js</th>
+        <th>hls.js</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <td colspan="3" align="center">
+            <form method="POST" action="/">
+                <input name="action" type="submit" value="Stop">
+            </form>
+        </td>
+    </tr>
+    </tfoot>
+    <tbody>
+    <tr>
+        <td align="center">
+            <video id="mp4" autoplay>
+                <source src="/mp4/test.mp4" type="video/mp4">
+            </video>
+        </td>
+        <td align="center">
+            <video id="flv.js"></video>
+            <script>
+                if (flvjs.isSupported()) {
+                    var videoElement = document.getElementById('flv.js');
+                    var flvPlayer = flvjs.createPlayer({
+                        type: 'mp4',
+                        url: '/mp4/test.mp4'
+                    });
+                    flvPlayer.attachMediaElement(videoElement);
+                    flvPlayer.load();
+                    flvPlayer.play();
+                }
+            </script>
+        </td>
+        <td align="center">
+            <video id="hls.js"></video>
+            <script>
+                if (Hls.isSupported()) {
+                    var video = document.getElementById('hls.js');
+                    var hls = new Hls();
+                    hls.loadSource('/hls/test.m3u8');
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                        video.play();
+                    });
+                }
+                // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+                // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+                // This is using the built-in support of the plain video element, without using hls.js.
+                else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = '/hls/test.m3u8';
+                    video.addEventListener('canplay', function () {
+                        video.play();
+                    });
+                }
+            </script>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan="3">
+            <textarea><%= params %></textarea>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

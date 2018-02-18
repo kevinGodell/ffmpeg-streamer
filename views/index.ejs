@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<h1><%= title %></h1>
+<h2><%= header %></h2>
+<form method="POST" action="/">
+    <table>
+        <tr>
+            <td><label for="name">params</label></td>
+            <td><input disabled type="text" id="params" name="params"></td>
+        </tr>
+        <tr>
+            <td><label for="rtsp">rtsp url</label></td>
+            <td><input type="text" id="rtsp" name="rtsp"></td>
+        </tr>
+        <tr>
+            <td>
+                <input name="action" type="submit" value="Exit">
+            </td>
+            <td>
+                <input name="action" type="submit" value="Start">
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
 </html>

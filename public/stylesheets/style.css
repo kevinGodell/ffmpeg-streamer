@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -16,7 +16,7 @@ div {
     margin: 1px;
 }
 
-h1, h2 {
+h1, h6 {
     text-align: center;
 }
 
@@ -42,7 +42,13 @@ input[type="text"] {
     width: 300px;
 }
 
-form {
+form#index {
     width: 350px;
     margin:0 auto;
+}
+
+textarea {
+    width: 100%;
+    min-height: 60px;
+    font-size: larger;
 }

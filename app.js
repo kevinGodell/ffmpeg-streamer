@@ -28,12 +28,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 //app.use('/users', users);
 app.use('/hls', hls);
 app.use('/mp4', mp4);
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules/flv.js/dist')));
+app.use(express.static(path.join(__dirname, 'node_modules/hls.js/dist')));
+app.use(express.static(path.join(__dirname, 'node_modules/material-design-lite/dist')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

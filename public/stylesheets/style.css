@@ -3,6 +3,46 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+video {
+    width: 275px;
+    height: 210px;
+    margin: 0;
+}
+
+div {
+    float: left;
+    border: solid black 1px;
+    padding: 2px;
+    margin: 1px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
 a {
   color: #00B7FF;
+}
+
+label {
+    width: 50px;
+    font-size: larger;
+}
+
+input {
+    height: 30px;
+    font-size: larger;
+}
+
+input[value="Start"] {
+    width: 100%;
+}
+
+input[type="text"] {
+    width: 300px;
+}
+
+form {
+    width: 350px;
+    margin:0 auto;
 }

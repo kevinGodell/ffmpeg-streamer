@@ -18,6 +18,7 @@
     "morgan": "~1.9.0",
     "mp4frag": "0.0.14",
     "opn": "^5.2.0",
+    "pipe2jpeg": "^0.2.6",
     "serve-favicon": "~2.4.5"
   }
 }

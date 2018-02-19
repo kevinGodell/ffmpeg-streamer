@@ -15,6 +15,7 @@ const index = require('./routes/index');
 //const users = require('./routes/users');
 const hls = require('./routes/hls');
 const mp4 = require('./routes/mp4');
+const mjpeg = require('./routes/mjpeg');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/', index);
 //app.use('/users', users);
 app.use('/hls', hls);
 app.use('/mp4', mp4);
+app.use('/mjpeg', mjpeg);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/flv.js/dist')));

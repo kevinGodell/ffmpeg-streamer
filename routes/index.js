@@ -46,21 +46,25 @@ router.post('/', function(req, res) {
             renderVideo(res, ffmpeg.params);
         } else if (req.body.rtsp) {
             //todo, have drop down selections for standard options libx264
+
             const mp4frag = new M4F({hlsBase: 'test', hlsListSize: 4});
             app.set('mp4frag', mp4frag);
+
             const pipe2jpeg = new P2J();
             app.set('pipe2jpeg', pipe2jpeg);
+
             //if (req.body.params) {
                 //todo process extra params to pass to ffmpeg
             //}
             const params = [
                 '-rtsp_transport', 'tcp', '-i', req.body.rtsp,
                 '-f', 'mp4', '-an', '-c:v', 'copy', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', 'pipe:1',
-                '-f', 'image2pipe', '-an', '-c:v', 'mjpeg', '-huffman', 'optimal', '-q:v', '1', '-vf', 'fps=5,scale=-1:-1', 'pipe:4'
+                '-f', 'image2pipe', '-an', '-c:v', 'mjpeg', /*'-huffman', 'optimal',*/ '-q:v', '', '-vf', 'fps=5,scale=320:-1', 'pipe:4'
             ];
             try {
                 ffmpeg = new FR(
                     {
+                        path: 'ffmpeg',
                         params: params,
                         pipes: [
                             {stdioIndex: 1, destination: mp4frag},

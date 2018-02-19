@@ -1,12 +1,14 @@
 body {
-  padding: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-video {
-    width: 275px;
-    height: 210px;
+video, img {
+    width: 100%;
+    max-width: 320px;
     margin: 0;
+    padding: 0;
 }
 
 div {
@@ -35,7 +37,18 @@ input {
 }
 
 input[value="Start"] {
-    width: 100%;
+    width: 100px;
+    height: 50px;
+}
+
+input[value="Stop"] {
+    width: 100px;
+    height: 50px;
+}
+
+input[value="Exit"] {
+    width: 100px;
+    height: 50px;
 }
 
 input[type="text"] {
@@ -44,11 +57,37 @@ input[type="text"] {
 
 form#index {
     width: 350px;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 textarea {
-    width: 100%;
+    width: 99%;
     min-height: 60px;
     font-size: larger;
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+}
+
+.wrapper {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 98vw;
+    /*height: 99vh;*/
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-style: none;
+}
+
+.wrapper div {
+    text-align: center;
+}
+
+.params, .form {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.form {
+    border-style: none;
 }

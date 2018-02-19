@@ -9,7 +9,6 @@ const hlsMinJs = path.join(__dirname, '../node_modules/hls.js/dist/hls.min.js');
 const materialMinJs = path.join(__dirname, '../node_modules/material-design-lite/dist/material.min.js');
 const materialRedOrangeMinCss = path.join(__dirname, '../node_modules/material-design-lite/dist/material.red-orange.min.css');
 
-/* GET users listing. */
 router.get('/', function(req, res) {
   res.send('assets router');
 });

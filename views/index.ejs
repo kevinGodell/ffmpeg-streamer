@@ -12,7 +12,6 @@
 <h6><%= header %></h6>
 <form id="index" method="POST" action="/">
     <table>
-
         <tfoot>
         <tr>
             <td align="center" colspan="2">
@@ -24,17 +23,119 @@
         </tr>
         </tfoot>
         <tbody>
-        <tr>
+        <!--<tr>
             <td><label for="name">params</label></td>
             <td><input disabled type="text" id="params" name="params"></td>
+        </tr>-->
+        <tr>
+            <td>
+                <label for="analyzeduration">analyze duration (seconds)</label>
+            </td>
+            <td>
+                <select id="analyzeduration" name="analyzeduration" form="index">
+                    <option selected value="">none</option>
+                    <% for (var i = 0; i < 11; i++) { %>
+                    <option <%= i === 5 ? 'selected ' : '' %>value="<%= i * 1000000 %>"><%= i %></option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="probesize">probe size (bytes)</label>
+            </td>
+            <td>
+                <select id="probesize" name="probesize" form="index">
+                    <option selected value="">none</option>
+                    <option value="0">0</option>
+                    <% for (var i = 4; i < 20; i++) { %>
+                    <option <%= i === 12 ? 'selected ' : '' %>value="<%= 2 ** i %>"><%= 2 ** i %></option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="rtsp_transport">rtsp transport</label>
+            </td>
+            <td>
+                <select id="rtsp_transport" name="rtsp_transport" form="index">
+                    <option value="">none</option>
+                    <option selected value="tcp">tcp</option>
+                    <option value="udp">udp</option>
+                    <option value="http">http</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td><label for="rtsp">rtsp url</label></td>
             <td><input type="text" id="rtsp" name="rtsp" value="rtsp://131.95.3.162:554/axis-media/media.3gp"></td>
         </tr>
+        <tr>
+            <td>
+                <label for="cv">video codec</label>
+            </td>
+            <td>
+                <select id="cv" name="cv" form="index">
+                    <option selected value="copy">copy</option>
+                    <option value="libx264">libx264</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="ca">audio codec</label>
+            </td>
+            <td>
+                <select id="ca" name="ca" form="index">
+                    <option selected value="an">no audio</option>
+                    <option value="aac">aac</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="crf">crf</label>
+            </td>
+            <td>
+                <select id="crf" name="crf" form="index">
+                    <option value="">none</option>
+                    <% for (var i = 0; i < 52; i++) { %>
+                    <option <%= i === 10 ? 'selected ' : '' %>value="<%= i %>"><%= i %></option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="tune">tune</label>
+            </td>
+            <td>
+                <select id="tune" name="tune" form="index">
+                    <option value="">none</option>
+                    <option value="fastdecode">fastdecode</option>
+                    <option selected value="zerolatency">zerolatency</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="profile">profile</label>
+            </td>
+            <td>
+                <select id="profile" name="profile" form="index">
+                    <option value="">none</option>
+                    <option selected value="baseline30">baseline level 3.0</option>
+                    <option value="baseline31">baseline level 3.1</option>
+                    <option value="main31">main level 3.1</option>
+                    <option value="main40">main level 4.0</option>
+                    <option value="high40">high level 4.0</option>
+                    <option value="high41">high level 4.1</option>
+                    <option value="high42">high level 4.2</option>
+                </select>
+            </td>
+        </tr>
         </tbody>
-
-
     </table>
 </form>
 </body>

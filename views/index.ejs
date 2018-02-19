@@ -12,6 +12,16 @@
 <h6><%= header %></h6>
 <form id="index" method="POST" action="/">
     <table>
+
+        <tfoot>
+        <tr>
+            <td align="center" colspan="2">
+                <input name="action" type="submit" value="Exit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <input name="action" type="submit" value="Start" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
         <tr>
             <td><label for="name">params</label></td>
             <td><input disabled type="text" id="params" name="params"></td>
@@ -20,14 +30,10 @@
             <td><label for="rtsp">rtsp url</label></td>
             <td><input type="text" id="rtsp" name="rtsp"></td>
         </tr>
-        <tr>
-            <td>
-                <input name="action" type="submit" value="Exit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            </td>
-            <td>
-                <input name="action" type="submit" value="Start" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            </td>
-        </tr>
+        </tbody>
+
+
+
     </table>
 </form>
 </body>

@@ -59,7 +59,7 @@ router.post('/', function(req, res) {
             const params = [
                 '-rtsp_transport', 'tcp', '-i', req.body.rtsp,
                 '-f', 'mp4', '-an', '-c:v', 'copy', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', 'pipe:1',
-                '-f', 'image2pipe', '-an', '-c:v', 'mjpeg', /*'-huffman', 'optimal',*/ '-q:v', '', '-vf', 'fps=5,scale=320:-1', 'pipe:4'
+                '-f', 'image2pipe', '-an', '-c:v', 'mjpeg', '-huffman', 'optimal', '-q:v', '4', '-vf', 'fps=7,scale=640:-1', 'pipe:4'
             ];
             try {
                 ffmpeg = new FR(

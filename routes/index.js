@@ -42,9 +42,80 @@ router.post('/', function(req, res) {
             header: 'Enter input parameters and rtsp url for the ip camera',
         });
     } else if (req.body.action === "Start") {
+
         if (ffmpeg && ffmpeg.running) {
+
             renderVideo(res, ffmpeg.params);
+
         } else if (req.body.rtsp) {
+            console.log(req.body);
+            const arr = [/*'-use_wallclock_as_timestamps', '1'*/];
+            const analyzeduration = req.body.analyzeduration;
+            if (analyzeduration) {
+                arr.push(...['-analyzeduration', analyzeduration]);
+            }
+            const probesize = req.body.probesize;
+            if (probesize) {
+                arr.push(...['-probesize', probesize]);
+            }
+            const rtspTransport = req.body.rtsp_transport;
+            if (rtspTransport) {
+                arr.push(...['-rtsp_transport', rtspTransport]);
+            }
+
+            //todo some regex here to atlest make sure beginns with rtsp
+            arr.push(...['-i', req.body.rtsp]);
+
+            const ca = req.body.ca;
+            if (ca === 'an') {
+                arr.push('-an');
+            } else {
+                arr.push(...['-c:a', ca]);
+            }
+
+            const cv = req.body.cv;
+            if (cv !== 'copy') {
+                arr.push(...['-c:v', cv]);
+                const crf = req.body.crf;
+                if (crf) {
+                    arr.push(...['-crf', crf]);
+                }
+                const tune = req.body.tune;
+                if (tune) {
+                    arr.push(...['-tune', tune]);
+                }
+                const profile = req.body.profile;
+                switch (profile) {
+                    case 'baseline30' :
+                        arr.push(...['-profile:v', 'baseline', '-level', '3.0']);
+                        break;
+                    case 'baseline31':
+                        arr.push(...['-profile:v', 'baseline', '-level', '3.1']);
+                        break;
+                    case 'main31' :
+                        arr.push(...['-profile:v', 'main', '-level', '3.1']);
+                        break;
+                    case 'main40':
+                        arr.push(...['-profile:v', 'main', '-level', '4.0']);
+                        break;
+                    case 'high40' :
+                        arr.push(...['-profile:v', 'high', '-level', '4.0']);
+                        break;
+                    case 'high41':
+                        arr.push(...['-profile:v', 'high', '-level', '4.1']);
+                        break;
+                    case 'high42' :
+                        arr.push(...['-profile:v', 'high', '-level', '4.2']);
+                        break;
+                }
+            } else {
+                arr.push(...['-c:v', cv]);
+            }
+
+            arr.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', '-reset_timestamps', '1', 'pipe:1']);
+
+            //console.log(arr);
+
             //todo, have drop down selections for standard options libx264
 
             const mp4frag = new M4F({hlsBase: 'test', hlsListSize: 4});
@@ -57,15 +128,18 @@ router.post('/', function(req, res) {
                 //todo process extra params to pass to ffmpeg
             //}
             const params = [
-                '-rtsp_transport', 'tcp', '-i', req.body.rtsp,
-                '-f', 'mp4', '-an', '-c:v', 'copy', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', 'pipe:1',
-                '-f', 'image2pipe', '-an', '-c:v', 'mjpeg', '-huffman', 'optimal', '-q:v', '4', '-vf', 'fps=7,scale=640:-1', 'pipe:4'
+                '-an', '-c:v', 'mjpeg', '-f', 'image2pipe', '-huffman', 'optimal', '-q:v', '4', '-vf', 'fps=7,scale=640:-1', 'pipe:4'
             ];
+
+            params.unshift(...arr);
+
+            console.log(params);
             try {
                 ffmpeg = new FR(
                     {
                         path: 'ffmpeg',
                         params: params,
+                        logLevel: 'warning',
                         pipes: [
                             {stdioIndex: 1, destination: mp4frag},
                             {stdioIndex: 4, destination: pipe2jpeg}

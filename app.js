@@ -11,7 +11,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const debug = require('debug')('ip-cam-tester:server');
+//const debug = require('debug')('ip-cam-tester:server');
 const port = normalizePort(process.env.PORT || '8181');
 const ejs = require('ejs');
 const index = require('./routes/index');
@@ -58,7 +58,7 @@ function onError(error) {
 function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    debug('Listening on ' + bind);
+    //debug('Listening on ' + bind);
     console.log('Listening on ' + bind);
 }
 
@@ -68,7 +68,7 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+//app.use(logger('dev'));//logs all requests to console
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

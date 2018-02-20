@@ -95,3 +95,8 @@ textarea {
 select {
     width: 100%;
 }
+
+iframe {
+    height: 80%;
+    width: 100%;
+}

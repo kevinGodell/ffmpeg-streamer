@@ -7,12 +7,12 @@ module.exports = function(app, io) {
     io
         .of(namespace)
         .on('connection', (socket) => {
-            console.log(`A user connected to namespace "${namespace}"`);
+            //console.log(`A user connected to namespace "${namespace}"`);
 
             const mp4frag = app.get('mp4frag');
 
             if(!mp4frag) {
-                console.log('no mp4frag');
+                //console.log('no mp4frag');
                 socket.disconnect();
                 return;
             }
@@ -25,7 +25,7 @@ module.exports = function(app, io) {
             });
 
             socket.on('message', (msg) => {
-                console.log(`${namespace} message : ${msg}`);
+                //console.log(`${namespace} message : ${msg}`);
                 switch (msg) {
                     case 'mime' ://client is requesting mime/codec string
                         if (mp4frag.mime) {
@@ -70,7 +70,7 @@ module.exports = function(app, io) {
                 if (mp4frag && writable) {
                     mp4frag.unpipe(writable);
                 }
-                console.log(`A user disconnected from namespace "${namespace}"`);
+                //console.log(`A user disconnected from namespace "${namespace}"`);
             });
 
 

@@ -7,7 +7,7 @@ module.exports = function(app, io) {
     io
         .of(namespace)
         .on('connection', (socket) => {
-            console.log(`A user connected to namespace "${namespace}"`);
+            //console.log(`A user connected to namespace "${namespace}"`);
 
             const pipe2jpeg = app.get('pipe2jpeg');
 
@@ -33,7 +33,7 @@ module.exports = function(app, io) {
                 if (pipe2jpeg && writable) {
                     pipe2jpeg.unpipe(writable);
                 }
-                console.log(`A user disconnected from namespace "${namespace}"`);
+                //console.log(`A user disconnected from namespace "${namespace}"`);
             });
         });
 };

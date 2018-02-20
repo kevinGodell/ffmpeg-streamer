@@ -1,12 +1,12 @@
 'use strict';
 
-process.env.NODE_ENV = 'production';//change to production before packaging to binary
+process.env.NODE_ENV = 'development';//change to production before packaging to binary
 
 const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const io = require('socket.io')(http/*, {origins: allowedOrigins}*/);
+//const io = require('socket.io')(http/*, {origins: allowedOrigins}*/);
 const path = require('path');
 //const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -18,6 +18,7 @@ const index = require('./routes/index');
 const hls = require('./routes/hls');
 const mp4 = require('./routes/mp4');
 const mjpeg = require('./routes/mjpeg');
+const progress = require('./routes/progress');
 const assets = require('./routes/assets');
 
 app.set('port', port);
@@ -77,6 +78,7 @@ app.use('/', index);
 app.use('/hls', hls);
 app.use('/mp4', mp4);
 app.use('/mjpeg', mjpeg);
+app.use('/progress', progress);
 app.use('/assets', assets);
 app.use(express.static(path.join(__dirname, 'public')));
 

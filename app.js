@@ -7,13 +7,13 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-//const io = require('socket.io')(http/*, {origins: allowedOrigins}*/);
+const io = require('socket.io').listen(server/*, {origins: allowedOrigins}*/);
+app.set('io', io);
 const path = require('path');
-//const logger = require('morgan');
+const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 //const debug = require('debug')('ip-cam-tester:server');
-const port = normalizePort(process.env.PORT || '8181');
 const ejs = require('ejs');
 const index = require('./routes/index');
 const hls = require('./routes/hls');
@@ -21,6 +21,13 @@ const mp4 = require('./routes/mp4');
 const mjpeg = require('./routes/mjpeg');
 const progress = require('./routes/progress');
 const assets = require('./routes/assets');
+const port = normalizePort(process.env.PORT || '8181');
+
+const jpegSocket = require('./sockets/jpeg')(app, io);
+app.set('jpeg socket', jpegSocket);
+
+const mseSocket = require('./sockets/mse')(app, io);
+app.set('mse socket', mseSocket);
 
 app.set('port', port);
 server.listen(port);
@@ -70,7 +77,9 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 //app.use(logger('dev'));//logs all requests to console
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

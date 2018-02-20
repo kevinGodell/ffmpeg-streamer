@@ -32,8 +32,8 @@ label {
 }
 
 input {
-    height: 30px;
-    font-size: larger;
+    /*height: 30px;*/
+    /*font-size: larger;*/
 }
 
 input[value="Start"] {

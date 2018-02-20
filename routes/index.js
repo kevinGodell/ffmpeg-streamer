@@ -167,6 +167,9 @@ router.post('/', function (req, res) {
                     killAfterStall: 60,
                     spawnAfterExit: 1,
                     reSpawnLimit: 10000,
+                    logCallback: (data) => {
+                      console.log(data.toString());
+                    },
                     exitCallback: () => {
                         mp4frag.resetCache();
                     }

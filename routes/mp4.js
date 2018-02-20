@@ -47,7 +47,6 @@ router.get('/test.mp4', (req, res) => {
     }, 20000);*/
 
     res.once('close', ()=> {
-        console.log('mp4 close');
         cleanup();
     });
 

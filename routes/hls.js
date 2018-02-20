@@ -8,9 +8,14 @@ router.use('/', function (req, res, next) {
     const mp4frag = app.get('mp4frag');
     if (!mp4frag) {
         res.sendStatus(503);
+        res.destroy();
         return;
     }
     res.locals.mp4frag = mp4frag;
+    res.set('Connection', 'close');
+    res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.set('Expires', '-1');
+    res.set('Pragma', 'no-cache');
     next();
 });
 
@@ -24,6 +29,17 @@ router.get('/test.m3u8', (req, res) => {
             res.writeHead(200, {'Content-Type': 'application/vnd.apple.mpegurl'});
             res.end(mp4frag.m3u8);
         });
+    }
+});
+
+router.get('/test.m3u8.txt', (req, res) => {
+    const mp4frag = res.locals.mp4frag;
+    if (mp4frag.m3u8) {
+        res.set('Content-Type', 'text/plain');
+        res.end(mp4frag.m3u8);
+    } else {
+        res.sendStatus(503);
+        res.destroy();
     }
 });
 

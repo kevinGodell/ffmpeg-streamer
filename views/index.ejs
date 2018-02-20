@@ -29,37 +29,62 @@
         </tr>-->
         <tr>
             <td>
-                <label for="analyzeduration">analyze duration (seconds)</label>
+                <label for="loglevel">loglevel</label>
+            </td>
+            <td>
+                <select id="loglevel" name="loglevel" form="index">
+                    <% var loglevelArr = ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug', 'trace']; %>
+                    <% for (var i = 0; i < loglevelArr.length; i++) { %>
+                    <option <%= i === 5 ? 'selected ' : '' %>value="<%= loglevelArr[i] %>"><%= loglevelArr[i] %></option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="analyzeduration">analyzeduration</label>
             </td>
             <td>
                 <select id="analyzeduration" name="analyzeduration" form="index">
                     <option selected value="">none</option>
                     <% for (var i = 0; i < 11; i++) { %>
-                    <option <%= i === 5 ? 'selected ' : '' %>value="<%= i * 1000000 %>"><%= i %></option>
+                    <option <%= i === 10 ? 'selected ' : '' %>value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
                     <% } %>
                 </select>
             </td>
         </tr>
         <tr>
             <td>
-                <label for="probesize">probe size (bytes)</label>
+                <label for="probesize">probesize</label>
             </td>
             <td>
                 <select id="probesize" name="probesize" form="index">
                     <option selected value="">none</option>
-                    <option value="0">0</option>
-                    <% for (var i = 4; i < 20; i++) { %>
-                    <option <%= i === 12 ? 'selected ' : '' %>value="<%= 2 ** i %>"><%= 2 ** i %></option>
+                    <% for (var i = 5; i < 21; i++) { %>
+                    <option <%= i === 20 ? 'selected ' : '' %>value="<%= 2 ** i %>"><%= 2 ** i %> bytes</option>
                     <% } %>
                 </select>
             </td>
         </tr>
-        <tr>
+        <!--<tr>
             <td>
-                <label for="rtsp_transport">rtsp transport</label>
+                <label for="hwaccel">hwaccel</label>
             </td>
             <td>
-                <select id="rtsp_transport" name="rtsp_transport" form="index">
+                <select id="hwaccel" name="hwaccel" form="index">
+                    <option selected value="">none</option>
+                    <option value="auto">auto</option>
+                    <option value="videotoolbox">videotoolbox</option>
+                    <option value="">other</option>
+                </select>
+            </td>
+        </tr>-->
+        <tr>
+            <td>
+                <label for="rtspTransport">rtsp transport</label>
+            </td>
+            <td>
+                <select id="rtspTransport" name="rtspTransport" form="index">
                     <option value="">none</option>
                     <option selected value="tcp">tcp</option>
                     <option value="udp">udp</option>
@@ -73,18 +98,7 @@
         </tr>
         <tr>
             <td>
-                <label for="cv">video codec</label>
-            </td>
-            <td>
-                <select id="cv" name="cv" form="index">
-                    <option selected value="copy">copy</option>
-                    <option value="libx264">libx264</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="ca">audio codec</label>
+                <label for="ca">audio encoder</label>
             </td>
             <td>
                 <select id="ca" name="ca" form="index">
@@ -95,13 +109,65 @@
         </tr>
         <tr>
             <td>
+                <label for="cv">video encoder</label>
+            </td>
+            <td>
+                <select id="cv" name="cv" form="index">
+                    <option selected value="copy">copy</option>
+                    <option value="libx264">libx264</option>
+                    <!--<option value="libx264rgb">libx264rgb</option>
+                    <option value="h264_videotoolbox">h264_videotoolbox</option>-->
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label for="rate">rate</label>
+            </td>
+            <td>
+                <select id="rate" name="rate" form="index">
+                    <% for (var i = 1; i < 30; i++) { %>
+                    <option <%= i === 7 ? 'selected ' : '' %>value="<%= i %>"><%= i %> fps</option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label for="scale">scale</label>
+            </td>
+            <td>
+                <select id="scale" name="scale" form="index">
+                    <% for (var i = 10; i < 101; i++) { %>
+                    <option <%= i === 50 ? 'selected ' : '' %>value="<%= i / 100 %>"><%= i %> %</option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label for="fragDuration">frag duration</label>
+            </td>
+            <td>
+                <select id="fragDuration" name="fragDuration" form="index">
+                    <% for (var i = 1; i < 11; i++) { %>
+                    <option <%= i === 1 ? 'selected ' : '' %>value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <label for="crf">crf</label>
             </td>
             <td>
                 <select id="crf" name="crf" form="index">
-                    <option value="">none</option>
+                    <option selected value="">none</option>
                     <% for (var i = 0; i < 52; i++) { %>
-                    <option <%= i === 10 ? 'selected ' : '' %>value="<%= i %>"><%= i %></option>
+                    <option value="<%= i %>"><%= i %></option>
                     <% } %>
                 </select>
             </td>
@@ -112,9 +178,9 @@
             </td>
             <td>
                 <select id="tune" name="tune" form="index">
-                    <option value="">none</option>
+                    <option selected value="">none</option>
                     <option value="fastdecode">fastdecode</option>
-                    <option selected value="zerolatency">zerolatency</option>
+                    <option value="zerolatency">zerolatency</option>
                 </select>
             </td>
         </tr>
@@ -124,8 +190,8 @@
             </td>
             <td>
                 <select id="profile" name="profile" form="index">
-                    <option value="">none</option>
-                    <option selected value="baseline30">baseline level 3.0</option>
+                    <option selected value="">none</option>
+                    <option value="baseline30">baseline level 3.0</option>
                     <option value="baseline31">baseline level 3.1</option>
                     <option value="main31">main level 3.1</option>
                     <option value="main40">main level 4.0</option>

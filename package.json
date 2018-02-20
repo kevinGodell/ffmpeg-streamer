@@ -29,8 +29,7 @@
     "scripts": "build/**/*.js",
     "assets": [
       "views/**/*",
-      "public/**/*",
-      "node_modules/ffmpeg-static/bin/darwin/x64/ffmpeg"
+      "public/**/*"
     ]
   }
 }

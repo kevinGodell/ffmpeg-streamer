@@ -8,35 +8,38 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script src="/assets/flv.min.js"></script>
     <script src="/assets/hls.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 <div class="wrapper">
     <div class="mp4">
-        <p>mp4 <a href="/mp4/test.mp4">test.mp4</a></p>
+        <p>mp4 via http <a href="/mp4/test.mp4">test.mp4</a></p>
         <video id="mp4" autoplay>
             <source src="/mp4/test.mp4" type="video/mp4">
         </video>
     </div>
     <div class="flv">
-        <p>flv.js <a href="/mp4/test.mp4">test.mp4</a></p>
-        <video id="flv.js"></video>
+        <p>flv.js via http <a href="/mp4/test.mp4">test.mp4</a></p>
+        <video id="flv"></video>
     </div>
     <div class="hls">
-        <p>hls.js <a href="/hls/test.m3u8">test.m3u8</a></p>
-        <video id="hls.js"></video>
+        <p>hls.js via http <a href="/hls/test.m3u8">test.m3u8</a></p>
+        <video id="hls"></video>
 
     </div>
     <div class="mjpeg">
-        <p>mjpeg <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
+        <p>mjpeg via http <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
         <img id="mjpeg" src="/mjpeg/test.mjpg"/>
     </div>
-    <div class="base64">
-        <p>base64 jpeg</p>
-        <iframe id="progressTxt" src="/progress/test.txt"></iframe>
+    <div class="jpeg">
+        <p>jpeg via socket.io</p>
+        <img id="jpeg"/>
+        <!--<iframe id="progressTxt" src="/progress/test.txt"></iframe>-->
     </div>
     <div class="mse">
-        <p>mse.js</p>
-        <iframe id="m3u8Txt" src="/hls/test.m3u8.txt"></iframe>
+        <p>mse via socket.io</p>
+        <video id="mse"></video>
+        <!--<iframe id="m3u8Txt" src="/hls/test.m3u8.txt"></iframe>-->
     </div>
     <div class="params">
         <textarea readonly><%= params %></textarea>
@@ -50,7 +53,7 @@
 </div>
 <script>
     if (flvjs.isSupported()) {
-        var videoElement = document.getElementById('flv.js');
+        var videoElement = document.getElementById('flv');
         var flvPlayer = flvjs.createPlayer({
             type: 'mp4',
             url: '/mp4/test.mp4',
@@ -63,7 +66,7 @@
 </script>
 <script>
     if (Hls.isSupported()) {
-        var video = document.getElementById('hls.js');
+        var video = document.getElementById('hls');
         var hls = new Hls();
         hls.loadSource('/hls/test.m3u8');
         hls.attachMedia(video);
@@ -82,12 +85,33 @@
     }
 </script>
 <script>
-    var progressTxtIframe = document.getElementById('progressTxt');
+    /*var progressTxtIframe = document.getElementById('progressTxt');
     var m3u8TxtIframe = document.getElementById('m3u8Txt');
     window.setInterval(()=> {
         progressTxtIframe.contentWindow.location.reload();
         m3u8TxtIframe.contentWindow.location.reload();
-    }, 2000);
+    }, 2000);*/
+</script>
+<script>
+    var socket = io.connect(`${location.origin}/jpeg`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
+    var jpeg = document.getElementById('jpeg');
+    socket.on('jpeg', function(data){
+        var arrayBufferView = new Uint8Array(data);
+        var blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
+        var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL(blob);
+        jpeg.src = imageUrl;
+    });
+    socket.on('close', ()=>{
+        console.log('received close event');
+    });
+    socket.on('disconnect', ()=>{
+        console.log('received disconnect event');
+    });
+</script>
+<script src="/javascripts/player.min.js"></script>
+<script>
+    var msePlayer = new VideoPlayer({video: document.getElementById('mse'), io: io, namespace: 'mse', controls: 'none'}).start();
 </script>
 </body>
 </html>

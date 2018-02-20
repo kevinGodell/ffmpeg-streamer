@@ -12,58 +12,32 @@
 <body>
 <div class="wrapper">
     <div class="mp4">
-        <p>progressive mp4</p>
+        <p>mp4 <a href="/mp4/test.mp4">test.mp4</a></p>
         <video id="mp4" autoplay>
             <source src="/mp4/test.mp4" type="video/mp4">
         </video>
     </div>
     <div class="flv">
-        <p>flv.js</p>
+        <p>flv.js <a href="/mp4/test.mp4">test.mp4</a></p>
         <video id="flv.js"></video>
-        <script>
-            if (flvjs.isSupported()) {
-                var videoElement = document.getElementById('flv.js');
-                var flvPlayer = flvjs.createPlayer({
-                    type: 'mp4',
-                    url: '/mp4/test.mp4',
-                    isLive: true
-                });
-                flvPlayer.attachMediaElement(videoElement);
-                flvPlayer.load();
-                flvPlayer.play();
-            }
-        </script>
     </div>
     <div class="hls">
-        <p>hls.js</p>
+        <p>hls.js <a href="/hls/test.m3u8">test.m3u8</a></p>
         <video id="hls.js"></video>
-        <script>
-            if (Hls.isSupported()) {
-                var video = document.getElementById('hls.js');
-                var hls = new Hls();
-                hls.loadSource('/hls/test.m3u8');
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    video.play();
-                });
-            }
-            // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
-            // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
-            // This is using the built-in support of the plain video element, without using hls.js.
-            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = '/hls/test.m3u8';
-                video.addEventListener('canplay', function () {
-                    video.play();
-                });
-            }
-        </script>
+
     </div>
     <div class="mjpeg">
-        <p>mjpeg</p>
+        <p>mjpeg <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
         <img id="mjpeg" src="/mjpeg/test.mjpg"/>
     </div>
-    <div class="base64">base64 jpeg</div>
-    <div class="mse">mse.js</div>
+    <div class="base64">
+        <p>base64 jpeg</p>
+        <iframe id="progressTxt" src="/progress/test.txt"></iframe>
+    </div>
+    <div class="mse">
+        <p>mse.js</p>
+        <iframe id="m3u8Txt" src="/hls/test.m3u8.txt"></iframe>
+    </div>
     <div class="params">
         <textarea readonly><%= params %></textarea>
     </div>
@@ -74,5 +48,46 @@
         </form>
     </div>
 </div>
+<script>
+    if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('flv.js');
+        var flvPlayer = flvjs.createPlayer({
+            type: 'mp4',
+            url: '/mp4/test.mp4',
+            isLive: true
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+    }
+</script>
+<script>
+    if (Hls.isSupported()) {
+        var video = document.getElementById('hls.js');
+        var hls = new Hls();
+        hls.loadSource('/hls/test.m3u8');
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            video.play();
+        });
+    }
+    // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+    // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+    // This is using the built-in support of the plain video element, without using hls.js.
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = '/hls/test.m3u8';
+        video.addEventListener('canplay', function () {
+            video.play();
+        });
+    }
+</script>
+<script>
+    var progressTxtIframe = document.getElementById('progressTxt');
+    var m3u8TxtIframe = document.getElementById('m3u8Txt');
+    window.setInterval(()=> {
+        progressTxtIframe.contentWindow.location.reload();
+        m3u8TxtIframe.contentWindow.location.reload();
+    }, 2000);
+</script>
 </body>
 </html>

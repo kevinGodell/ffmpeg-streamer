@@ -1,6 +1,7 @@
 'use strict';
 
-process.env.NODE_ENV = 'development';//change to production before packaging to binary
+//process.env.NODE_ENV = 'development';//change to production before packaging to binary
+process.env.NODE_ENV = 'production';
 
 const express = require('express');
 const app = express();

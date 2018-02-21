@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "pkg": "pkg package.json --out-path dist --targets node8-macos-x64,node8-macos-x86,node8-win-x64,node8-win-x86,node8-linux-x64,node8-linux-x86",
+    "pkg": "./node_modules/pkg/lib-es5/bin.js package.json --out-path dist --targets node8-macos-x64,node8-macos-x86,node8-win-x64,node8-win-x86,node8-linux-x64,node8-linux-x86",
     "pkgc": "npm run pkg && git commit -m 'build binaries' -- dist"
   },
   "dependencies": {
@@ -25,7 +25,9 @@
   },
   "bin": "app.js",
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "pkg": "^4.3.0"
+  },
   "pkg": {
     "assets": [
       "views/**/*",

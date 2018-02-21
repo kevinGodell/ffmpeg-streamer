@@ -34,12 +34,10 @@
     <div class="jpeg">
         <p>jpeg via socket.io</p>
         <img id="jpeg"/>
-        <!--<iframe id="progressTxt" src="/progress/test.txt"></iframe>-->
     </div>
     <div class="mse">
         <p>mse via socket.io</p>
         <video id="mse"></video>
-        <!--<iframe id="m3u8Txt" src="/hls/test.m3u8.txt"></iframe>-->
     </div>
     <div class="params">
         <textarea readonly><%= params %></textarea>
@@ -84,14 +82,16 @@
         });
     }
 </script>
-<script>
+<!--<iframe id="progressTxt" src="/progress/test.txt"></iframe>-->
+<!--<iframe id="m3u8Txt" src="/hls/test.m3u8.txt"></iframe>-->
+<!--<script>
     /*var progressTxtIframe = document.getElementById('progressTxt');
     var m3u8TxtIframe = document.getElementById('m3u8Txt');
     window.setInterval(()=> {
         progressTxtIframe.contentWindow.location.reload();
         m3u8TxtIframe.contentWindow.location.reload();
     }, 2000);*/
-</script>
+</script>-->
 <script>
     var socket = io.connect(`${location.origin}/jpeg`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
     var jpeg = document.getElementById('jpeg');
@@ -111,7 +111,7 @@
 </script>
 <script src="/javascripts/player.min.js"></script>
 <script>
-    var msePlayer = new VideoPlayer({video: document.getElementById('mse'), io: io, namespace: 'mse', controls: 'none'}).start();
+    var msePlayer = new VideoPlayer({video: document.getElementById('mse'), io: io, namespace: 'mse', controls: ''}).start();
 </script>
 </body>
 </html>

@@ -65,7 +65,7 @@ router.post('/', function (req, res) {
         if (rtspTransport) {
             arr.push(...['-rtsp_transport', rtspTransport]);
         }
-        //todo some regex here to atlest make sure beginns with rtsp
+        //todo some regex here to atleast make sure beginns with rtsp
         arr.push(...['-i', req.body.rtsp]);
         const ca = req.body.ca;
         if (ca === 'an') {

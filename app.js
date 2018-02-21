@@ -21,7 +21,8 @@ const mp4 = require('./routes/mp4');
 const mjpeg = require('./routes/mjpeg');
 const progress = require('./routes/progress');
 const assets = require('./routes/assets');
-const port = normalizePort(process.env.PORT || '8181');
+let port = normalizePort(process.env.PORT || '8181');
+const portRange = port + 10;
 
 const jpegSocket = require('./sockets/jpeg')(app, io);
 app.set('jpeg socket', jpegSocket);
@@ -56,8 +57,12 @@ function onError(error) {
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
+            console.error(`${bind} is already in use.`);
+            if (typeof port === 'string' || port >= portRange) {
+                process.exit(1);
+            }
+            console.log(`Incrementing to port ${++port} and trying again.`);
+            server.listen(port);
             break;
         default:
             throw error;
@@ -111,5 +116,19 @@ app.use(function(err, req, res) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+/*debugging paths in pkg*/
+/*console.log(__filename);
+console.log(__dirname);
+console.log(process.cwd());
+console.log(process.execPath);
+console.log(process.argv[0]);
+console.log(process.argv[1]);
+if (process.pkg) {
+    console.log(process.pkg.entrypoint);
+    console.log(process.pkg.defaultEntrypoint);
+}
+console.log(require.main.filename);
+console.log(path.dirname(process.execPath));*/
 
 module.exports = app;

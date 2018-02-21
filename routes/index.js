@@ -119,7 +119,7 @@ router.post('/', function (req, res) {
             arr.push(...['-c:v', cv]);
         }
         arr.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', '-reset_timestamps', '1', 'pipe:1']);
-        const mp4frag = new M4F({hlsBase: 'test', hlsListSize: 4});
+        const mp4frag = new M4F({hlsBase: 'test', hlsListSize: 3});
         app.set('mp4frag', mp4frag);
         const pipe2jpeg = new P2J();
         app.set('pipe2jpeg', pipe2jpeg);

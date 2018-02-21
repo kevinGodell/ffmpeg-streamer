@@ -27,7 +27,6 @@
   "main": "app.js",
   "devDependencies": {},
   "pkg": {
-    "scripts": "build/**/*.js",
     "assets": [
       "views/**/*",
       "public/**/*"

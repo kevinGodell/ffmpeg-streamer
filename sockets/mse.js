@@ -14,6 +14,7 @@ module.exports = function(app, io) {
             }
             const writable = new Writable({
                 write(chunk, encoding, callback) {
+                    //console.log('send segment');
                     socket.emit('segment', chunk);
                     callback();
                 }
@@ -25,9 +26,11 @@ module.exports = function(app, io) {
                     //client is requesting mime/codec string
                     case 'mime' :
                         if (mp4frag.mime) {
+                            //console.log('send mime', mp4frag.mime);
                             socket.emit('mime', mp4frag.mime);
                         } else {
                             mp4frag.once('initialized', ()=> {
+                                //console.log('send mime', mp4frag.mime);
                                 socket.emit('mime', mp4frag.mime);
                             });
                         }
@@ -35,9 +38,11 @@ module.exports = function(app, io) {
                     //client is requesting initialization fragment
                     case 'initialization' :
                         if (mp4frag.initialization) {
+                            //console.log('send initialization');
                             socket.emit('initialization', mp4frag.initialization);
                         } else {
                             mp4frag.once('initialized', ()=> {
+                                //console.log('send initialization');
                                 socket.emit('initialization', mp4frag.initialization);
                             });
                         }
@@ -51,6 +56,7 @@ module.exports = function(app, io) {
                         break;
                     //client is requesting ALL segments
                     case 'segments' :
+                        //console.log('send ALL segments');
                         if (mp4frag.segment) {
                             socket.emit('segment', mp4frag.segment);
                         }
@@ -65,6 +71,7 @@ module.exports = function(app, io) {
                 }
             });
             socket.once('disconnect', ()=> {
+                //console.log('mse socket disconnect');
                 if (mp4frag && writable) {
                     mp4frag.unpipe(writable);
                 }

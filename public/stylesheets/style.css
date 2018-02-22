@@ -75,7 +75,7 @@ textarea {
     width: 98vw;
     /*height: 99vh;*/
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     border-style: none;
 }
 
@@ -85,7 +85,7 @@ textarea {
 
 .params, .form {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 5;
 }
 
 .form {
@@ -96,7 +96,8 @@ select {
     width: 100%;
 }
 
-iframe {
-    height: 80%;
-    width: 100%;
+div#progress, div#m3u8 {
+    text-align: left;
+    padding: 5px 5px 5px 10px;
+    font-size: small;
 }

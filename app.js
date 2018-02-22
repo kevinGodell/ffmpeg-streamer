@@ -25,12 +25,16 @@ const progress = require('./routes/progress');
 const assets = require('./routes/assets');
 const jpegSocket = require('./sockets/jpeg')(app, io);
 const mseSocket = require('./sockets/mse')(app, io);
+const progressSocket = require('./sockets/progress')(app, io);
+const m3u8Socket = require('./sockets/m3u8')(app, io);
 
 app.set('env', nodeEnv);
 app.set('port', port);
 app.set('io', io);
 app.set('jpegSocket', jpegSocket);
 app.set('mseSocket', mseSocket);
+app.set('progressSocket', progressSocket);
+app.set('m3u8Socket', m3u8Socket);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

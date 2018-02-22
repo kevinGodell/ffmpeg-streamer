@@ -27,6 +27,9 @@
         <video id="hls"></video>
 
     </div>
+    <div id="m3u8">
+        m3u8 playlist...
+    </div>
     <div class="mjpeg">
         <p>mjpeg via http <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
         <img id="mjpeg" src="/mjpeg/test.mjpg"/>
@@ -38,6 +41,9 @@
     <div class="mse">
         <p>mse via socket.io</p>
         <video id="mse"></video>
+    </div>
+    <div id="progress">
+        Ffmpeg progress...
     </div>
     <div class="params">
         <textarea readonly><%= params %></textarea>
@@ -93,21 +99,41 @@
     }, 2000);*/
 </script>-->
 <script>
-    var socket = io.connect(`${location.origin}/jpeg`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
+    var jpegSocket = io.connect(`${location.origin}/jpeg`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
     var jpeg = document.getElementById('jpeg');
-    socket.on('jpeg', function(data){
+    jpegSocket.on('jpeg', function(data) {
         var arrayBufferView = new Uint8Array(data);
         var blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
         var urlCreator = window.URL || window.webkitURL;
         var imageUrl = urlCreator.createObjectURL(blob);
         jpeg.src = imageUrl;
     });
-    socket.on('close', ()=>{
+    jpegSocket.on('close', ()=> {
         console.log('received close event');
     });
-    socket.on('disconnect', ()=>{
+    jpegSocket.on('disconnect', ()=> {
         console.log('received disconnect event');
     });
+</script>
+<script>
+    var progressSocket = io.connect(`${location.origin}/progress`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
+    var progress = document.getElementById('progress');
+    progressSocket.on('progress', function(data) {
+        progress.innerText = data;
+    });
+    setInterval(function() {
+        progressSocket.emit('request');
+    }, 1000);
+</script>
+<script>
+    var m3u8Socket = io.connect(`${location.origin}/m3u8`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
+    var m3u8 = document.getElementById('m3u8');
+    m3u8Socket.on('m3u8', function(data) {
+        m3u8.innerText = data;
+    });
+    setInterval(function() {
+        m3u8Socket.emit('request');
+    }, 1000);
 </script>
 <script src="/javascripts/player.min.js"></script>
 <script>

@@ -25,7 +25,6 @@ router.get('/test.mp4', (req, res) => {
         res.set('Content-Type', 'video/mp4');
         res.write(mp4frag.initialization);
         if (mp4frag.segment) {
-            console.log('already has segment');
             res.write(mp4frag.segment);
         }
         mp4frag.pipe(res, {end: true});

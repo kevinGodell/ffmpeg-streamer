@@ -5,8 +5,8 @@ const router = express.Router();
 const FR = require('ffmpeg-respawn');
 const M4F = require('mp4frag');
 const P2J = require('pipe2jpeg');
-const packagejson = require('../package');
-const title = `${packagejson.name} v:${packagejson.version}`;
+const packageJson = require('../package');
+const title = `${packageJson.name} ver: ${packageJson.version}`;
 
 function renderVideo(res, params) {
     res.render('video', {
@@ -33,7 +33,7 @@ router.get('/', function (req, res) {
     }
     res.render('index', {
             title: title,
-            subTitle: `ffmpeg v:${ffmpegVersion}`,
+            subTitle: `ffmpeg ver: ${ffmpegVersion}`,
             message: 'Select parameters and enter rtsp url for the ip camera.'
     });
 });
@@ -51,7 +51,7 @@ router.post('/', function (req, res) {
     } else if (req.body.action === "Stop") {
         res.render('index', {
             title: title,
-            subTitle: `ffmpeg v:${res.locals.ffmpegVersion}`,
+            subTitle: `ffmpeg ver: ${res.locals.ffmpegVersion}`,
             message: 'Select parameters and enter rtsp url for the ip camera.'
         });
     } else if (req.body.action === "Start") {
@@ -171,7 +171,7 @@ router.post('/', function (req, res) {
         } catch (error) {
             res.render('index', {
                 title: title,
-                subTitle: `ffmpeg v:${res.locals.ffmpegVersion}`,
+                subTitle: `ffmpeg ver: ${res.locals.ffmpegVersion}`,
                 message: error.message
             });
             return;

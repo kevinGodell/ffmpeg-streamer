@@ -2,102 +2,164 @@ body {
     margin: 0;
     padding: 0;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: cornflowerblue;
 }
 
-video, img {
+.index {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 98vw;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-rows: auto;
+    grid-template-columns: auto auto auto auto auto;
+    grid-gap: 2px;
+    font-size: small;
+}
+
+.index div {
+    border: solid darkblue 1px;
+    background: lightskyblue;
+    text-align: center;
+    padding: 2px;
+}
+
+.index .header, .index .message {
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+
+.index .message {
+    border: none;
+    background: none;
+    color: yellow;
+}
+
+.index .label label {
+    /*grid-area: label;*/
+    font-size: larger;
+}
+
+.index .input {
+    grid-column-start: 2;
+    grid-column-end: 6;
+}
+
+.index .input select, .index .input input {
+    width: 95%;
+}
+
+.index .form {
+    grid-column-start: 1;
+    grid-column-end: 6;
+    border-style: none;
+    background: none;
+    min-width: 500px;
+}
+
+.index .form input[value="Start"] {
+    width: 200px;
+    height: 50px;
+}
+
+.index .form input[value="Exit"] {
+    width: 200px;
+    height: 50px;
+}
+
+/* ------ video ------ */
+
+.video {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 98vw;
+    display: grid;
+    grid-template-rows: 1fr 1fr auto auto;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-gap: 2px;
+    grid-template-areas:
+            "mp4 flv hls m3u8"
+            "mjpeg jpeg mse progress"
+            "params params params mime"
+            "form form form form";
+    font-size: small;
+}
+
+.video div {
+    border: solid darkblue 1px;
+    /*background: #a2b9bc;*/
+    background: lightskyblue;
+    text-align: center;
+    padding: 2px;
+}
+
+.video div video, .video div img {
     width: 100%;
-    max-width: 320px;
+    min-width: 300px;
     margin: 0;
     padding: 0;
 }
 
-div {
-    float: left;
-    border: solid black 1px;
-    padding: 2px;
-    margin: 1px;
+.video div a {
+    color: #d64161;
 }
 
-h1, h6 {
-    text-align: center;
-}
-
-a {
-  color: #00B7FF;
-}
-
-label {
-    width: 150px;
-    font-size: larger;
-}
-
-input {
-    /*height: 30px;*/
-    /*font-size: larger;*/
-}
-
-input[value="Start"] {
-    width: 100px;
-    height: 50px;
-}
-
-input[value="Stop"] {
-    width: 100px;
-    height: 50px;
-}
-
-input[value="Exit"] {
-    width: 100px;
-    height: 50px;
-}
-
-input[type="text"] {
-    width: 300px;
-}
-
-form#index {
-    width: 550px;
-    margin: 0 auto;
-}
-
-textarea {
-    width: 99%;
-    min-height: 70px;
-    font-size: larger;
-    border-style: none;
-    border-color: Transparent;
-    overflow: auto;
-}
-
-.wrapper {
-    margin-left: 1vw;
-    margin-right: 1vw;
-    width: 98vw;
-    /*height: 99vh;*/
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    border-style: none;
-}
-
-.wrapper div {
-    text-align: center;
-}
-
-.params, .form {
-    grid-column-start: 1;
-    grid-column-end: 5;
-}
-
-.form {
-    border-style: none;
-}
-
-select {
-    width: 100%;
-}
-
-div#progress, div#m3u8 {
+.video div span {
+    display: block;
     text-align: left;
-    padding: 5px 5px 5px 10px;
-    font-size: small;
+}
+
+.video .form {
+    grid-area: form;
+    border-style: none;
+    background: none;
+}
+
+.video .form input[value="Stop"] {
+    width: 200px;
+    height: 50px;
+}
+
+.video .form input[value="Exit"] {
+    width: 200px;
+    height: 50px;
+}
+
+.video .mp4 {
+    grid-area: mp4;
+}
+
+.video .flv {
+    grid-area: flv;
+}
+
+.video .hls {
+    grid-area: hls;
+}
+
+.video .params {
+    grid-area: params;
+}
+
+.video .progress {
+    grid-area: progress;
+}
+
+.video .m3u8 {
+    grid-area: m3u8;
+}
+
+.video div.mime {
+    grid-area: mime;
+}
+
+.video .m3u8, .video .progress, .video div.mime, .video .params {
+    display: flex;
+    align-items: center;
+    justify-items: left;
+}
+
+.video .m3u8 span, .video .progress span, .video div.mime span  {
+    white-space: nowrap;
 }

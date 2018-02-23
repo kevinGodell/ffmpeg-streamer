@@ -11,7 +11,7 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-<div class="wrapper">
+<div class="video">
     <div class="mp4">
         <p>mp4 via http <a href="/mp4/test.mp4">test.mp4</a></p>
         <video id="mp4" autoplay>
@@ -25,10 +25,6 @@
     <div class="hls">
         <p>hls.js via http <a href="/hls/test.m3u8">test.m3u8</a></p>
         <video id="hls"></video>
-
-    </div>
-    <div id="m3u8">
-        m3u8 playlist...
     </div>
     <div class="mjpeg">
         <p>mjpeg via http <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
@@ -42,11 +38,18 @@
         <p>mse via socket.io</p>
         <video id="mse"></video>
     </div>
-    <div id="progress">
-        Ffmpeg progress...
+    <div class="m3u8">
+        <span id="m3u8">playlist...</span>
     </div>
+    <div class="progress">
+        <span id="progress">progress...</span>
+    </div>
+
     <div class="params">
-        <textarea readonly><%= params %></textarea>
+        <span><%= params %></span>
+    </div>
+    <div class="mime">
+        <span id="mime">codec info...</span>
     </div>
     <div class="form">
         <form method="POST" action="/">
@@ -88,16 +91,6 @@
         });
     }
 </script>
-<!--<iframe id="progressTxt" src="/progress/test.txt"></iframe>-->
-<!--<iframe id="m3u8Txt" src="/hls/test.m3u8.txt"></iframe>-->
-<!--<script>
-    /*var progressTxtIframe = document.getElementById('progressTxt');
-    var m3u8TxtIframe = document.getElementById('m3u8Txt');
-    window.setInterval(()=> {
-        progressTxtIframe.contentWindow.location.reload();
-        m3u8TxtIframe.contentWindow.location.reload();
-    }, 2000);*/
-</script>-->
 <script>
     var jpegSocket = io.connect(`${location.origin}/jpeg`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
     var jpeg = document.getElementById('jpeg');
@@ -119,7 +112,7 @@
     var progressSocket = io.connect(`${location.origin}/progress`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
     var progress = document.getElementById('progress');
     progressSocket.on('progress', function(data) {
-        progress.innerText = data;
+        progress.innerText = data.toString();
     });
     setInterval(function() {
         progressSocket.emit('request');
@@ -129,11 +122,29 @@
     var m3u8Socket = io.connect(`${location.origin}/m3u8`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
     var m3u8 = document.getElementById('m3u8');
     m3u8Socket.on('m3u8', function(data) {
-        m3u8.innerText = data;
+        m3u8.innerText = data.toString();
     });
     setInterval(function() {
         m3u8Socket.emit('request');
     }, 1000);
+</script>
+<script>
+    var mimeSocket = io.connect(`${location.origin}/mse`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
+    var mime = document.getElementById('mime');
+    mimeSocket.on('mime', function (data) {
+        var type = data.toString().toLowerCase();
+        var message = type;
+        if (MediaSource) {
+            message += '\nMediaSource.isTypeSupported = ' + MediaSource.isTypeSupported(type);
+        } else {
+            message += '\nMediaSource not supported by browser';
+        }
+        var vid = document.createElement('video');
+        message += '\nHTMLMediaElement.canPlayType = ' + vid.canPlayType(type);
+        mime.innerText = message;
+        mimeSocket.disconnect();
+    });
+    mimeSocket.emit('message', 'mime');
 </script>
 <script src="/javascripts/player.min.js"></script>
 <script>

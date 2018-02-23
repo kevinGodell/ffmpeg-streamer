@@ -1,6 +1,5 @@
 'use strict';
 
-//process.env.NODE_ENV = 'development';//force setting for now
 const nodeEnv = process.env.NODE_ENV || 'production';
 
 let port = normalizePort(process.env.PORT || '8181');
@@ -15,9 +14,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-//const debug = require('debug')('ip-cam-tester:server');
 const ejs = require('ejs');
-const execSync = require('child_process').execSync;
 
 const index = require('./routes/index');
 const hls = require('./routes/hls');
@@ -29,6 +26,17 @@ const jpegSocket = require('./sockets/jpeg')(app, io);
 const mseSocket = require('./sockets/mse')(app, io);
 const progressSocket = require('./sockets/progress')(app, io);
 const m3u8Socket = require('./sockets/m3u8')(app, io);
+const configuration = require('./lib/configuration')();
+
+if (!configuration.ffmpegVersion) {
+    console.error('ffmpeg not found on system');
+}
+
+console.log(configuration);
+
+app.set('osType', configuration.osType);
+app.set('ffmpegVersion', configuration.ffmpegVersion);
+app.set('ffmpegPath', configuration.ffmpegPath);
 
 app.set('env', nodeEnv);
 app.set('port', port);
@@ -80,20 +88,6 @@ if (nodeEnv === 'development') {
     app.use(logger('dev'));
 }
 
-/*debugging paths in pkg*/
-/*console.log(__filename);
-console.log(__dirname);
-console.log(process.cwd());
-console.log(process.execPath);
-console.log(process.argv[0]);
-console.log(process.argv[1]);
-if (process.pkg) {
-    console.log(process.pkg.entrypoint);
-    console.log(process.pkg.defaultEntrypoint);
-}
-console.log(require.main.filename);
-console.log(path.dirname(process.execPath));*/
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -136,15 +130,6 @@ function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log(`Listening on ${bind}.`);
-}
-
-try {
-    const ffmpegVersion = execSync('ffmpeg -version').toString().split(' ')[2];
-    app.set('ffmpegVersion', ffmpegVersion);
-    console.log(ffmpegVersion);
-} catch (err) {
-    console.error(`'ffmpeg -version' returned error: ${err.stderr.toString()}`);
-    return;
 }
 
 module.exports = app;

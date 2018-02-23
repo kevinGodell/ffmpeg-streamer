@@ -4,8 +4,8 @@
 const nodeEnv = process.env.NODE_ENV || 'production';
 
 let port = normalizePort(process.env.PORT || '8181');
-
 const portRange = port + 10;
+
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -17,6 +17,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 //const debug = require('debug')('ip-cam-tester:server');
 const ejs = require('ejs');
+const execSync = require('child_process').execSync;
+
 const index = require('./routes/index');
 const hls = require('./routes/hls');
 const mp4 = require('./routes/mp4');
@@ -134,6 +136,15 @@ function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log(`Listening on ${bind}.`);
+}
+
+try {
+    const ffmpegVersion = execSync('ffmpeg -version').toString().split(' ')[2];
+    app.set('ffmpegVersion', ffmpegVersion);
+    console.log(ffmpegVersion);
+} catch (err) {
+    console.error(`'ffmpeg -version' returned error: ${err.stderr.toString()}`);
+    return;
 }
 
 module.exports = app;

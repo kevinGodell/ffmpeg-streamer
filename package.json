@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "postinstall": "npm run pkg",
-    "pkg": "node node_modules/pkg/lib-es5/bin.js package.json --out-path dist --targets node8-macos-x64,node8-macos-x86,node8-win-x64,node8-win-x86,node8-linux-x64,node8-linux-x86",
-    "pkgc": "npm run pkg && git commit -m 'build binaries' -- dist"
+    "pkg": "node node_modules/pkg/lib-es5/bin.js package.json --out-path dist --targets node8-macos-x64,node8-win-x64,node8-win-x86,node8-linux-x64,node8-linux-x86",
+    "__pkgc": "npm run pkg && git commit -m 'build binaries' -- dist"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

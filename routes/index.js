@@ -5,6 +5,8 @@ const router = express.Router();
 const FR = require('ffmpeg-respawn');
 const M4F = require('mp4frag');
 const P2J = require('pipe2jpeg');
+const packagejson = require('../package');
+const title = `${packagejson.name} v:${packagejson.version}`;
 
 function renderVideo(res, params) {
     res.render('video', {
@@ -15,19 +17,31 @@ function renderVideo(res, params) {
 
 router.get('/', function (req, res) {
     const app = req.app;
+    const ffmpegVersion = app.get('ffmpegVersion');
+    if (!ffmpegVersion) {
+        res.render('error', {
+            message: 'FFMPEG not found on system.',
+            status: '<a href="https://www.google.com/search?q=install+ffmpeg+in+path">Please install ffmpeg and set it in PATH.</a>',
+            stack: ''
+        });
+        return;
+    }
     const ffmpeg = app.get('ffmpeg');
     if (ffmpeg && ffmpeg.running) {
         renderVideo(res, ffmpeg.params);
-    } else {
-        res.render('index', {
-            title: 'RTSP Cam Tester',
-            header: 'Select parameters and enter rtsp url for the ip camera.'
-        });
+        return;
     }
+    res.render('index', {
+            title: title,
+            subTitle: `ffmpeg v:${ffmpegVersion}`,
+            message: 'Select parameters and enter rtsp url for the ip camera.'
+    });
 });
 
 router.post('/', function (req, res) {
     const app = req.app;
+    const ffmpegVersion = app.get('ffmpegVersion');
+    res.locals.ffmpegVersion = ffmpegVersion;
     let ffmpeg = app.get('ffmpeg');
     if (ffmpeg && ffmpeg.running) {
         ffmpeg.stop();
@@ -36,14 +50,16 @@ router.post('/', function (req, res) {
         process.exit(0);
     } else if (req.body.action === "Stop") {
         res.render('index', {
-            title: 'RTSP Cam Tester',
-            header: 'Select parameters and enter rtsp url for the ip camera.'
+            title: title,
+            subTitle: `ffmpeg v:${res.locals.ffmpegVersion}`,
+            message: 'Select parameters and enter rtsp url for the ip camera.'
         });
     } else if (req.body.action === "Start") {
         if (!req.body.rtsp) {
             res.render('index', {
-                title: 'RTSP Cam Tester',
-                header: '**ERROR** Missing rtsp url.'
+                title: title,
+                subTitle: `ffmpeg version: ${res.locals.ffmpegVersion}`,
+                message: '**ERROR** Missing rtsp url.'
             });
             return;
         }
@@ -119,7 +135,7 @@ router.post('/', function (req, res) {
             arr.push(...['-c:v', cv]);
         }
         arr.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', '-reset_timestamps', '1', 'pipe:1']);
-        const mp4frag = new M4F({hlsBase: 'test', hlsListSize: 3});
+        const mp4frag = new M4F({hlsBase: 'test', hlsListSize: 4});
         app.set('mp4frag', mp4frag);
         const pipe2jpeg = new P2J();
         app.set('pipe2jpeg', pipe2jpeg);
@@ -154,8 +170,9 @@ router.post('/', function (req, res) {
                 .start();
         } catch (error) {
             res.render('index', {
-                title: 'RTSP Cam Tester',
-                header: error.message
+                title: title,
+                subTitle: `ffmpeg v:${res.locals.ffmpegVersion}`,
+                message: error.message
             });
             return;
         }

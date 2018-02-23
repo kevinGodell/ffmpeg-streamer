@@ -37,7 +37,6 @@ body {
 }
 
 .index .label label {
-    /*grid-area: label;*/
     font-size: larger;
 }
 

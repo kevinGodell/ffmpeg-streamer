@@ -28,12 +28,6 @@ const progressSocket = require('./sockets/progress')(app, io);
 const m3u8Socket = require('./sockets/m3u8')(app, io);
 const configuration = require('./lib/configuration')();
 
-if (!configuration.ffmpegVersion) {
-    console.error('ffmpeg not found on system');
-}
-
-console.log(configuration);
-
 app.set('osType', configuration.osType);
 app.set('ffmpegVersion', configuration.ffmpegVersion);
 app.set('ffmpegPath', configuration.ffmpegPath);

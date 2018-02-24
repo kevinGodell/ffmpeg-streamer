@@ -26,11 +26,9 @@ const jpegSocket = require('./sockets/jpeg')(app, io);
 const mseSocket = require('./sockets/mse')(app, io);
 const progressSocket = require('./sockets/progress')(app, io);
 const m3u8Socket = require('./sockets/m3u8')(app, io);
-const configuration = require('./lib/configuration')();
 
-app.set('osType', configuration.osType);
-app.set('ffmpegVersion', configuration.ffmpegVersion);
-app.set('ffmpegPath', configuration.ffmpegPath);
+const configure = require('./lib/configure');
+configure(app);
 
 app.set('env', nodeEnv);
 app.set('port', port);

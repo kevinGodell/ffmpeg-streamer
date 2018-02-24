@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/assets/material.red-orange.min.css">
+    <script defer src="/assets/material.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+    <div class="install">
+        <div class="header">
+            <p><%= title %></p>
+            <p><%= subTitle %></p>
+        </div>
+        <div class="message">
+            <span><%= message %></span>
+        </div>
+        <div class="form">
+            <form id="index" method="POST" action="/">
+                <input name="action" type="submit" value="Exit"
+                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <input name="action" type="submit" value="Install"
+                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

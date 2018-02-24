@@ -57,6 +57,8 @@ router.post('/', function (req, res) {
                     });
                     return;
                 }
+                console.log(data);
+                ffbinaries.clearCache();
                 const configure = require('../lib/configure');
                 res.render('index', {
                     title: title,

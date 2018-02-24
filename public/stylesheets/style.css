@@ -162,3 +162,41 @@ body {
 .video .m3u8 span, .video .progress span, .video div.mime span  {
     white-space: nowrap;
 }
+
+.install {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 98vw;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+    grid-gap: 2px;
+    font-size: small;
+}
+
+.install div {
+    border: solid darkblue 1px;
+    background: lightskyblue;
+    text-align: center;
+    padding: 2px;
+}
+
+
+
+.install .message {
+    border: none;
+    background: none;
+    color: yellow;
+}
+
+.install .form input[value="Install"] {
+    width: 200px;
+    height: 50px;
+}
+
+.install .form input[value="Exit"] {
+    width: 200px;
+    height: 50px;
+}

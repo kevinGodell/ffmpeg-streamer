@@ -15,29 +15,66 @@
             <p><%= subTitle %></p>
         </div>
 
-        <div class="message">
+        <!--<div class="message">
             <span><%= message %></span>
+        </div>-->
+
+        <!-- +++++++++++++++++ Global ++++++++++++++++ -->
+
+        <div class="section">
+            <span>Global</span>
         </div>
 
         <div class="label">
-            <label for="loglevel">loglevel</label>
+            <label for="logLevel">log level</label>
         </div>
 
         <div class="input">
-            <select id="loglevel" name="loglevel" form="index">
-                <% var loglevelArr = ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug', 'trace']; %>
-                <% for (var i = 0; i < loglevelArr.length; i++) { %>
-                <option <%= i === 5 ? 'selected ' : '' %>value="<%= loglevelArr[i] %>"><%= loglevelArr[i] %></option>
+            <select id="logLevel" name="logLevel" form="index">
+                <% var logLevelArr = ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug', 'trace']; %>
+                <% for (var i = 0; i < logLevelArr.length; i++) { %>
+                <option <%= logLevelArr[i] === 'quiet' ? 'selected ' : '' %>value="<%= logLevelArr[i] %>"><%= logLevelArr[i] %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <!-- +++++++++++++++++ Input ++++++++++++++++ -->
+
+        <div class="section">
+            <span>Input</span>
+        </div>
+
+        <div class="label">
+            <label for="hwAccel">hardware accel</label>
+        </div>
+
+        <div class="input">
+            <select id="hwAccel" name="hwAccel" form="index">
+                <option selected value="none">none</option>
+                <option value="auto">auto</option>
+                <option value="videotoolbox">videotoolbox</option>
+            </select>
+        </div>
+
+        <div class="label">
+            <label for="inputType">input type</label>
+        </div>
+
+        <div class="input">
+            <select id="inputType" name="inputType" form="index">
+                <% var inputTypeArr = [/*'artificial', */'rtsp', 'mjpeg'/*, 'local'*/]; %>
+                <% for (var i = 0; i < inputTypeArr.length; i++) { %>
+                <option <%= i === 0 ? 'selected ' : '' %>value="<%= inputTypeArr[i] %>"><%= inputTypeArr[i] %></option>
                 <% } %>
             </select>
         </div>
 
         <div class="label">
-            <label for="analyzeduration">analyzeduration</label>
+            <label for="analyzeDuration">analyze duration</label>
         </div>
 
         <div class="input">
-            <select id="analyzeduration" name="analyzeduration" form="index">
+            <select id="analyzeDuration" name="analyzeDuration" form="index">
                 <option selected value="">none</option>
                 <% for (var i = 0; i < 11; i++) { %>
                 <option <%= i === 10 ? 'selected ' : '' %>value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
@@ -46,11 +83,11 @@
         </div>
 
         <div class="label">
-            <label for="probesize">probesize</label>
+            <label for="probeSize">probe size</label>
         </div>
 
         <div class="input">
-            <select id="probesize" name="probesize" form="index">
+            <select id="probeSize" name="probeSize" form="index">
                 <option selected value="">none</option>
                 <% for (var i = 5; i < 21; i++) { %>
                 <option <%= i === 20 ? 'selected ' : '' %>value="<%= 2 ** i %>"><%= 2 ** i %> bytes</option>
@@ -64,23 +101,28 @@
 
         <div class="input">
             <select id="rtspTransport" name="rtspTransport" form="index">
-                <option value="">none</option>
-                <option selected value="tcp">tcp</option>
+                <option value="tcp">tcp</option>
                 <option value="udp">udp</option>
                 <option value="http">http</option>
             </select>
         </div>
 
         <div class="label">
-            <label for="rtsp">rtsp url</label>
+            <label for="inputUrl">input url</label>
         </div>
 
         <div class="input">
-            <input form="index" type="text" id="rtsp" name="rtsp" value="rtsp://131.95.3.162:554/axis-media/media.3gp"/>
+            <input form="index" type="text" id="inputUrl" name="inputUrl" value="rtsp://131.95.3.162:554/axis-media/media.3gp"/>
+        </div>
+
+        <!-- +++++++++++++++++ MP4 ++++++++++++++++++ -->
+
+        <div class="section">
+            <span>MP4</span>
         </div>
 
         <div class="label">
-            <label for="ca">audio encoder</label>
+            <label for="ca">audio codec</label>
         </div>
 
         <div class="input">
@@ -91,24 +133,24 @@
         </div>
 
         <div class="label">
-            <label for="cv">video encoder</label>
+            <label for="cv">video codec</label>
         </div>
 
         <div class="input">
             <select id="cv" name="cv" form="index">
                 <option selected value="copy">copy</option>
                 <option value="libx264">libx264</option>
-                <!--<option value="libx264rgb">libx264rgb</option>
-                <option value="h264_videotoolbox">h264_videotoolbox</option>-->
+                <!--<option value="libx264rgb">libx264rgb</option>-->
+                <!--<option value="h264_videotoolbox">h264_videotoolbox</option>-->
                 </select>
         </div>
 
         <div class="label">
-            <label for="rate">rate</label>
+            <label for="rate">frame rate</label>
         </div>
 
         <div class="input">
-            <select id="rate" name="rate" form="index">
+            <select id="mp4Rate" name="mp4Rate" form="index">
                 <% for (var i = 1; i < 31; i++) { %>
                 <option <%= i === 7 ? 'selected ' : '' %>value="<%= i %>"><%= i %> fps</option>
                 <% } %>
@@ -116,11 +158,11 @@
         </div>
 
         <div class="label">
-            <label for="scale">scale</label>
+            <label for="scale">scaled size</label>
         </div>
 
         <div class="input">
-            <select id="scale" name="scale" form="index">
+            <select id="mp4Scale" name="mp4Scale" form="index">
                 <% for (var i = 10; i < 101; i++) { %>
                 <option <%= i === 50 ? 'selected ' : '' %>value="<%= i / 100 %>"><%= i %> %</option>
                 <% } %>
@@ -145,39 +187,83 @@
 
         <div class="input">
             <select id="crf" name="crf" form="index">
-                <option selected value="">none</option>
                 <% for (var i = 0; i < 52; i++) { %>
-                <option value="<%= i %>"><%= i %></option>
+                <option <%= i === 23 ? 'selected ' : '' %>value="<%= i %>"><%= i %></option>
                 <% } %>
             </select>
         </div>
 
         <div class="label">
-            <label for="tune">tune</label>
+            <label for="preset">preset</label>
         </div>
 
         <div class="input">
-            <select id="tune" name="tune" form="index">
-                <option selected value="">none</option>
-                <option value="fastdecode">fastdecode</option>
-                <option value="zerolatency">zerolatency</option>
+            <select id="preset" name="preset" form="index">
+                <option value="ultrafast">ultrafast</option>
+                <option value="superfast">superfast</option>
+                <option value="veryfast">veryfast</option>
+                <option value="faster">faster</option>
+                <option value="fast">fast</option>
+                <option selected value="medium">medium</option>
             </select>
         </div>
 
         <div class="label">
             <label for="profile">profile</label>
         </div>
-
+        <!-- have to separate profile from level -->
+        <!-- maybe have to add pix_fmt since not all profiles and levels can use the same one -->
         <div class="input">
             <select id="profile" name="profile" form="index">
-                <option selected value="">none</option>
-                <option value="baseline30">baseline level 3.0</option>
+                <option selected value="baseline30">baseline level 3.0</option>
                 <option value="baseline31">baseline level 3.1</option>
                 <option value="main31">main level 3.1</option>
                 <option value="main40">main level 4.0</option>
                 <option value="high40">high level 4.0</option>
                 <option value="high41">high level 4.1</option>
                 <option value="high42">high level 4.2</option>
+            </select>
+        </div>
+
+        <!-- +++++++++++++++++ JPEG +++++++++++++++++ -->
+
+        <div class="section">
+            <span>JPEG</span>
+        </div>
+
+        <div class="label">
+            <label for="jpegRate">rate</label>
+        </div>
+
+        <div class="input">
+            <select id="jpegRate" name="jpegRate" form="index">
+                <% for (var i = 1; i < 31; i++) { %>
+                <option <%= i === 7 ? 'selected ' : '' %>value="<%= i %>"><%= i %> fps</option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="label">
+            <label for="jpegScale">scale</label>
+        </div>
+
+        <div class="input">
+            <select id="jpegScale" name="jpegScale" form="index">
+                <% for (var i = 10; i < 101; i++) { %>
+                <option <%= i === 50 ? 'selected ' : '' %>value="<%= i / 100 %>"><%= i %> %</option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="label">
+            <label for="jpegQuality">quality</label>
+        </div>
+
+        <div class="input">
+            <select id="jpegQuality" name="jpegQuality" form="index">
+                <% for (var i = 1; i < 32; i++) { %>
+                <option <%= i === 5 ? 'selected ' : '' %>value="<%= i %>"><%= i %></option>
+                <% } %>
             </select>
         </div>
 
@@ -188,7 +274,6 @@
             <input name="action" type="submit" value="Start"
                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
             </form>
-
         </div>
 
         <!--<div class="label">

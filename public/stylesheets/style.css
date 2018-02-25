@@ -25,7 +25,7 @@ body {
     padding: 2px;
 }
 
-.index .header, .index .message {
+.index .header, .index .message, .index .section {
     grid-column-start: 1;
     grid-column-end: 6;
 }
@@ -34,6 +34,11 @@ body {
     border: none;
     background: none;
     color: yellow;
+}
+
+.index .section {
+    background: #d64161;
+    color: aliceblue;
 }
 
 .index .label label {

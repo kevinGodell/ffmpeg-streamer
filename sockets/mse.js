@@ -14,7 +14,7 @@ module.exports = function(app, io) {
             }
             const writable = new Writable({
                 write(chunk, encoding, callback) {
-                    //console.log('send segment');
+                    //console.log('writable segment');
                     socket.emit('segment', chunk);
                     callback();
                 }
@@ -26,9 +26,11 @@ module.exports = function(app, io) {
                     //client is requesting mime/codec string
                     case 'mime' :
                         if (mp4frag.mime) {
+                            //console.log('mime already exists');
                             //console.log('send mime', mp4frag.mime);
                             socket.emit('mime', mp4frag.mime);
                         } else {
+                            //console.log('waiting for mime');
                             mp4frag.once('initialized', ()=> {
                                 //console.log('send mime', mp4frag.mime);
                                 socket.emit('mime', mp4frag.mime);
@@ -38,9 +40,11 @@ module.exports = function(app, io) {
                     //client is requesting initialization fragment
                     case 'initialization' :
                         if (mp4frag.initialization) {
+                            //console.log('initialization already exists');
                             //console.log('send initialization');
                             socket.emit('initialization', mp4frag.initialization);
                         } else {
+                            //console.log('waiting for initialization');
                             mp4frag.once('initialized', ()=> {
                                 //console.log('send initialization');
                                 socket.emit('initialization', mp4frag.initialization);
@@ -58,8 +62,11 @@ module.exports = function(app, io) {
                     case 'segments' :
                         //console.log('send ALL segments');
                         if (mp4frag.segment) {
+                            //console.log('segment already exists');
                             socket.emit('segment', mp4frag.segment);
-                        }
+                        }// else {
+                            //console.log('waiting for segments');
+                        //}
                         mp4frag.pipe(writable);
                         break;
                     //client requesting to stop receiving ALL segments

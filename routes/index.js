@@ -43,7 +43,8 @@ router.post('/', function (req, res) {
     if (ffmpeg && ffmpeg.running) {
         ffmpeg.stop();
     }
-    switch (req.body.action) {
+    const body = req.body;
+    switch (body.action) {
         case 'Install':
             const ffbinaries = require('ffbinaries');
             ffbinaries.downloadFiles('ffmpeg', {quiet: true, destination: app.get('dirName')}, function (err, data) {
@@ -78,98 +79,145 @@ router.post('/', function (req, res) {
             });
             break;
         case 'Start':
-            if (!req.body.rtsp) {
+            if (!body.inputUrl) {
                 res.render('index', {
                     title: title,
                     subTitle: `ffmpeg version: ${app.get('ffmpegVersion')}`,
-                    message: '**ERROR** Missing rtsp url.'
+                    message: '**ERROR** Missing input url.'
                 });
                 return;
             }
-            const logLevel = req.body.loglevel;
-            const arr = [/*'-use_wallclock_as_timestamps', '1'*/];
-            const analyzeduration = req.body.analyzeduration;
-            if (analyzeduration) {
-                arr.push(...['-analyzeduration', analyzeduration]);
+
+            //params to be passed to ffmpeg
+            const params = [];
+
+            //mandatory, will be passed to ffmpeg-respawn
+            const logLevel = body.logLevel;
+
+            //mandatory
+            const hwAccel = body.hwAccel;
+            params.push(...['-hwaccel', hwAccel]);
+
+            //optional
+            const analyzeDuration = body.analyzeDuration;
+            if (analyzeDuration) {
+                params.push(...['-analyzeduration', analyzeDuration]);
             }
-            const probesize = req.body.probesize;
-            if (probesize) {
-                arr.push(...['-probesize', probesize]);
+
+            //optional
+            const probeSize = body.probeSize;
+            if (probeSize) {
+                params.push(...['-probesize', probeSize]);
             }
-            const hwaccel = req.body.hwaccel;
-            if (hwaccel) {
-                arr.push(...['-hwaccel', hwaccel]);
+
+            const inputType = body.inputType;
+            console.log(inputType);
+            switch (inputType) {
+                /*case 'artificial':
+                    params.push(...['-re', '-f', 'lavfi', '-i', 'testsrc=size=1280x720:rate=15']);
+                    break;*/
+                case 'rtsp':
+                    //mandatory
+                    const rtspTransport = body.rtspTransport;
+                    params.push(...['-rtsp_transport', rtspTransport]);
+                    //todo some regex here to atleast make sure beginns with rtsp
+                    //mandatory
+                    params.push(...['-i', body.inputUrl]);
+                    break;
+                case 'mjpeg':
+                    //todo some regex here to atleast make sure beginns with http
+                    //mandatory
+                    params.push(...['-re', '-i', body.inputUrl]);
+                    break;
+                default:
+                    throw new Error('unsupported input type');
             }
-            const rtspTransport = req.body.rtspTransport;
-            if (rtspTransport) {
-                arr.push(...['-rtsp_transport', rtspTransport]);
-            }
-            //todo some regex here to atleast make sure beginns with rtsp
-            arr.push(...['-i', req.body.rtsp]);
-            const ca = req.body.ca;
+
+            //mandatory
+            const ca = body.ca;
             if (ca === 'an') {
-                arr.push('-an');
+                params.push('-an');
             } else {
-                arr.push(...['-c:a', ca]);
+                params.push(...['-c:a', ca]);
             }
-            const cv = req.body.cv;
+
+            //mandatory
+            const cv = body.cv;
+            params.push(...['-c:v', cv]);
+
             if (cv !== 'copy') {
-                arr.push(...['-c:v', cv]);
-                const rate = req.body.rate;
-                const scale = req.body.scale;
-                arr.push(...['-vf', `fps=${rate},scale=trunc(iw*${scale}/2)*2:-2,format=yuv420p`]);
-                const fragDuration = req.body.fragDuration;
-                if (fragDuration) {
-                    arr.push(...['-min_frag_duration', fragDuration, '-frag_duration', fragDuration]);
-                }
-                const crf = req.body.crf;
-                if (crf) {
-                    arr.push(...['-crf', crf]);
-                }
-                const tune = req.body.tune;
-                if (tune) {
-                    arr.push(...['-tune', tune]);
-                }
-                const profile = req.body.profile;
+
+                //mandatory
+                const rate = body.mp4Rate;
+
+                //mandatory
+                const scale = body.mp4Scale;
+
+                params.push(...['-vf', `fps=${rate},scale=trunc(iw*${scale}/2)*2:-2,format=yuv420p`]);
+
+                //mandatory
+                const fragDuration = body.fragDuration;
+                params.push(...['-min_frag_duration', fragDuration, '-frag_duration', fragDuration]);
+
+                //mandatory
+                const crf = body.crf;
+                params.push(...['-crf', crf]);
+
+                //mandatory
+                const preset = body.preset;
+                params.push(...['-preset', preset]);
+
+                params.push(...['-tune', 'zerolatency']);
+
+                //optional
+                const profile = body.profile;
                 switch (profile) {
                     case 'baseline30' :
-                        arr.push(...['-profile:v', 'baseline', '-level', '3.0']);
+                        params.push(...['-profile:v', 'baseline', '-level', '3.0']);
                         break;
                     case 'baseline31' :
-                        arr.push(...['-profile:v', 'baseline', '-level', '3.1']);
+                        params.push(...['-profile:v', 'baseline', '-level', '3.1']);
                         break;
                     case 'main31' :
-                        arr.push(...['-profile:v', 'main', '-level', '3.1']);
+                        params.push(...['-profile:v', 'main', '-level', '3.1']);
                         break;
                     case 'main40':
-                        arr.push(...['-profile:v', 'main', '-level', '4.0']);
+                        params.push(...['-profile:v', 'main', '-level', '4.0']);
                         break;
                     case 'high40' :
-                        arr.push(...['-profile:v', 'high', '-level', '4.0']);
+                        params.push(...['-profile:v', 'high', '-level', '4.0']);
                         break;
                     case 'high41':
-                        arr.push(...['-profile:v', 'high', '-level', '4.1']);
+                        params.push(...['-profile:v', 'high', '-level', '4.1']);
                         break;
                     case 'high42' :
-                        arr.push(...['-profile:v', 'high', '-level', '4.2']);
+                        params.push(...['-profile:v', 'high', '-level', '4.2']);
                         break;
                 }
-            } else {
-                arr.push(...['-c:v', cv]);
             }
-            arr.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', '-reset_timestamps', '1', 'pipe:1']);
+
+            params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof', 'pipe:1']);
+            //params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', 'pipe:1']);
+
+            //mandatory
+            const jpegRate = body.jpegRate;
+
+            //mandatory
+            const jpegScale = body.jpegScale;
+
+            //mandatory
+            const jpegQuality = body.jpegQuality;
+
+            params.push(...['-an', '-c:v', 'mjpeg', '-f', 'image2pipe', '-q:v', jpegQuality, '-vf', `fps=${jpegRate},scale=trunc(iw*${jpegScale}/2)*2:-2,format=yuv420p`, 'pipe:4']);
+
             const mp4frag = new M4F({hlsBase: 'test', hlsListSize: 4});
+
             app.set('mp4frag', mp4frag);
+
             const pipe2jpeg = new P2J();
+
             app.set('pipe2jpeg', pipe2jpeg);
-            //if (req.body.params) {
-            //todo process extra params to pass to ffmpeg
-            //}
-            const params = [
-                '-an', '-c:v', 'mjpeg', '-f', 'image2pipe', '-q:v', '4', '-vf', 'fps=7,scale=640:-1', 'pipe:4'
-            ];
-            params.unshift(...arr);
-            //console.log(params);
+
             try {
                 ffmpeg = new FR(
                     {
@@ -206,3 +254,6 @@ router.post('/', function (req, res) {
 });
 
 module.exports = router;
+
+//http://222.100.79.51:50000/nphMotionJpeg?Resolution=640x480&Quality=High
+//http://119.195.110.154/mjpg/video.mjpg

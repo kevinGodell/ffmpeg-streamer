@@ -166,7 +166,7 @@ router.post('/', function (req, res) {
             //todo process extra params to pass to ffmpeg
             //}
             const params = [
-                '-an', '-c:v', 'mjpeg', '-f', 'image2pipe', '-huffman', 'optimal', '-q:v', '4', '-vf', 'fps=7,scale=640:-1', 'pipe:4'
+                '-an', '-c:v', 'mjpeg', '-f', 'image2pipe', '-q:v', '4', '-vf', 'fps=7,scale=640:-1', 'pipe:4'
             ];
             params.unshift(...arr);
             //console.log(params);

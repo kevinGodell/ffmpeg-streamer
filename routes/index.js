@@ -145,10 +145,12 @@ router.post('/', function (req, res) {
             //mandatory
             const jpegQuality = body.jpegQuality;
 
+            //optional
             if (analyzeDuration) {
                 params.push(...['-analyzeduration', analyzeDuration]);
             }
 
+            //optional
             if (probeSize) {
                 params.push(...['-probesize', probeSize]);
             }
@@ -166,7 +168,7 @@ router.post('/', function (req, res) {
                     params.push(...['-i', body.inputUrl]);
                     break;
                 case 'mjpeg':
-                    //todo some regex here to atleast make sure beginns with http
+                    //todo some regex here to atleast make sure beginns with http(s)
                     //mandatory
                     params.push(...['-re', '-i', body.inputUrl]);
                     break;

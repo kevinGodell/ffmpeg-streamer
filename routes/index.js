@@ -251,16 +251,19 @@ router.post('/', function (req, res) {
                             {stdioIndex: 1, destination: mp4frag},
                             {stdioIndex: 4, destination: pipe2jpeg}
                         ],
-                        killAfterStall: 5,
-                        spawnAfterExit: 1,
-                        reSpawnLimit: 10000,
+                        killAfterStall: 10,
+                        spawnAfterExit: 2,
+                        reSpawnLimit: 10,
                         logCallback: (data) => {
                             console.log(data.toString());
                         },
                         exitCallback: () => {
-                            console.log('exit call back');
+                            //console.log('exit call back');
                             mp4frag.resetCache();
                         }
+                    })
+                    .on('fail', (msg)=> {
+                        console.log(msg);
                     })
                     .start();
                 app.set('ffmpeg', ffmpeg);

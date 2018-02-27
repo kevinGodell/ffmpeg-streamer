@@ -8,6 +8,15 @@ const P2J = require('pipe2jpeg');
 const packageJson = require('../package');
 const title = `${packageJson.name} ver: ${packageJson.version}`;
 
+function renderIndex(res, msg) {
+    const app = res.app;
+    res.render('index', {
+        title: title,
+        subTitle: `ffmpeg ver: ${app.get('ffmpegVersion')}`,
+        message: msg
+    });
+}
+
 function renderVideo(res, params) {
     res.render('video', {
         title: 'video',
@@ -15,8 +24,18 @@ function renderVideo(res, params) {
     });
 }
 
+function renderInputError(res, msg) {
+    const app = res.app;
+    res.render('index', {
+        title: title,
+        subTitle: `ffmpeg ver: ${app.get('ffmpegVersion')}`,
+        message: msg
+    });
+}
+
 router.get('/', function (req, res) {
     const app = req.app;
+
     if (!app.get('ffmpegVersion')) {
         res.render('install', {
             title: 'Dependency Error',
@@ -25,16 +44,13 @@ router.get('/', function (req, res) {
         });
         return;
     }
+
     const ffmpeg = app.get('ffmpeg');
     if (ffmpeg && ffmpeg.running) {
-        renderVideo(res, ffmpeg.params);
-        return;
+        return renderVideo(res, ffmpeg.params);
     }
-    res.render('index', {
-        title: title,
-        subTitle: `ffmpeg ver: ${app.get('ffmpegVersion')}`,
-        message: 'Select parameters and enter rtsp url for the ip camera.'
-    });
+
+    return renderIndex(res);
 });
 
 router.post('/', function (req, res) {
@@ -47,6 +63,11 @@ router.post('/', function (req, res) {
     }
     const body = req.body;
     switch (body.action) {
+        case 'Exit':
+            process.exit(0);
+            break;
+        case 'Stop':
+            return renderIndex(res);
         case 'Install':
             const ffbinaries = require('ffbinaries');
             ffbinaries.downloadFiles('ffmpeg', {quiet: true, destination: app.get('dirName')}, function (err, data) {
@@ -63,42 +84,27 @@ router.post('/', function (req, res) {
                 console.log(data);
                 ffbinaries.clearCache();
                 const configure = require('../lib/configure');
-                res.render('index', {
-                    title: title,
-                    subTitle: `ffmpeg ver: ${configure(app).ffmpegVersion}`,
-                    message: 'Select parameters and enter rtsp url for the ip camera.'
-                });
-            });
-            break;
-        case 'Exit':
-            process.exit(0);
-            break;
-        case 'Stop':
-            res.render('index', {
-                title: title,
-                subTitle: `ffmpeg ver: ${app.get('ffmpegVersion')}`,
-                message: 'Select parameters and enter rtsp url for the ip camera.'
+                configure(app);
+                return renderIndex(res);
             });
             break;
         case 'Start':
+
             if (!body.inputUrl) {
-                res.render('index', {
-                    title: title,
-                    subTitle: `ffmpeg version: ${app.get('ffmpegVersion')}`,
-                    message: '**ERROR** Missing input url.'
-                });
+                renderInputError(res, 'Input url is required.');
                 return;
             }
 
             //params to be passed to ffmpeg
             const params = [];
 
+            /* +++++++++ gather form input values ++++++++++ */
+
             //mandatory, will be passed to ffmpeg-respawn
             const logLevel = body.logLevel;
 
             //mandatory
             const hwAccel = body.hwAccel;
-            params.push(...['-hwaccel', hwAccel]);
 
             //optional
             const analyzeDuration = body.analyzeDuration;
@@ -113,16 +119,19 @@ router.post('/', function (req, res) {
             const rtspTransport = body.rtspTransport;
 
             //mandatory
-            const ca = body.ca;
+            const mp4AudioCodec = body.mp4AudioCodec;
 
             //mandatory
-            const cv = body.cv;
+            const mp4VideoCodec = body.mp4VideoCodec;
 
             //mandatory
             const rate = body.mp4Rate;
 
             //mandatory
             const scale = body.mp4Scale;
+
+            //mandatory
+            const mp4PixFmt = body.mp4PixFmt;
 
             //mandatory
             const fragDuration = body.fragDuration;
@@ -133,8 +142,11 @@ router.post('/', function (req, res) {
             //mandatory
             const preset = body.preset;
 
-            //optional
-            const profile = body.profile;
+            //mandatory
+            const mp4Profile = body.mp4Profile;
+
+            //mandatory
+            const mp4Level = body.mp4Level;
 
             //mandatory
             const jpegRate = body.jpegRate;
@@ -145,88 +157,64 @@ router.post('/', function (req, res) {
             //mandatory
             const jpegQuality = body.jpegQuality;
 
-            //optional
+            /* +++++++++ process form input values ++++++++++ */
+
+            params.push(...['-hwaccel', hwAccel]);
+
             if (analyzeDuration) {
                 params.push(...['-analyzeduration', analyzeDuration]);
             }
 
-            //optional
             if (probeSize) {
                 params.push(...['-probesize', probeSize]);
             }
 
-            console.log(inputType);
             switch (inputType) {
                 /*case 'artificial':
                     params.push(...['-re', '-f', 'lavfi', '-i', 'testsrc=size=1280x720:rate=15']);
                     break;*/
-                case 'rtsp':
 
+                case 'rtsp':
+                    if (body.inputUrl.indexOf('rtsp://') === -1) {
+                        return renderIndex(res, 'Input url must begin with rtsp://');
+                    }
                     params.push(...['-rtsp_transport', rtspTransport]);
-                    //todo some regex here to atleast make sure beginns with rtsp
-                    //mandatory
                     params.push(...['-i', body.inputUrl]);
                     break;
                 case 'mjpeg':
-                    //todo some regex here to atleast make sure beginns with http(s)
-                    //mandatory
+                    if (body.inputUrl.indexOf('http://') === -1 && body.inputUrl.indexOf('https://') === -1) {
+                        return renderIndex(res, 'Mjpeg url must begin with http(s)://');
+                    }
                     params.push(...['-re', '-i', body.inputUrl]);
                     break;
                 default:
                     throw new Error('unsupported input type');
             }
 
-
-            if (ca === 'an') {
+            if (mp4AudioCodec === 'an') {
                 params.push('-an');
             } else {
-                params.push(...['-c:a', ca]);
+                params.push(...['-c:a', mp4AudioCodec]);
             }
 
+            params.push(...['-c:v', mp4VideoCodec]);
 
-            params.push(...['-c:v', cv]);
+            if (mp4VideoCodec !== 'copy') {
 
-            if (cv !== 'copy') {
-
-
-
-                params.push(...['-vf', `fps=${rate},scale=trunc(iw*${scale}/2)*2:-2,format=yuv420p`]);
-
+                params.push(...['-vf', `fps=${rate},scale=trunc(iw*${scale}/2)*2:-2,format=${mp4PixFmt}`]);
 
                 params.push(...['-min_frag_duration', fragDuration, '-frag_duration', fragDuration]);
 
-
                 params.push(...['-crf', crf]);
-
 
                 params.push(...['-preset', preset]);
 
                 params.push(...['-tune', 'zerolatency']);
 
+                params.push(...['-profile:v', mp4Profile]);
 
-                switch (profile) {
-                    case 'baseline30' :
-                        params.push(...['-profile:v', 'baseline', '-level', '3.0']);
-                        break;
-                    case 'baseline31' :
-                        params.push(...['-profile:v', 'baseline', '-level', '3.1']);
-                        break;
-                    case 'main31' :
-                        params.push(...['-profile:v', 'main', '-level', '3.1']);
-                        break;
-                    case 'main40':
-                        params.push(...['-profile:v', 'main', '-level', '4.0']);
-                        break;
-                    case 'high40' :
-                        params.push(...['-profile:v', 'high', '-level', '4.0']);
-                        break;
-                    case 'high41':
-                        params.push(...['-profile:v', 'high', '-level', '4.1']);
-                        break;
-                    case 'high42' :
-                        params.push(...['-profile:v', 'high', '-level', '4.2']);
-                        break;
-                }
+                params.push(...['-level', mp4Level]);
+
             }
 
             params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof', 'pipe:1']);
@@ -270,12 +258,7 @@ router.post('/', function (req, res) {
                     .start();
                 app.set('ffmpeg', ffmpeg);
             } catch (error) {
-                res.render('index', {
-                    title: title,
-                    subTitle: `ffmpeg ver: ${app.get('ffmpegVersion')}`,
-                    message: error.message
-                });
-                return;
+                return renderIndex(res, error.message);
             }
             renderVideo(res, ffmpeg.params);
             break;

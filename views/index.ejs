@@ -15,9 +15,12 @@
             <p><%= subTitle %></p>
         </div>
 
-        <!--<div class="message">
+
+        <% if (message) {%>
+        <div class="message">
             <span><%= message %></span>
-        </div>-->
+        </div>
+        <%}%>
 
         <!-- +++++++++++++++++ Global ++++++++++++++++ -->
 
@@ -122,27 +125,27 @@
         </div>
 
         <div class="label">
-            <label for="ca">audio codec</label>
+            <label for="mp4AudioCodec">audio codec</label>
         </div>
 
         <div class="input">
-            <select id="ca" name="ca" form="index">
+            <select id="mp4AudioCodec" name="mp4AudioCodec" form="index">
                 <option selected value="an">no audio</option>
                 <option value="aac">aac</option>
             </select>
         </div>
 
         <div class="label">
-            <label for="cv">video codec</label>
+            <label for="mp4VideoCodec">video codec</label>
         </div>
 
         <div class="input">
-            <select id="cv" name="cv" form="index">
-                <option selected value="copy">copy</option>
-                <option value="libx264">libx264</option>
+            <select id="mp4VideoCodec" name="mp4VideoCodec" form="index">
+                <option value="copy">copy</option>
+                <option selected value="libx264">libx264</option>
                 <!--<option value="libx264rgb">libx264rgb</option>-->
                 <!--<option value="h264_videotoolbox">h264_videotoolbox</option>-->
-                </select>
+            </select>
         </div>
 
         <div class="label">
@@ -170,6 +173,19 @@
         </div>
 
         <div class="label">
+            <label for="mp4PixFmt">pixel format</label>
+        </div>
+
+        <div class="input">
+            <select id="mp4PixFmt" name="mp4PixFmt" form="index">
+                <% var mp4PixFmtArr = ['yuv410p', 'yuv420p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
+                <% for (var i = 0; i < mp4PixFmtArr.length; i++) { %>
+                <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4PixFmtArr[i] %>"><%= mp4PixFmtArr[i] %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="label">
             <label for="fragDuration">frag duration</label>
         </div>
 
@@ -187,7 +203,7 @@
 
         <div class="input">
             <select id="crf" name="crf" form="index">
-                <% for (var i = 0; i < 52; i++) { %>
+                <% for (var i = 1; i < 52; i++) { %>
                 <option <%= i === 23 ? 'selected ' : '' %>value="<%= i %>"><%= i %></option>
                 <% } %>
             </select>
@@ -209,21 +225,35 @@
         </div>
 
         <div class="label">
-            <label for="profile">profile</label>
+            <label for="mp4Profile">profile</label>
         </div>
         <!-- have to separate profile from level -->
         <!-- maybe have to add pix_fmt since not all profiles and levels can use the same one -->
         <div class="input">
-            <select id="profile" name="profile" form="index">
-                <option selected value="baseline30">baseline level 3.0</option>
-                <option value="baseline31">baseline level 3.1</option>
-                <option value="main31">main level 3.1</option>
-                <option value="main40">main level 4.0</option>
-                <option value="high40">high level 4.0</option>
-                <option value="high41">high level 4.1</option>
-                <option value="high42">high level 4.2</option>
+            <select id="mp4Profile" name="mp4Profile" form="index">
+                <% var mp4ProfileArr = ['baseline', 'main', 'high', 'high10', 'high422', 'high444']; %>
+                <% for (var i = 0; i < mp4ProfileArr.length; i++) { %>
+                <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4ProfileArr[i] %>"><%= mp4ProfileArr[i] %></option>
+                <% } %>
             </select>
         </div>
+
+        <div class="label">
+            <label for="mp4Level">level</label>
+        </div>
+        <!-- have to separate profile from level -->
+        <!-- maybe have to add pix_fmt since not all profiles and levels can use the same one -->
+        <div class="input">
+            <select id="mp4Level" name="mp4Level" form="index">
+                <option selected value="3.0">3.0</option>
+                <option value="3.1">3.1</option>
+                <option value="4.0">4.0</option>
+                <option value="4.1">4.1</option>
+                <option value="4.2">4.2</option>
+            </select>
+        </div>
+
+
 
         <!-- +++++++++++++++++ JPEG +++++++++++++++++ -->
 

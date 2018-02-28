@@ -181,7 +181,7 @@ router.post('/', function (req, res) {
                     if (rtspTransport !== 'none') {
                         params.push(...['-rtsp_transport', rtspTransport]);
                     }
-                    params.push(...['-use_wallclock_as_timestamps', '1', '-f', 'rtsp', '-i', inputUrl]);
+                    params.push(...['-f', 'rtsp', '-i', inputUrl]);
                     break;
 
                 case 'mjpeg':

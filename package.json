@@ -1,5 +1,5 @@
 {
-  "name": "rtsp-cam-tester",
+  "name": "ip-cam-streamer",
   "version": "0.0.3",
   "private": true,
   "scripts": {

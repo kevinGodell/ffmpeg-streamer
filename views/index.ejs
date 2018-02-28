@@ -419,7 +419,7 @@
             elem.dispatchEvent(new Event('change'));
         }
     } else {
-        const defaultVals = ['quiet', 'none', 'rtsp', 'none', 'none', 'none', 'rtsp://131.95.3.162:554/axis-media/media.3gp', '4', 'an', 'copy', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'mjpeg', 'none', 'none', 'none'];
+        const defaultVals = ['quiet', 'auto', 'rtsp', '10000000', '1048576', 'tcp', 'rtsp://131.95.3.162:554/axis-media/media.3gp', '4', 'an', 'copy', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'mjpeg', 'none', 'none', 'none'];
         for (let i = 0, len = elementIds.length; i < len; i++) {
             const elem = document.getElementById(elementIds[i]);
             elem.value = defaultVals[i];

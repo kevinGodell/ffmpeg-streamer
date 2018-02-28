@@ -25,15 +25,20 @@ body {
     padding: 2px;
 }
 
+.index .header p {
+    padding: 0px;
+    margin: 0px;
+}
+
 .index .header, .index .message, .index .section {
     grid-column-start: 1;
     grid-column-end: 6;
 }
 
 .index .message {
-    border: none;
-    background: none;
-    color: yellow;
+    background: yellow;
+    color: red;
+    border: 1px solid red;
 }
 
 .index .section {
@@ -60,6 +65,7 @@ body {
     border-style: none;
     background: none;
     min-width: 500px;
+    direction: rtl;
 }
 
 .index .form input[value="Start"] {
@@ -83,8 +89,8 @@ body {
     grid-template-columns: 1fr 1fr 1fr auto;
     grid-gap: 2px;
     grid-template-areas:
-            "mp4 flv hls m3u8"
-            "mjpeg jpeg mse progress"
+            "mjpeg mp4 hls m3u8"
+            "jpeg flv mse progress"
             "params params params mime"
             "form form form form";
     font-size: small;
@@ -188,12 +194,16 @@ body {
     padding: 2px;
 }
 
-
-
 .install .message {
-    border: none;
+    background: yellow;
+    color: red;
+    border: 1px solid red;
+}
+
+.install .form {
+    border-style: none;
     background: none;
-    color: yellow;
+    min-width: 500px;
 }
 
 .install .form input[value="Install"] {

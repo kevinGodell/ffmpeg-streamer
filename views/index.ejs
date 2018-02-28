@@ -8,321 +8,426 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
-    <div class="index">
+<div class="index">
 
-        <div class="header">
-            <p><%= title %></p>
-            <p><%= subTitle %></p>
-        </div>
+    <div class="header">
+        <p><%= title %></p>
+        <p><%= subTitle %></p>
+    </div>
 
+    <% if (message) { %>
+    <div class="message">
+        <span><%= message %></span>
+    </div>
+    <% } %>
 
-        <% if (message) {%>
-        <div class="message">
-            <span><%= message %></span>
-        </div>
-        <%}%>
+    <!-- +++++++++++++++++ Global ++++++++++++++++ -->
 
-        <!-- +++++++++++++++++ Global ++++++++++++++++ -->
+    <div class="section">
+        <span>Global</span>
+    </div>
 
-        <div class="section">
-            <span>Global</span>
-        </div>
+    <div class="label">
+        <label for="logLevel">log level</label>
+    </div>
 
-        <div class="label">
-            <label for="logLevel">log level</label>
-        </div>
+    <div class="input">
+        <select id="logLevel" name="logLevel" form="index">
+            <% var logLevelArr = ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug', 'trace']; %>
+            <% for (var i = 0; i < logLevelArr.length; i++) { %>
+            <option value="<%= logLevelArr[i] %>"><%= logLevelArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="logLevel" name="logLevel" form="index">
-                <% var logLevelArr = ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug', 'trace']; %>
-                <% for (var i = 0; i < logLevelArr.length; i++) { %>
-                <option <%= logLevelArr[i] === 'quiet' ? 'selected ' : '' %>value="<%= logLevelArr[i] %>"><%= logLevelArr[i] %></option>
-                <% } %>
-            </select>
-        </div>
+    <!-- +++++++++++++++++ Input ++++++++++++++++ -->
 
-        <!-- +++++++++++++++++ Input ++++++++++++++++ -->
+    <div class="section">
+        <span>Input</span>
+    </div>
 
-        <div class="section">
-            <span>Input</span>
-        </div>
+    <div class="label">
+        <label for="hwAccel">hardware accel</label>
+    </div>
 
-        <div class="label">
-            <label for="hwAccel">hardware accel</label>
-        </div>
+    <div class="input">
+        <select id="hwAccel" name="hwAccel" form="index">
+            <% var hwAccelArr = ['none', 'auto', 'videotoolbox']; %>
+            <% for (var i = 0; i < hwAccelArr.length; i++) { %>
+            <option value="<%= hwAccelArr[i] %>"><%= hwAccelArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="hwAccel" name="hwAccel" form="index">
-                <option selected value="none">none</option>
-                <option value="auto">auto</option>
-                <option value="videotoolbox">videotoolbox</option>
-            </select>
-        </div>
+    <div class="label">
+        <label for="inputType">input type</label>
+    </div>
 
-        <div class="label">
-            <label for="inputType">input type</label>
-        </div>
+    <div class="input">
+        <select id="inputType" name="inputType" form="index">
+            <% var inputTypeArr = [/*'artificial',*/'rtsp', 'mjpeg'/*,'local'*/]; %>
+            <% for (var i = 0; i < inputTypeArr.length; i++) { %>
+            <option value="<%= inputTypeArr[i] %>"><%= inputTypeArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="inputType" name="inputType" form="index">
-                <% var inputTypeArr = [/*'artificial', */'rtsp', 'mjpeg'/*, 'local'*/]; %>
-                <% for (var i = 0; i < inputTypeArr.length; i++) { %>
-                <option <%= i === 0 ? 'selected ' : '' %>value="<%= inputTypeArr[i] %>"><%= inputTypeArr[i] %></option>
-                <% } %>
-            </select>
-        </div>
+    <div class="label">
+        <label for="analyzeDuration">analyze duration</label>
+    </div>
 
-        <div class="label">
-            <label for="analyzeDuration">analyze duration</label>
-        </div>
+    <div class="input">
+        <select id="analyzeDuration" name="analyzeDuration" form="index" value="1000000">
+            <option value="none">none</option>
+            <% for (var i = 0; i < 11; i++) { %>
+            <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="analyzeDuration" name="analyzeDuration" form="index">
-                <option selected value="">none</option>
-                <% for (var i = 0; i < 11; i++) { %>
-                <option <%= i === 10 ? 'selected ' : '' %>value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
-                <% } %>
-            </select>
-        </div>
+    <div class="label">
+        <label for="probeSize">probe size</label>
+    </div>
 
-        <div class="label">
-            <label for="probeSize">probe size</label>
-        </div>
+    <div class="input">
+        <select id="probeSize" name="probeSize" form="index">
+            <option value="none">none</option>
+            <% for (var i = 5; i < 21; i++) { %>
+            <option value="<%= 2 ** i %>"><%= 2 ** i %> bytes</option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="probeSize" name="probeSize" form="index">
-                <option selected value="">none</option>
-                <% for (var i = 5; i < 21; i++) { %>
-                <option <%= i === 20 ? 'selected ' : '' %>value="<%= 2 ** i %>"><%= 2 ** i %> bytes</option>
-                <% } %>
-            </select>
-        </div>
+    <div class="label rtspTransport">
+        <label for="rtspTransport">rtsp transport</label>
+    </div>
 
-        <div class="label">
-            <label for="rtspTransport">rtsp transport</label>
-        </div>
+    <div class="input rtspTransport">
+        <select id="rtspTransport" name="rtspTransport" form="index">
+            <% var rtspTransportArr = ['none', 'tcp', 'udp', 'http']; %>
+            <% for (var i = 0; i < rtspTransportArr.length; i++) { %>
+            <option value="<%= rtspTransportArr[i] %>"><%= rtspTransportArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="rtspTransport" name="rtspTransport" form="index">
-                <option value="tcp">tcp</option>
-                <option value="udp">udp</option>
-                <option value="http">http</option>
-            </select>
-        </div>
+    <div class="label">
+        <label for="inputUrl">input url</label>
+    </div>
 
-        <div class="label">
-            <label for="inputUrl">input url</label>
-        </div>
+    <div class="input">
+        <input form="index" type="text" id="inputUrl" name="inputUrl"/>
+    </div>
 
-        <div class="input">
-            <input form="index" type="text" id="inputUrl" name="inputUrl" value="rtsp://131.95.3.162:554/axis-media/media.3gp"/>
-        </div>
+    <!-- +++++++++++++++++ MP4 ++++++++++++++++++ -->
 
-        <!-- +++++++++++++++++ MP4 ++++++++++++++++++ -->
+    <div class="section">
+        <span>MP4</span>
+    </div>
 
-        <div class="section">
-            <span>MP4</span>
-        </div>
+    <div class="label">
+        <label for="mp4HlsListSize">hls list size</label>
+    </div>
 
-        <div class="label">
-            <label for="mp4AudioCodec">audio codec</label>
-        </div>
+    <div class="input">
+        <select id="mp4HlsListSize" name="mp4HlsListSize" form="index">
+            <% for (var i = 2; i < 6; i++) { %>
+            <option value="<%= i %>"><%= i %></option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="mp4AudioCodec" name="mp4AudioCodec" form="index">
-                <option selected value="an">no audio</option>
-                <option value="aac">aac</option>
-            </select>
-        </div>
+    <div class="label">
+        <label for="mp4AudioCodec">audio codec</label>
+    </div>
 
-        <div class="label">
-            <label for="mp4VideoCodec">video codec</label>
-        </div>
+    <div class="input">
+        <select id="mp4AudioCodec" name="mp4AudioCodec" form="index">
+            <option value="an">no audio</option>
+            <option value="aac">aac</option>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="mp4VideoCodec" name="mp4VideoCodec" form="index">
-                <option value="copy">copy</option>
-                <option selected value="libx264">libx264</option>
-                <!--<option value="libx264rgb">libx264rgb</option>-->
-                <!--<option value="h264_videotoolbox">h264_videotoolbox</option>-->
-            </select>
-        </div>
+    <div class="label">
+        <label for="mp4VideoCodec">video codec</label>
+    </div>
 
-        <div class="label">
-            <label for="rate">frame rate</label>
-        </div>
+    <div class="input">
+        <select id="mp4VideoCodec" name="mp4VideoCodec" form="index">
+            <% var mp4VideoCodecArr = ['copy', 'libx264'/*,'libx264rgb','h264_videotoolbox'*/]; %>
+            <% for (var i = 0; i < mp4VideoCodecArr.length; i++) { %>
+            <option value="<%= mp4VideoCodecArr[i] %>"><%= mp4VideoCodecArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="mp4Rate" name="mp4Rate" form="index">
-                <% for (var i = 1; i < 31; i++) { %>
-                <option <%= i === 7 ? 'selected ' : '' %>value="<%= i %>"><%= i %> fps</option>
-                <% } %>
-            </select>
-        </div>
+    <div class="label mp4VideoCodec">
+        <label for="mp4Rate">frame rate</label>
+    </div>
 
-        <div class="label">
-            <label for="scale">scaled size</label>
-        </div>
+    <div class="input mp4VideoCodec">
+        <select id="mp4Rate" name="mp4Rate" form="index">
+            <option value="none">none</option>
+            <% for (var i = 1; i < 31; i++) { %>
+            <option value="<%= i %>"><%= i %> fps</option>
+            <% } %>
+        </select>
+    </div>
 
-        <div class="input">
-            <select id="mp4Scale" name="mp4Scale" form="index">
-                <% for (var i = 10; i < 101; i++) { %>
-                <option <%= i === 50 ? 'selected ' : '' %>value="<%= i / 100 %>"><%= i %> %</option>
-                <% } %>
-            </select>
-        </div>
+    <div class="label mp4VideoCodec">
+        <label for="mp4Scale">scaled size</label>
+    </div>
 
-        <div class="label">
+    <div class="input mp4VideoCodec">
+        <select id="mp4Scale" name="mp4Scale" form="index">
+            <option value="none">none</option>
+            <% for (var i = 10; i < 101; i++) { %>
+            <option value="<%= i / 100 %>"><%= i %> %</option>
+            <% } %>
+        </select>
+    </div>
+
+    <!--<div class="label">
             <label for="mp4PixFmt">pixel format</label>
         </div>
 
         <div class="input">
             <select id="mp4PixFmt" name="mp4PixFmt" form="index">
-                <% var mp4PixFmtArr = ['yuv410p', 'yuv420p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
+                <% var mp4PixFmtArr = ['yuv420p', 'yuvj420p', 'yuv410p', 'yuv411p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
                 <% for (var i = 0; i < mp4PixFmtArr.length; i++) { %>
                 <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4PixFmtArr[i] %>"><%= mp4PixFmtArr[i] %></option>
                 <% } %>
             </select>
-        </div>
-
-        <div class="label">
-            <label for="fragDuration">frag duration</label>
-        </div>
-
-        <div class="input">
-            <select id="fragDuration" name="fragDuration" form="index">
-                <% for (var i = 1; i < 11; i++) { %>
-                <option <%= i === 1 ? 'selected ' : '' %>value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
-                <% } %>
-            </select>
-        </div>
-
-        <div class="label">
-            <label for="crf">crf</label>
-        </div>
-
-        <div class="input">
-            <select id="crf" name="crf" form="index">
-                <% for (var i = 1; i < 52; i++) { %>
-                <option <%= i === 23 ? 'selected ' : '' %>value="<%= i %>"><%= i %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <div class="label">
-            <label for="preset">preset</label>
-        </div>
-
-        <div class="input">
-            <select id="preset" name="preset" form="index">
-                <option value="ultrafast">ultrafast</option>
-                <option value="superfast">superfast</option>
-                <option value="veryfast">veryfast</option>
-                <option value="faster">faster</option>
-                <option value="fast">fast</option>
-                <option selected value="medium">medium</option>
-            </select>
-        </div>
-
-        <div class="label">
-            <label for="mp4Profile">profile</label>
-        </div>
-        <!-- have to separate profile from level -->
-        <!-- maybe have to add pix_fmt since not all profiles and levels can use the same one -->
-        <div class="input">
-            <select id="mp4Profile" name="mp4Profile" form="index">
-                <% var mp4ProfileArr = ['baseline', 'main', 'high', 'high10', 'high422', 'high444']; %>
-                <% for (var i = 0; i < mp4ProfileArr.length; i++) { %>
-                <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4ProfileArr[i] %>"><%= mp4ProfileArr[i] %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <div class="label">
-            <label for="mp4Level">level</label>
-        </div>
-        <!-- have to separate profile from level -->
-        <!-- maybe have to add pix_fmt since not all profiles and levels can use the same one -->
-        <div class="input">
-            <select id="mp4Level" name="mp4Level" form="index">
-                <option selected value="3.0">3.0</option>
-                <option value="3.1">3.1</option>
-                <option value="4.0">4.0</option>
-                <option value="4.1">4.1</option>
-                <option value="4.2">4.2</option>
-            </select>
-        </div>
-
-
-
-        <!-- +++++++++++++++++ JPEG +++++++++++++++++ -->
-
-        <div class="section">
-            <span>JPEG</span>
-        </div>
-
-        <div class="label">
-            <label for="jpegRate">rate</label>
-        </div>
-
-        <div class="input">
-            <select id="jpegRate" name="jpegRate" form="index">
-                <% for (var i = 1; i < 31; i++) { %>
-                <option <%= i === 7 ? 'selected ' : '' %>value="<%= i %>"><%= i %> fps</option>
-                <% } %>
-            </select>
-        </div>
-
-        <div class="label">
-            <label for="jpegScale">scale</label>
-        </div>
-
-        <div class="input">
-            <select id="jpegScale" name="jpegScale" form="index">
-                <% for (var i = 10; i < 101; i++) { %>
-                <option <%= i === 50 ? 'selected ' : '' %>value="<%= i / 100 %>"><%= i %> %</option>
-                <% } %>
-            </select>
-        </div>
-
-        <div class="label">
-            <label for="jpegQuality">quality</label>
-        </div>
-
-        <div class="input">
-            <select id="jpegQuality" name="jpegQuality" form="index">
-                <% for (var i = 1; i < 32; i++) { %>
-                <option <%= i === 5 ? 'selected ' : '' %>value="<%= i %>"><%= i %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <div class="form">
-            <form id="index" method="POST" action="/">
-            <input name="action" type="submit" value="Exit"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            <input name="action" type="submit" value="Start"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            </form>
-        </div>
-
-        <!--<div class="label">
-
-        </div>
-
-        <div class="input">
-
-        </div>
-
-        <div class="label">
-
-        </div>
-
-        <div class="input">
-
         </div>-->
 
+    <div class="label mp4VideoCodec">
+        <label for="fragDuration">frag duration</label>
     </div>
+
+    <div class="input mp4VideoCodec">
+        <select id="fragDuration" name="fragDuration" form="index">
+            <option value="none">none</option>
+            <% for (var i = 1; i < 11; i++) { %>
+            <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label mp4VideoCodec">
+        <label for="mp4Crf">crf</label>
+    </div>
+
+    <div class="input mp4VideoCodec">
+        <select id="mp4Crf" name="mp4Crf" form="index">
+            <option value="none">none</option>
+            <% for (var i = 0; i < 52; i++) { %>
+            <option value="<%= i %>"><%= i %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label mp4VideoCodec">
+        <label for="mp4Preset">preset</label>
+    </div>
+
+    <div class="input mp4VideoCodec">
+        <select id="mp4Preset" name="mp4Preset" form="index">
+            <% var mp4PresetArr = ['none', 'medium', 'fast', 'faster', 'veryfast', 'superfast', 'ultrafast']; %>
+            <% for (var i = 0; i < mp4PresetArr.length; i++) { %>
+            <option value="<%= mp4PresetArr[i] %>"><%= mp4PresetArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label mp4VideoCodec">
+        <label for="mp4Profile">profile</label>
+    </div>
+
+    <div class="input mp4VideoCodec">
+        <select id="mp4Profile" name="mp4Profile" form="index">
+            <% var mp4ProfileArr = ['none', 'baseline', 'main', 'high'/*,'high10','high422','high444'*/]; %>
+            <% for (var i = 0; i < mp4ProfileArr.length; i++) { %>
+            <option value="<%= mp4ProfileArr[i] %>"><%= mp4ProfileArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label mp4VideoCodec">
+        <label for="mp4Level">level</label>
+    </div>
+
+    <div class="input mp4VideoCodec">
+        <select id="mp4Level" name="mp4Level" form="index">
+            <% var mp4LevelArr = ['none', '3.0', '3.1', '4.0', '4.1', '4.2']; %>
+            <% for (var i = 0; i < mp4LevelArr.length; i++) { %>
+            <option value="<%= mp4LevelArr[i] %>"><%= mp4LevelArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <!-- +++++++++++++++++ JPEG +++++++++++++++++ -->
+
+    <div class="section">
+        <span>JPEG</span>
+    </div>
+
+    <div class="label">
+        <label for="jpegCodec">codec</label>
+    </div>
+
+    <div class="input">
+        <select id="jpegCodec" name="jpegCodec" form="index">
+            <% var jpegCodecArr = ['copy', 'mjpeg']; %>
+            <% for (var i = 0; i < jpegCodecArr.length; i++) { %>
+            <option value="<%= jpegCodecArr[i] %>"><%= jpegCodecArr[i] %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label jpegCodec">
+        <label for="jpegRate">rate</label>
+    </div>
+
+    <div class="input jpegCodec">
+        <select id="jpegRate" name="jpegRate" form="index">
+            <option value="none">none</option>
+            <% for (var i = 1; i < 31; i++) { %>
+            <option value="<%= i %>"><%= i %> fps</option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label jpegCodec">
+        <label for="jpegScale">scale</label>
+    </div>
+
+    <div class="input jpegCodec">
+        <select id="jpegScale" name="jpegScale" form="index">
+            <option value="none">none</option>
+            <% for (var i = 10; i < 101; i++) { %>
+            <option value="<%= i / 100 %>"><%= i %> %</option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="label jpegCodec">
+        <label for="jpegQuality">quality</label>
+    </div>
+
+    <div class="input jpegCodec">
+        <select id="jpegQuality" name="jpegQuality" form="index">
+            <option value="none">none</option>
+            <% for (var i = 1; i < 32; i++) { %>
+            <option value="<%= i %>"><%= i %></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="form">
+        <form id="index" method="POST" action="/">
+            <input name="action" type="submit" value="Start"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            <input name="action" type="submit" value="Exit"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        </form>
+    </div>
+
+
+    <!--<div class="label">
+
+    </div>
+
+    <div class="input">
+
+    </div>
+
+    <div class="label">
+
+    </div>
+
+    <div class="input">
+
+    </div>-->
+
+</div>
+
+<script>
+
+    const inputType = document.getElementById('inputType');
+
+    inputType.addEventListener('change', function (evt) {
+        const elems = document.getElementsByClassName('rtspTransport');
+        switch (inputType.value) {
+            case 'rtsp':
+                for (let i = 0; i < elems.length; i++) {
+                    elems[i].style.display = 'inline';
+                }
+                break;
+            case 'mjpeg':
+                for (let i = 0; i < elems.length; i++) {
+                    elems[i].style.display = 'none';
+                }
+                break;
+        }
+    });
+
+    const mp4VideoCodec = document.getElementById('mp4VideoCodec');
+
+    mp4VideoCodec.addEventListener('change', function (evt) {
+        const elems = document.getElementsByClassName('mp4VideoCodec');
+        switch (mp4VideoCodec.value) {
+            case 'copy':
+                for (let i = 0; i < elems.length; i++) {
+                    elems[i].style.display = 'none';
+                }
+                break;
+            case 'libx264':
+                for (let i = 0; i < elems.length; i++) {
+                    elems[i].style.display = 'inline';
+                }
+                break;
+        }
+    });
+
+    const jpegCodec = document.getElementById('jpegCodec');
+
+    jpegCodec.addEventListener('change', function (evt) {
+        const elems = document.getElementsByClassName('jpegCodec');
+        switch (jpegCodec.value) {
+            case 'copy':
+                for (let i = 0; i < elems.length; i++) {
+                    elems[i].style.display = 'none';
+                }
+                break;
+            case 'mjpeg':
+                for (let i = 0; i < elems.length; i++) {
+                    elems[i].style.display = 'inline';
+                }
+                break;
+        }
+    });
+
+
+    const elementIds = ['logLevel', 'hwAccel', 'inputType', 'analyzeDuration', 'probeSize', 'rtspTransport', 'inputUrl', 'mp4HlsListSize', 'mp4AudioCodec', 'mp4VideoCodec', 'mp4Rate', 'mp4Scale', 'fragDuration', 'mp4Crf', 'mp4Preset', 'mp4Profile', 'mp4Level', 'jpegCodec', 'jpegRate', 'jpegScale', 'jpegQuality'];
+
+    const vals = <%- JSON.stringify(values) %>;
+
+    if (vals) {
+        for (let i = 0, len = elementIds.length; i < len; i++) {
+            const elem = document.getElementById(elementIds[i]);
+            elem.value = vals[elementIds[i]];
+            elem.dispatchEvent(new Event('change'));
+        }
+    } else {
+        const defaultVals = ['quiet', 'none', 'rtsp', 'none', 'none', 'none', 'rtsp://131.95.3.162:554/axis-media/media.3gp', '4', 'an', 'copy', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'mjpeg', 'none', 'none', 'none'];
+        for (let i = 0, len = elementIds.length; i < len; i++) {
+            const elem = document.getElementById(elementIds[i]);
+            elem.value = defaultVals[i];
+            elem.dispatchEvent(new Event('change'));
+        }
+    }
+
+</script>
 
 </body>
 </html>

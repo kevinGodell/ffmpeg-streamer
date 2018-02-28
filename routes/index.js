@@ -181,14 +181,14 @@ router.post('/', function (req, res) {
                     if (rtspTransport !== 'none') {
                         params.push(...['-rtsp_transport', rtspTransport]);
                     }
-                    params.push(...['-i', inputUrl]);
+                    params.push(...['-use_wallclock_as_timestamps', '1', '-f', 'rtsp', '-i', inputUrl]);
                     break;
 
                 case 'mjpeg':
                     if (inputUrl.indexOf('http://') === -1 && inputUrl.indexOf('https://') === -1) {
                         return renderIndex(res, 'Input url must begin with http(s)://', values);
                     }
-                    params.push(...['-re', '-i', inputUrl]);
+                    params.push(...['-re', '-use_wallclock_as_timestamps', '1', '-f', 'mjpeg', '-i', inputUrl]);
                     break;
 
                 default:

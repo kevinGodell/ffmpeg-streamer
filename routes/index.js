@@ -26,15 +26,24 @@ function renderVideo(res, params) {
     });
 }
 
+function renderInstall(res) {
+    const app = res.app;
+    res.render('install', {
+        title: 'Dependency Error',
+        subTitle: 'FFMPEG not found on system.',
+        message: `Would you like to install ffmpeg in the current directory?`,
+        directory: app.get('dirName')
+    });
+}
+
+router.get('/install', function (req, res) {
+    renderInstall(res);
+});
+
 router.get('/', function (req, res) {
     const app = req.app;
-    if (!app.get('ffmpegVersion')) {
-        res.render('install', {
-            title: 'Dependency Error',
-            subTitle: 'FFMPEG not found on system.',
-            message: `Would you like to install ffmpeg in the current directory?`,
-            directory: app.get('dirName')
-        });
+    if (!app.get('ffmpegPath')) {
+        renderInstall(res);
         return;
     }
     const ffmpeg = app.get('ffmpeg');
@@ -79,8 +88,7 @@ router.post('/', function (req, res) {
                 }
                 console.log(data);
                 ffbinaries.clearCache();
-                const configure = require('../lib/configure');
-                configure(app);
+                const ffmpegConfig = require('../lib/ffmpegConfig')(app);
                 return renderIndex(res, null, null);
             });
             break;

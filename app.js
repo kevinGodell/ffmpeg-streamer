@@ -22,6 +22,7 @@ const mp4 = require('./routes/mp4');
 const mjpeg = require('./routes/mjpeg');
 const progress = require('./routes/progress');
 const assets = require('./routes/assets');
+
 const jpegSocket = require('./sockets/jpeg')(app, io);
 const mseSocket = require('./sockets/mse')(app, io);
 const progressSocket = require('./sockets/progress')(app, io);

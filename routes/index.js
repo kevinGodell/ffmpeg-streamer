@@ -50,7 +50,6 @@ router.get('/', function (req, res) {
     if (ffmpeg && ffmpeg.running) {
         return renderVideo(res, ffmpeg.params);
     }
-
     return renderIndex(res, null, values);
 });
 
@@ -69,29 +68,9 @@ router.post('/', function (req, res) {
                 title: 'GAME OVER',
                 message: 'Insert coin to continue'
             });
-            process.exit(0);
-            break;
+            return process.exit(0);
         case 'Stop':
             return renderIndex(res, null, values);
-        case 'Install':
-            const ffbinaries = require('ffbinaries');
-            ffbinaries.downloadFiles('ffmpeg', {quiet: true, destination: app.get('dirName')}, function (err, data) {
-                console.log('Installing ffmpeg...');
-                if (err) {
-                    console.error(err);
-                    res.render('error', {
-                        message: 'Ffmpeg installation failure',
-                        status: err,
-                        stack: ''
-                    });
-                    return;
-                }
-                console.log(data);
-                ffbinaries.clearCache();
-                const ffmpegConfig = require('../lib/ffmpegConfig')(app);
-                return renderIndex(res, null, null);
-            });
-            break;
         case 'Start':
 
             /* +++++++++ gather form input values ++++++++++ */
@@ -305,8 +284,7 @@ router.post('/', function (req, res) {
             } catch (error) {
                 return renderIndex(res, error.message, values);
             }
-            renderVideo(res, ffmpeg.params);
-            break;
+            return renderVideo(res, ffmpeg.params);
     }
 });
 

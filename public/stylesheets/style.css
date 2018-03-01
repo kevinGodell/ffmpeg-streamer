@@ -206,12 +206,12 @@ body {
     min-width: 500px;
 }
 
-.install .form input[value="Install"] {
+.install .form button[value="Install"] {
     width: 200px;
     height: 50px;
 }
 
-.install .form input[value="Exit"] {
+.install .form button[value="Exit"] {
     width: 200px;
     height: 50px;
 }

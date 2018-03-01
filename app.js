@@ -16,6 +16,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 
+const ffmpegConfig = require('./lib/ffmpegConfig');
+
 const index = require('./routes/index');
 const hls = require('./routes/hls');
 const mp4 = require('./routes/mp4');
@@ -27,15 +29,14 @@ const jpegSocket = require('./sockets/jpeg')(app, io);
 const mseSocket = require('./sockets/mse')(app, io);
 const progressSocket = require('./sockets/progress')(app, io);
 const m3u8Socket = require('./sockets/m3u8')(app, io);
+const installSocket = require('./sockets/install')(app, io);
 
-if (process.pkg && process.pkg.entrypoint) {
-    app.set('dirName', path.dirname(process.execPath));
-} else {
-    app.set('dirName', process.cwd());
-}
+const dirName = process.pkg && process.pkg.entrypoint ? path.dirname(process.execPath) : process.cwd();
+const ffmpeg = ffmpegConfig(dirName);
 
-const ffmpegConfig = require('./lib/ffmpegConfig')(app);
-
+app.set('dirName', dirName);
+app.set('ffmpegVersion', ffmpeg.version);
+app.set('ffmpegPath', ffmpeg.path);
 app.set('env', nodeEnv);
 app.set('port', port);
 app.set('io', io);
@@ -43,6 +44,7 @@ app.set('jpegSocket', jpegSocket);
 app.set('mseSocket', mseSocket);
 app.set('progressSocket', progressSocket);
 app.set('m3u8Socket', m3u8Socket);
+app.set('installSocket', installSocket);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

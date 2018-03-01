@@ -9,40 +9,47 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div class="install">
-        <div class="header">
-            <p><%= title %></p>
-            <p><%= subTitle %></p>
-        </div>
-        <div class="message" id="message">
-            <span><%= message %></span>
-            <br/>
-            <span><%= directory %></span>
-        </div>
-        <div class="form">
-            <form method="POST" action="/">
-                <button name="action" type="submit" value="Exit"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Exit</button>
-                <button id="install" name="action" type="button" value="Install"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Install</button>
-            </form>
-        </div>
+<div class="install">
+    <div class="header">
+        <p><%= title %></p>
+        <p><%= subTitle %></p>
     </div>
+    <div class="message" id="message">
+        <span><%= message %></span>
+        <br/>
+        <span><%= directory %></span>
+    </div>
+    <div class="form">
+        <form method="POST" action="/">
+            <button name="action" type="submit" value="Exit"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Exit
+            </button>
+            <button id="install" name="action" type="button" value="Install"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Install
+            </button>
+        </form>
+    </div>
+</div>
 <script>
     const message = document.getElementById('message');
-    const installSocket = io.connect(`${location.origin}/install`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
-    installSocket.on('connect_failed', ()=> {
+    const installSocket = io.connect(`${location.origin}/install`, {
+        transports: ['websocket'],
+        forceNew: false,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    installSocket.on('connect_failed', () => {
         message.innerText = 'Socket Connection failed.';
     });
-    installSocket.on('disconnect', ()=> {
+    installSocket.on('disconnect', () => {
         message.innerText = 'Socket Disconnect.';
     });
-    installSocket.on('error', ()=> {
+    installSocket.on('error', () => {
         message.innerText = 'Socket Error.';
     });
-    installSocket.on('connect', ()=> {
+    installSocket.on('connect', () => {
         const button = document.getElementById('install');
-        installSocket.on('status', (data)=> {
+        installSocket.on('status', (data) => {
             switch (data.type) {
                 case 'downloading':
                     message.innerText = 'Downloading...';
@@ -58,7 +65,7 @@
                     break;
             }
         });
-        button.addEventListener('click', ()=> {
+        button.addEventListener('click', () => {
             installSocket.emit('download');
         });
     });

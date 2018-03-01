@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/assets/material.red-orange.min.css">
     <script defer src="/assets/material.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <div class="install">
@@ -13,19 +14,54 @@
             <p><%= title %></p>
             <p><%= subTitle %></p>
         </div>
-        <div class="message">
+        <div class="message" id="message">
             <span><%= message %></span>
             <br/>
-            <span><%= directory%></span>
+            <span><%= directory %></span>
         </div>
         <div class="form">
-            <form id="index" method="POST" action="/">
-                <input name="action" type="submit" value="Exit"
-                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                <input name="action" type="submit" value="Install"
-                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            <form method="POST" action="/">
+                <button name="action" type="submit" value="Exit"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Exit</button>
+                <button id="install" name="action" type="button" value="Install"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Install</button>
             </form>
         </div>
     </div>
+<script>
+    const message = document.getElementById('message');
+    const installSocket = io.connect(`${location.origin}/install`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
+    installSocket.on('connect_failed', ()=> {
+        message.innerText = 'Socket Connection failed.';
+    });
+    installSocket.on('disconnect', ()=> {
+        message.innerText = 'Socket Disconnect.';
+    });
+    installSocket.on('error', ()=> {
+        message.innerText = 'Socket Error.';
+    });
+    installSocket.on('connect', ()=> {
+        const button = document.getElementById('install');
+        installSocket.on('status', (data)=> {
+            switch (data.type) {
+                case 'downloading':
+                    message.innerText = 'Downloading...';
+                    break;
+                case 'fail':
+                    message.innerText = 'Installation failed';
+                    break;
+                case 'complete':
+                    message.innerText = 'Complete';
+                    installSocket.disconnect();
+                    //window.location.href = '/';
+                    window.location.replace('/');
+                    break;
+            }
+        });
+        button.addEventListener('click', ()=> {
+            installSocket.emit('download');
+        });
+    });
+</script>
 </body>
 </html>

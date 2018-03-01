@@ -277,9 +277,10 @@ router.post('/', function (req, res) {
             pipe2jpeg = new P2J();
             app.set('pipe2jpeg', pipe2jpeg);
             try {
+                console.log(app.get('ffmpegPath'));
                 ffmpeg = new FR(
                     {
-                        path: 'ffmpeg',
+                        path: app.get('ffmpegPath'),
                         params: params,
                         logLevel: logLevel,
                         pipes: [

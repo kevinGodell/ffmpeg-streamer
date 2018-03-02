@@ -2,6 +2,7 @@
 
 **ffmpeg-streamer** is a packaged nodejs [express](https://github.com/expressjs/express) server that wraps `ffmpeg` to allow easy streaming of video feeds directly to ***modern*** browsers for testing purposes.
 It currently includes 6 different types of streaming which are *mjpeg*, *jpeg via socket.io*, *progressive mp4*, [*flv.js*](https://github.com/Bilibili/flv.js), [*hls.js*](https://github.com/video-dev/hls.js), and *media source via socket.io*.
+Input types supported are mjpeg and rtsp ip video streams.
 
 ### Installation
 **ffmpeg-streamer** has been packaged into an executable using [pkg](https://github.com/zeit/pkg).
@@ -74,3 +75,10 @@ npm run pkg
 If you have an idea for a new feature or have a problem, please do not hesitate to open an [issue](https://github.com/kevinGodell/ffmpeg-streamer/issues).
 For problems, please include information about what operating system the app is running on and which operating system and browser you are using to view it.
 Any additional details would be helpful.
+
+#### TODO
+* Add support for more input types such as local video hardware and artificially generated input
+* Add more ffmpeg settings to further customize the generated video for streaming
+* Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
+* Push ffmpeg stderr data to video web page instead of console
+* Improve playback of mse via socket.io

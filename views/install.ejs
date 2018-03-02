@@ -55,7 +55,7 @@
                     message.innerText = 'Downloading...';
                     break;
                 case 'fail':
-                    message.innerText = 'Installation failed';
+                    message.innerText = `Fail: ${data.msg}`;
                     break;
                 case 'complete':
                     message.innerText = 'Complete';

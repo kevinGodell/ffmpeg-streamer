@@ -6,12 +6,12 @@ const namespace = '/install';
 
 let downloading = false;
 
-module.exports = (app, io)=> {
+module.exports = (app, io) => {
     io
         .of(namespace)
-        .on('connection', (socket)=> {
-            socket.on('download', ()=> {
-                socket.emit('status', {type:'downloading'});
+        .on('connection', (socket) => {
+            socket.on('download', () => {
+                socket.emit('status', {type: 'downloading'});
                 //socket.broadcast.emit('status', {type:'downloading'});
                 if (downloading) {
                     return;
@@ -19,10 +19,10 @@ module.exports = (app, io)=> {
                 downloading = true;
                 ffbinaries.clearCache();
                 const dirName = app.get('dirName');
-                ffbinaries.downloadFiles('ffmpeg', {quiet: true, destination: dirName}, (err, data)=> {
+                ffbinaries.downloadFiles('ffmpeg', {quiet: true, destination: dirName}, (err, data) => {
                     if (err) {
-                        socket.emit('status', {type:'fail', msg: err});
-                        console.log(err);
+                        socket.emit('status', {type: 'fail', msg: err});
+                        console.error(err);
                     } else {
                         const ffmpeg = ffmpegConfig(dirName);
                         app.set('ffmpegVersion', ffmpeg.version);

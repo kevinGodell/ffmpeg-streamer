@@ -22,6 +22,7 @@ module.exports = (app, io)=> {
                 ffbinaries.downloadFiles('ffmpeg', {quiet: true, destination: dirName}, (err, data)=> {
                     if (err) {
                         socket.emit('status', {type:'fail', msg: err});
+                        console.log(err);
                     } else {
                         const ffmpeg = ffmpegConfig(dirName);
                         app.set('ffmpegVersion', ffmpeg.version);

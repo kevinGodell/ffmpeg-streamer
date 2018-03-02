@@ -244,7 +244,7 @@ router.post('/', function (req, res) {
 
             }
 
-            params.push(...['-f', 'image2pipe', 'pipe:4']);
+            params.push(...['-f', 'image2pipe', 'pipe:4']);//TODO -f mpjpeg -boundary_tag ffmpeg_streamer so that we can later pipe response
 
             mp4frag = new M4F({hlsBase: 'test', hlsListSize: mp4HlsListSize})
                 .on('error', (err)=> {

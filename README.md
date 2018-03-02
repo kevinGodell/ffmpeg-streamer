@@ -5,18 +5,18 @@ It currently includes 6 different types of streaming which are *mjpeg*, *jpeg vi
 
 ### Installation
 **ffmpeg-streamer** has been packaged into an executable using [pkg](https://github.com/zeit/pkg).
-The current binaries can be found on the [releases](https://github.com/kevinGodell/rtsp-cam-tester/releases) page.
+The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases) page.
 * The Windows binary is already executable and can be run simply by downloading and launching it.
 * Linux and Mac installation require the binary to be give executable permissions before it can run.
 
 ###### Downloading on Linux
 ```
-wget https://github.com/kevinGodell/rtsp-cam-tester/releases/download/v0.0.4/ip-cam-streamer-linux-x64
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.5/ffmpeg-streamer-linux-x64
 ```
 
 ###### Setting executable permissions on Linux
 ```
-chmod +x ip-cam-streamer-linux-x64
+chmod +x ffmpeg-streamer-linux-x64
 ```
 
 ### Usage
@@ -25,12 +25,12 @@ For command line usage on Mac or Linux, the following shows 2 options to run it.
 
 ###### Start the app from the command line
 ```
-./ip-cam-streamer-linux-x64
+./ffmpeg-streamer-linux-x64
 ```
 
 ###### Start the app from the command line via [pm2](https://github.com/Unitech/pm2)
 ```
-pm2 start ip-cam-streamer-linux-x64
+pm2 start ffmpeg-streamer-linux-x64
 ```
 After launching, you can use it via the web interface on port 8181.
 For example, if your are running it on your current machine, visit it in a ***modern*** browser via [http://localhost:8181](http://localhost:8181).
@@ -48,7 +48,7 @@ If it does find ffmpeg, but you would like to install a newer version, you can v
 
 ###### Clone the repo and move into the newly created directory
 ```
-git clone https://github.com/kevinGodell/rtsp-cam-tester.git && cd rtsp-cam-tester
+git clone https://github.com/kevinGodell/ffmpeg-streamer.git && cd ffmpeg-streamer
 ```
 
 ###### Install the module dependencies
@@ -71,6 +71,6 @@ npm run pkg
 ```
 
 #### Feature requests and problems
-If you have an idea for a new feature or have a problem, please do not hesitate to open an [issue](https://github.com/kevinGodell/rtsp-cam-tester/issues).
+If you have an idea for a new feature or have a problem, please do not hesitate to open an [issue](https://github.com/kevinGodell/ffmpeg-streamer/issues).
 For problems, please include information about what operating system the app is running on and which operating system and browser you are using to view it.
 Any additional details would be helpful.

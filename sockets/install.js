@@ -26,7 +26,7 @@ module.exports = (app, io)=> {
                         const ffmpeg = ffmpegConfig(dirName);
                         app.set('ffmpegVersion', ffmpeg.version);
                         app.set('ffmpegPath', ffmpeg.path);
-                        socket.emit('status', {type:'complete', msg: data});
+                        socket.emit('status', {type: 'complete'});
                     }
                     downloading = false;
                 });

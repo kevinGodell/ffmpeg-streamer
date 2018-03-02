@@ -162,7 +162,7 @@ router.post('/', function (req, res) {
                     break;
 
                 case 'rtsp':
-                    if (inputUrl.indexOf('rtsp://') === -1) {
+                    if (inputUrl.indexOf('rtsp://') !== 0) {
                         return renderIndex(res, 'Input url must begin with rtsp://', values);
                     }
                     if (rtspTransport !== 'none') {
@@ -172,7 +172,7 @@ router.post('/', function (req, res) {
                     break;
 
                 case 'mjpeg':
-                    if (inputUrl.indexOf('http://') === -1 && inputUrl.indexOf('https://') === -1) {
+                    if (inputUrl.indexOf('http://') !== 0 && inputUrl.indexOf('https://') !== 0) {
                         return renderIndex(res, 'Input url must begin with http(s)://', values);
                     }
                     params.push(...['-re', '-use_wallclock_as_timestamps', '1', '-f', 'mjpeg', '-i', inputUrl]);

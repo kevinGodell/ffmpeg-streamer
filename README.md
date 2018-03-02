@@ -82,3 +82,4 @@ Any additional details would be helpful.
 * Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
 * Push ffmpeg stderr data to video web page instead of console
 * Improve playback of mse via socket.io
+* Store previously used ffmpeg params in external conf.json file (possibly encoded to hide sensitive data)

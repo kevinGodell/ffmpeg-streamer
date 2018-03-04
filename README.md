@@ -76,6 +76,10 @@ If you have an idea for a new feature or have a problem, please do not hesitate 
 For problems, please include information about what operating system the app is running on and which operating system and browser you are using to view it.
 Any additional details would be helpful.
 
+#### Screenshots
+![screenshot1](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot1.png?raw=true "Main Screen")
+![screenshot2](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot2.png?raw=true "Video Player")
+
 #### TODO
 * Add support for more input types such as local video hardware and artificially generated input
 * Add more ffmpeg settings to further customize the generated video for streaming

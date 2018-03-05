@@ -4,22 +4,35 @@ const { Writable } = require('stream');
 const namespace = '/mse';
 
 module.exports = function(app, io) {
+
+    let clients = 0;
+
     io
         .of(namespace)
+
         .on('connection', (socket)=> {
+
+            clients = Object.keys(io.of(namespace).sockets).length;
+
             const mp4frag = app.get('mp4frag');
+
             if (!mp4frag) {
                 socket.disconnect();
                 return;
             }
+
             const writable = new Writable({
                 write(chunk, encoding, callback) {
                     //console.log('writable segment');
                     socket.emit('segment', chunk);
+                    //todo broadcast to all clients from single writable
+                    //io.of(namespace).emit('jpeg', chunk);
                     callback();
                 }
             });
+
             let timestamp = 0;
+
             socket.on('message', (msg)=> {
                 //console.log(`${namespace} message : ${msg}`);
                 switch (msg) {
@@ -77,11 +90,14 @@ module.exports = function(app, io) {
                         break;
                 }
             });
+
             socket.once('disconnect', ()=> {
+                clients = Object.keys(io.of(namespace).sockets).length;
                 //console.log('mse socket disconnect');
                 if (mp4frag && writable) {
                     mp4frag.unpipe(writable);
                 }
             });
+
         });
 };

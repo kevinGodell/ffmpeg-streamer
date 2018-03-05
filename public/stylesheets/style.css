@@ -88,11 +88,7 @@ body {
     grid-template-rows: 1fr 1fr auto auto;
     grid-template-columns: 1fr 1fr 1fr auto;
     grid-gap: 2px;
-    grid-template-areas:
-            "mjpeg mp4 hls m3u8"
-            "jpeg flv mse progress"
-            "params params params mime"
-            "form form form form";
+    grid-template-areas: "mjpeg mp4 hls m3u8" "jpeg flv mse progress" "params params params mime" "form form form form";
     font-size: small;
 }
 
@@ -170,7 +166,7 @@ body {
     justify-items: left;
 }
 
-.video .m3u8 span, .video .progress span, .video div.mime span  {
+.video .m3u8 span, .video .progress span, .video div.mime span {
     white-space: nowrap;
 }
 
@@ -212,6 +208,48 @@ body {
 }
 
 .install .form button[value="Exit"] {
+    width: 200px;
+    height: 50px;
+}
+
+.activity {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 98vw;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+    grid-gap: 2px;
+    font-size: small;
+}
+
+.activity div {
+    border: solid darkblue 1px;
+    background: lightskyblue;
+    text-align: center;
+    padding: 2px;
+}
+
+.activity .message {
+    background: yellow;
+    color: red;
+    border: 1px solid red;
+}
+
+.activity .form {
+    border-style: none;
+    background: none;
+    min-width: 500px;
+}
+
+.activity .form button[value="Create"] {
+    width: 200px;
+    height: 50px;
+}
+
+.activity .form button[value="Destroy"] {
     width: 200px;
     height: 50px;
 }

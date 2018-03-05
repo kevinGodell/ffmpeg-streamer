@@ -16,8 +16,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 
-const ffmpegConfig = require('./lib/ffmpegConfig');
-
 const index = require('./routes/index');
 const hls = require('./routes/hls');
 const mp4 = require('./routes/mp4');
@@ -32,11 +30,13 @@ const m3u8Socket = require('./sockets/m3u8')(app, io);
 const installSocket = require('./sockets/install')(app, io);
 
 const dirName = process.pkg && process.pkg.entrypoint ? path.dirname(process.execPath) : process.cwd();
-const ffmpeg = ffmpegConfig(dirName);
+const ffmpeg = require('./lib/ffmpegConfig')(dirName);
+const activity = require('./lib/activityLog')(dirName);
 
 app.set('dirName', dirName);
 app.set('ffmpegVersion', ffmpeg.version);
 app.set('ffmpegPath', ffmpeg.path);
+app.set('activity', activity);
 app.set('env', nodeEnv);
 app.set('port', port);
 app.set('io', io);
@@ -55,7 +55,7 @@ if (nodeEnv === 'development') {
     app.use(logger('dev'));//logs all requests to console
 }
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/', index);
 app.use('/hls', hls);
@@ -65,14 +65,14 @@ app.use('/progress', progress);
 app.use('/assets', assets);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
-  const err = new Error('Not Found');
-  console.error(`${req.url} not found.`);
-  err.status = 404;
-  next(err);
+app.use(function (req, res, next) {
+    const err = new Error('Not Found');
+    console.error(`${req.url} not found.`);
+    err.status = 404;
+    next(err);
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,

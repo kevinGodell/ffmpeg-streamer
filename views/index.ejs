@@ -65,7 +65,7 @@
 
     <div class="input">
         <select id="inputType" name="inputType" form="index">
-            <% var inputTypeArr = [/*'artificial',*/'rtsp', 'mjpeg'/*,'local'*/]; %>
+            <% var inputTypeArr = [/*'artificial',*/'rtsp', 'mjpeg', 'hls', 'mp4'/*,'local'*/]; %>
             <% for (var i = 0; i < inputTypeArr.length; i++) { %>
             <option value="<%= inputTypeArr[i] %>"><%= inputTypeArr[i] %></option>
             <% } %>
@@ -364,6 +364,8 @@
                 }
                 break;
             case 'mjpeg':
+            case 'hls':
+            case 'mp4':
                 for (let i = 0; i < elems.length; i++) {
                     elems[i].style.display = 'none';
                 }

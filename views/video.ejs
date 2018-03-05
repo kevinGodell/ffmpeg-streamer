@@ -14,29 +14,29 @@
 <div class="video">
     <div class="mp4">
         <p>mp4 via http <a href="/mp4/test.mp4">test.mp4</a></p>
-        <video id="mp4" autoplay>
+        <video id="mp4Video" muted controls autoplay>
             <source src="/mp4/test.mp4" type="video/mp4">
         </video>
     </div>
     <div class="flv">
         <p>flv.js via http <a href="/mp4/test.mp4">test.mp4</a></p>
-        <video id="flv"></video>
+        <video id="flvVideo" muted controls autoplay></video>
     </div>
     <div class="hls">
         <p>hls.js via http <a href="/hls/test.m3u8">test.m3u8</a></p>
-        <video id="hls"></video>
+        <video id="hlsVideo" muted controls autoplay></video>
     </div>
     <div class="mjpeg">
         <p>mjpeg via http <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
-        <img id="mjpeg" src="/mjpeg/test.mjpg"/>
+        <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
     </div>
     <div class="jpeg">
         <p>jpeg via socket.io</p>
-        <img id="jpeg"/>
+        <img id="jpegImg"/>
     </div>
     <div class="mse">
         <p>mse via socket.io</p>
-        <video id="mse"></video>
+        <video id="mseVideo" muted controls autoplay></video>
     </div>
     <div class="m3u8">
         <span id="m3u8">playlist...</span>
@@ -53,93 +53,106 @@
     </div>
     <div class="form">
         <form method="POST" action="/">
-            <input name="action" type="submit" value="Exit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-            <input name="action" type="submit" value="Stop" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            <input name="action" type="submit" value="Exit"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            <input name="action" type="submit" value="Stop"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
         </form>
     </div>
 </div>
 <script>
     if (flvjs.isSupported()) {
-        var videoElement = document.getElementById('flv');
-        var flvPlayer = flvjs.createPlayer({
+        const flvVideo = document.getElementById('flvVideo');
+        const flvPlayer = flvjs.createPlayer({
             type: 'mp4',
             url: '/mp4/test.mp4',
             isLive: true
         });
-        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.attachMediaElement(flvVideo);
         flvPlayer.load();
         flvPlayer.play();
     }
 </script>
 <script>
     if (Hls.isSupported()) {
-        var video = document.getElementById('hls');
-        var hls = new Hls();
+        const hlsVideo = document.getElementById('hlsVideo');
+        const hls = new Hls();
         hls.loadSource('/hls/test.m3u8');
-        hls.attachMedia(video);
+        hls.attachMedia(hlsVideo);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.play();
-        });
-    }
-    // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
-    // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
-    // This is using the built-in support of the plain video element, without using hls.js.
-    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = '/hls/test.m3u8';
-        video.addEventListener('canplay', function () {
-            video.play();
+            hlsVideo.play();
         });
     }
 </script>
 <script>
-    var jpegSocket = io.connect(`${location.origin}/jpeg`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
-    var jpeg = document.getElementById('jpeg');
-    jpegSocket.on('jpeg', function(data) {
-        var arrayBufferView = new Uint8Array(data);
-        var blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
-        var urlCreator = window.URL || window.webkitURL;
-        var imageUrl = urlCreator.createObjectURL(blob);
-        jpeg.src = imageUrl;
+    const jpegSocket = io.connect(`${location.origin}/jpeg`, {
+        transports: ['websocket'],
+        forceNew: false,
+        reconnection: true,
+        reconnectionDelay: 500
     });
-    jpegSocket.on('close', ()=> {
+    const jpegImg = document.getElementById('jpegImg');
+    jpegSocket.on('jpeg', function (data) {
+        const arrayBufferView = new Uint8Array(data);
+        const blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
+        const urlCreator = window.URL || window.webkitURL;
+        const imageUrl = urlCreator.createObjectURL(blob);
+        jpegImg.src = imageUrl;
+    });
+    /*jpegSocket.on('close', () => {
         console.log('received close event');
     });
-    jpegSocket.on('disconnect', ()=> {
+    jpegSocket.on('disconnect', () => {
         console.log('received disconnect event');
-    });
+    });*/
 </script>
 <script>
-    var progressSocket = io.connect(`${location.origin}/progress`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
-    var progress = document.getElementById('progress');
-    progressSocket.on('progress', function(data) {
+    const progressSocket = io.connect(`${location.origin}/progress`, {
+        transports: ['websocket'],
+        forceNew: false,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    const progress = document.getElementById('progress');
+    progressSocket.on('progress', function (data) {
         progress.innerText = data.toString();
     });
-    setInterval(function() {
+    setInterval(function () {
         progressSocket.emit('request');
     }, 1000);
 </script>
 <script>
-    var m3u8Socket = io.connect(`${location.origin}/m3u8`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
-    var m3u8 = document.getElementById('m3u8');
-    m3u8Socket.on('m3u8', function(data) {
+    const m3u8Socket = io.connect(`${location.origin}/m3u8`, {
+        transports: ['websocket'],
+        forceNew: false,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    const m3u8 = document.getElementById('m3u8');
+    m3u8Socket.on('m3u8', function (data) {
         m3u8.innerText = data.toString();
     });
-    setInterval(function() {
+    setInterval(function () {
         m3u8Socket.emit('request');
     }, 1000);
 </script>
 <script>
-    var mimeSocket = io.connect(`${location.origin}/mse`, {transports: ['websocket'], forceNew: false, reconnection: true, reconnectionDelay: 500});
-    var mime = document.getElementById('mime');
+    const mimeSocket = io.connect(`${location.origin}/mse`, {
+        transports: ['websocket'],
+        forceNew: false,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    const mime = document.getElementById('mime');
     mimeSocket.on('mime', function (data) {
-        var type = data.toString().toLowerCase();
-        var message = type;
-        if (MediaSource) {
+        const type = data.toString().toLowerCase();
+        let message = type;
+        if ('MediaSource' in window) {
             message += '\nMediaSource.isTypeSupported = ' + MediaSource.isTypeSupported(type);
         } else {
             message += '\nMediaSource not supported by browser';
         }
-        var vid = document.createElement('video');
+        const vid = document.createElement('video');
         message += '\nHTMLMediaElement.canPlayType = ' + vid.canPlayType(type);
         mime.innerText = message;
         mimeSocket.disconnect();
@@ -148,7 +161,12 @@
 </script>
 <script src="/javascripts/player.min.js"></script>
 <script>
-    var msePlayer = new VideoPlayer({video: document.getElementById('mse'), io: io, namespace: 'mse', controls: ''}).start();
+    const msePlayer = new VideoPlayer({
+        video: document.getElementById('mseVideo'),
+        io: io,
+        namespace: 'mse',
+        controls: ''
+    }).start();
 </script>
 </body>
 </html>

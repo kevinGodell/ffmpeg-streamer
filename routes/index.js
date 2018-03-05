@@ -184,7 +184,9 @@ router.post('/', function (req, res) {
                 params.push(...['-probesize', probeSize]);
             }
 
-            params.push(...['-fflags', '+nobuffer', '-re']);
+            //params.push(...['-fflags', '+nobuffer', '-re']);
+
+            params.push(...['-re']);
 
             switch (inputType) {
 
@@ -338,3 +340,5 @@ module.exports = router;
 //http://222.100.79.51:50000/nphMotionJpeg?Resolution=640x480&Quality=High
 //http://119.195.110.154/mjpg/video.mjpg
 //http://68.118.68.116/-wvhttp-01-/GetOneShot?image_size=640x480&frame_count=no_limit
+//https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8
+//http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8

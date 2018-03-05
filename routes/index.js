@@ -36,8 +36,22 @@ function renderInstall(res) {
     });
 }
 
+function renderActivity(res) {
+    const app = res.app;
+    res.render('activity', {
+        title: 'Activity Logging',
+        subTitle: 'Save a list of most recent parameters.',
+        message: `Would you like to create or destroy the activity log?`,
+        directory: app.get('dirName')
+    });
+}
+
 router.get('/install', function (req, res) {
     renderInstall(res);
+});
+
+router.get('/activity', function (req, res) {
+    renderActivity(res);
 });
 
 router.get('/', function (req, res) {
@@ -50,11 +64,16 @@ router.get('/', function (req, res) {
     if (ffmpeg && ffmpeg.running) {
         return renderVideo(res, ffmpeg.params);
     }
-    return renderIndex(res, null, values);
+    const activity = app.get('activity');
+    if (activity.running && activity.lastActivity) {
+        return renderIndex(res, 'Previous session loaded.', activity.lastActivity);
+    }
+    return renderIndex(res, null, null);
 });
 
 router.post('/', function (req, res) {
     const app = req.app;
+    const activity = app.get('activity');
     let ffmpeg = app.get('ffmpeg');
     let mp4frag = app.get('mp4frag');
     let pipe2jpeg = app.get('pipe2jpeg');
@@ -63,6 +82,12 @@ router.post('/', function (req, res) {
     }
     const body = req.body;
     switch (body.action) {
+        case 'Create':
+            activity.create();
+            return renderIndex(res, null, values);
+        case 'Destroy':
+            activity.destroy();
+            return renderIndex(res, null, values);
         case 'Exit':
             res.render('exit', {
                 title: 'GAME OVER',
@@ -72,6 +97,10 @@ router.post('/', function (req, res) {
         case 'Stop':
             return renderIndex(res, null, values);
         case 'Start':
+
+            if (activity.running) {
+                activity.add(body);
+            }
 
             /* +++++++++ gather form input values ++++++++++ */
 
@@ -155,10 +184,26 @@ router.post('/', function (req, res) {
                 params.push(...['-probesize', probeSize]);
             }
 
+            params.push(...['-fflags', '+nobuffer', '-re']);
+
             switch (inputType) {
 
                 case 'artificial':
-                    params.push(...['-re', '-f', 'lavfi', '-i', 'testsrc=size=1280x720:rate=15']);
+                    params.push(...['-f', 'lavfi', '-i', 'testsrc=size=1280x720:rate=15']);
+                    break;
+
+                case 'mp4':
+                    if (inputUrl.indexOf('http://') !== 0 && inputUrl.indexOf('https://') !== 0) {
+                        return renderIndex(res, 'Input url must begin with http(s)://', values);
+                    }
+                    params.push(...['-f', 'mp4', '-i', inputUrl]);
+                    break;
+
+                case 'hls':
+                    if (inputUrl.indexOf('http://') !== 0 && inputUrl.indexOf('https://') !== 0) {
+                        return renderIndex(res, 'Input url must begin with http(s)://', values);
+                    }
+                    params.push(...['-f', 'hls', '-i', inputUrl]);
                     break;
 
                 case 'rtsp':
@@ -175,7 +220,7 @@ router.post('/', function (req, res) {
                     if (inputUrl.indexOf('http://') !== 0 && inputUrl.indexOf('https://') !== 0) {
                         return renderIndex(res, 'Input url must begin with http(s)://', values);
                     }
-                    params.push(...['-re', '-use_wallclock_as_timestamps', '1', '-f', 'mjpeg', '-i', inputUrl]);
+                    params.push(...['-use_wallclock_as_timestamps', '1', '-f', 'mjpeg', '-i', inputUrl]);
                     break;
 
                 default:
@@ -247,11 +292,11 @@ router.post('/', function (req, res) {
             params.push(...['-f', 'image2pipe', 'pipe:4']);//TODO -f mpjpeg -boundary_tag ffmpeg_streamer so that we can later pipe response
 
             mp4frag = new M4F({hlsBase: 'test', hlsListSize: mp4HlsListSize})
-                .on('error', (err)=> {
-                console.error(err.message);
-                //console.log(ffmpeg.running);
-                //ffmpeg.stop();
-            });
+                .on('error', (err) => {
+                    console.error(err.message);
+                    //console.log(ffmpeg.running);
+                    //ffmpeg.stop();
+                });
             app.set('mp4frag', mp4frag);
             pipe2jpeg = new P2J();
             app.set('pipe2jpeg', pipe2jpeg);
@@ -276,7 +321,7 @@ router.post('/', function (req, res) {
                             mp4frag.resetCache();
                         }
                     })
-                    .on('fail', (msg)=> {
+                    .on('fail', (msg) => {
                         console.log('fail', msg);
                     })
                     .start();

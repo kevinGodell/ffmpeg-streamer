@@ -5,15 +5,10 @@ const namespace = '/jpeg';
 
 module.exports = function (app, io) {
 
-    //let writable;
-    let clients = 0;
-
     io
         .of(namespace)
 
         .on('connection', (socket) => {
-
-            clients = Object.keys(io.of(namespace).sockets).length;
 
             const pipe2jpeg = app.get('pipe2jpeg');
 
@@ -26,27 +21,19 @@ module.exports = function (app, io) {
                 socket.emit('jpeg', pipe2jpeg.jpeg);
             }
 
-            //if (!writable) {
+            const writable = new Writable({
+                write(chunk, encoding, callback) {
+                    socket.emit('jpeg', chunk);
+                    callback();
+                }
+            });
 
-                const writable = new Writable({
-                    write(chunk, encoding, callback) {
-                        //io.of(namespace).emit('jpeg', chunk);
-                        socket.emit('jpeg', chunk);
-                        callback();
-                    }
-                });
-
-                pipe2jpeg.pipe(writable);
-
-            //}
+            pipe2jpeg.pipe(writable);
 
             socket.once('disconnect', () => {
 
-                clients = Object.keys(io.of(namespace).sockets).length;
-
-                if (pipe2jpeg && writable/* && clients < 1*/) {
+                if (pipe2jpeg && writable) {
                     pipe2jpeg.unpipe(writable);
-                    //writable = null;
                 }
 
             });

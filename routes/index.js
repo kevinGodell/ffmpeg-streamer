@@ -299,8 +299,10 @@ router.post('/', function (req, res) {
                     //console.log(ffmpeg.running);
                     //ffmpeg.stop();
                 });
+            mp4frag.setMaxListeners(30);
             app.set('mp4frag', mp4frag);
             pipe2jpeg = new P2J();
+            pipe2jpeg.setMaxListeners(30);
             app.set('pipe2jpeg', pipe2jpeg);
             try {
                 ffmpeg = new FR(

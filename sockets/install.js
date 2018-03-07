@@ -19,7 +19,7 @@ module.exports = (app, io) => {
                 downloading = true;
                 ffbinaries.clearCache();
                 const dirName = app.get('dirName');
-                ffbinaries.downloadFiles('ffmpeg', {quiet: true, destination: dirName}, (err, data) => {
+                ffbinaries.downloadBinaries('ffmpeg', {quiet: true, destination: dirName, force: true}, (err, data) => {
                     if (err) {
                         socket.emit('status', {type: 'fail', msg: err});
                         console.error(err);

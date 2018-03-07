@@ -37,6 +37,7 @@ After launching, you can use it via the web interface on port 8181.
 For example, if your are running it on your current machine, visit it in a ***modern*** browser via [http://localhost:8181](http://localhost:8181).
 If port 8181 was already in use, it will keep incrementing the port number by 1 until it finds one available.
 You can launch multiple copies of the app up to a total of 10, each listening on its own port.
+If you would like to store your last used settings, go to [http://localhost:8181/activity](http://localhost:8181/activity) and click the "create" button to use the activity log.
 
 #### Dependencies
 **Ffmpeg** is the only external software required to run the app.
@@ -81,9 +82,9 @@ Any additional details would be helpful.
 ![screenshot2](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot2.png?raw=true "Video Player")
 
 #### TODO
-* Add support for more input types such as local video hardware and artificially generated input
+* Add support for more input types such as local video hardware and artificially generated input - now supports rtsp, mp4, mjpeg, and hls
 * Add more ffmpeg settings to further customize the generated video for streaming
 * Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
 * Push ffmpeg stderr data to video web page instead of console
 * Improve playback of mse via socket.io
-* Store previously used ffmpeg params in external conf.json file (possibly encoded to hide sensitive data)
+* Store previously used ffmpeg params in external conf.json file (possibly encoded to hide sensitive data) -partial support added to save most recent set of params

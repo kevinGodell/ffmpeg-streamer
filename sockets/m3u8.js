@@ -14,9 +14,13 @@ module.exports = function(app, io) {
             if (mp4frag.m3u8) {
                 socket.emit('m3u8', mp4frag.m3u8);
             }
-            socket.on('request', function() {
-                if (mp4frag.m3u8) {
+            const emitM3u8 = () => {
                     socket.emit('m3u8', mp4frag.m3u8);
+            };
+            socket.on('m3u8Request', emitM3u8);
+            socket.once('disconnect', () => {
+                if (socket) {
+                    socket.removeListener('m3u8Request', emitM3u8);
                 }
             });
         });

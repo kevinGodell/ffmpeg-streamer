@@ -14,9 +14,13 @@ module.exports = function(app, io) {
             if (ffmpeg.progress) {
                 socket.emit('progress', ffmpeg.progress);
             }
-            socket.on('request', function() {
-                if (ffmpeg.progress) {
-                    socket.emit('progress', ffmpeg.progress);
+            const emitProgress = () => {
+                socket.emit('progress', ffmpeg.progress);
+            };
+            socket.on('progressRequest', emitProgress);
+            socket.once('disconnect', () => {
+                if (socket) {
+                    socket.removeListener('progressRequest', emitProgress);
                 }
             });
         });

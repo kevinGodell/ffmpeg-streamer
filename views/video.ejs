@@ -111,7 +111,7 @@
         progress.innerText = data.toString();
     });
     setInterval(() => {
-        progressSocket.emit('request');
+        progressSocket.emit('progressRequest');
     }, 1000);
 </script>
 <script>
@@ -160,6 +160,31 @@
         namespace: 'mse',
         controls: ''
     }).start();
+</script>
+<script>
+
+    const stderrSocket = io.connect(`${location.origin}/stderr`, {
+        transports: ['websocket'],
+        forceNew: false,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+
+    const stderr = document.getElementById('stderr');
+
+    stderrSocket.on('stderr', function (data) {
+        //stderr.innerText = data.toString();
+        //will have to add to stderr, and truncate if too long
+    });
+
+    //setInterval(function () {
+        //m3u8Socket.emit('request');
+    //}, 1000);
+
+    //not interval, full data stream, might be alot of data to manage
+
+    stderrSocket.emit('requestStderr');
+
 </script>
 </body>
 </html>

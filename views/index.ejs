@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/assets/material.red-orange.min.css">
+    <link rel="stylesheet" href="/assets/material.red-orange.min.css"/>
     <script defer src="/assets/material.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
@@ -52,8 +51,8 @@
 
     <div class="input">
         <select id="hwAccel" name="hwAccel" form="index">
-            <% var hwAccelArr = ['none', 'auto', 'videotoolbox']; %>
-            <% for (var i = 0; i < hwAccelArr.length; i++) { %>
+            <% const hwAccelArr = ['none', 'auto', 'videotoolbox']; %>
+            <% for (let i = 0; i < hwAccelArr.length; i++) { %>
             <option value="<%= hwAccelArr[i] %>"><%= hwAccelArr[i] %></option>
             <% } %>
         </select>
@@ -65,8 +64,8 @@
 
     <div class="input">
         <select id="inputType" name="inputType" form="index">
-            <% var inputTypeArr = [/*'artificial',*/'rtsp', 'mjpeg', 'hls', 'mp4'/*,'local'*/]; %>
-            <% for (var i = 0; i < inputTypeArr.length; i++) { %>
+            <% const inputTypeArr = [/*'artificial',*/'rtsp', 'mjpeg', 'hls', 'mp4'/*,'local'*/]; %>
+            <% for (let i = 0; i < inputTypeArr.length; i++) { %>
             <option value="<%= inputTypeArr[i] %>"><%= inputTypeArr[i] %></option>
             <% } %>
         </select>
@@ -77,9 +76,9 @@
     </div>
 
     <div class="input">
-        <select id="analyzeDuration" name="analyzeDuration" form="index" value="1000000">
+        <select id="analyzeDuration" name="analyzeDuration" form="index">
             <option value="none">none</option>
-            <% for (var i = 0; i < 11; i++) { %>
+            <% for (let i = 0; i < 11; i++) { %>
             <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
             <% } %>
         </select>
@@ -92,7 +91,7 @@
     <div class="input">
         <select id="probeSize" name="probeSize" form="index">
             <option value="none">none</option>
-            <% for (var i = 5; i < 21; i++) { %>
+            <% for (let i = 5; i < 21; i++) { %>
             <option value="<%= 2 ** i %>"><%= 2 ** i %> bytes</option>
             <% } %>
         </select>
@@ -104,8 +103,8 @@
 
     <div class="input rtspTransport">
         <select id="rtspTransport" name="rtspTransport" form="index">
-            <% var rtspTransportArr = ['none', 'tcp', 'udp', 'http']; %>
-            <% for (var i = 0; i < rtspTransportArr.length; i++) { %>
+            <% const rtspTransportArr = ['none', 'tcp', 'udp', 'http']; %>
+            <% for (let i = 0; i < rtspTransportArr.length; i++) { %>
             <option value="<%= rtspTransportArr[i] %>"><%= rtspTransportArr[i] %></option>
             <% } %>
         </select>
@@ -131,7 +130,7 @@
 
     <div class="input">
         <select id="mp4HlsListSize" name="mp4HlsListSize" form="index">
-            <% for (var i = 2; i < 6; i++) { %>
+            <% for (let i = 2; i < 6; i++) { %>
             <option value="<%= i %>"><%= i %></option>
             <% } %>
         </select>
@@ -154,8 +153,8 @@
 
     <div class="input">
         <select id="mp4VideoCodec" name="mp4VideoCodec" form="index">
-            <% var mp4VideoCodecArr = ['copy', 'libx264'/*,'libx264rgb','h264_videotoolbox'*/]; %>
-            <% for (var i = 0; i < mp4VideoCodecArr.length; i++) { %>
+            <% const mp4VideoCodecArr = ['copy', 'libx264'/*,'libx264rgb','h264_videotoolbox'*/]; %>
+            <% for (let i = 0; i < mp4VideoCodecArr.length; i++) { %>
             <option value="<%= mp4VideoCodecArr[i] %>"><%= mp4VideoCodecArr[i] %></option>
             <% } %>
         </select>
@@ -168,7 +167,7 @@
     <div class="input mp4VideoCodec">
         <select id="mp4Rate" name="mp4Rate" form="index">
             <option value="none">none</option>
-            <% for (var i = 1; i < 31; i++) { %>
+            <% for (let i = 1; i < 31; i++) { %>
             <option value="<%= i %>"><%= i %> fps</option>
             <% } %>
         </select>
@@ -181,7 +180,7 @@
     <div class="input mp4VideoCodec">
         <select id="mp4Scale" name="mp4Scale" form="index">
             <option value="none">none</option>
-            <% for (var i = 10; i < 101; i++) { %>
+            <% for (let i = 10; i < 101; i++) { %>
             <option value="<%= i / 100 %>"><%= i %> %</option>
             <% } %>
         </select>
@@ -193,8 +192,8 @@
 
         <div class="input">
             <select id="mp4PixFmt" name="mp4PixFmt" form="index">
-                <% var mp4PixFmtArr = ['yuv420p', 'yuvj420p', 'yuv410p', 'yuv411p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
-                <% for (var i = 0; i < mp4PixFmtArr.length; i++) { %>
+                <% const mp4PixFmtArr = ['yuv420p', 'yuvj420p', 'yuv410p', 'yuv411p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
+                <% for (let i = 0; i < mp4PixFmtArr.length; i++) { %>
                 <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4PixFmtArr[i] %>"><%= mp4PixFmtArr[i] %></option>
                 <% } %>
             </select>
@@ -207,7 +206,7 @@
     <div class="input mp4VideoCodec">
         <select id="fragDuration" name="fragDuration" form="index">
             <option value="none">none</option>
-            <% for (var i = 1; i < 11; i++) { %>
+            <% for (let i = 1; i < 11; i++) { %>
             <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
             <% } %>
         </select>
@@ -220,7 +219,7 @@
     <div class="input mp4VideoCodec">
         <select id="mp4Crf" name="mp4Crf" form="index">
             <option value="none">none</option>
-            <% for (var i = 0; i < 52; i++) { %>
+            <% for (let i = 0; i < 52; i++) { %>
             <option value="<%= i %>"><%= i %></option>
             <% } %>
         </select>
@@ -232,8 +231,8 @@
 
     <div class="input mp4VideoCodec">
         <select id="mp4Preset" name="mp4Preset" form="index">
-            <% var mp4PresetArr = ['none', 'medium', 'fast', 'faster', 'veryfast', 'superfast', 'ultrafast']; %>
-            <% for (var i = 0; i < mp4PresetArr.length; i++) { %>
+            <% const mp4PresetArr = ['none', 'medium', 'fast', 'faster', 'veryfast', 'superfast', 'ultrafast']; %>
+            <% for (let i = 0; i < mp4PresetArr.length; i++) { %>
             <option value="<%= mp4PresetArr[i] %>"><%= mp4PresetArr[i] %></option>
             <% } %>
         </select>
@@ -245,8 +244,8 @@
 
     <div class="input mp4VideoCodec">
         <select id="mp4Profile" name="mp4Profile" form="index">
-            <% var mp4ProfileArr = ['none', 'baseline', 'main', 'high'/*,'high10','high422','high444'*/]; %>
-            <% for (var i = 0; i < mp4ProfileArr.length; i++) { %>
+            <% const mp4ProfileArr = ['none', 'baseline', 'main', 'high'/*,'high10','high422','high444'*/]; %>
+            <% for (let i = 0; i < mp4ProfileArr.length; i++) { %>
             <option value="<%= mp4ProfileArr[i] %>"><%= mp4ProfileArr[i] %></option>
             <% } %>
         </select>
@@ -258,8 +257,8 @@
 
     <div class="input mp4VideoCodec">
         <select id="mp4Level" name="mp4Level" form="index">
-            <% var mp4LevelArr = ['none', '3.0', '3.1', '4.0', '4.1', '4.2']; %>
-            <% for (var i = 0; i < mp4LevelArr.length; i++) { %>
+            <% const mp4LevelArr = ['none', '3.0', '3.1', '4.0', '4.1', '4.2']; %>
+            <% for (let i = 0; i < mp4LevelArr.length; i++) { %>
             <option value="<%= mp4LevelArr[i] %>"><%= mp4LevelArr[i] %></option>
             <% } %>
         </select>
@@ -277,8 +276,8 @@
 
     <div class="input">
         <select id="jpegCodec" name="jpegCodec" form="index">
-            <% var jpegCodecArr = ['copy', 'mjpeg']; %>
-            <% for (var i = 0; i < jpegCodecArr.length; i++) { %>
+            <% const jpegCodecArr = ['copy', 'mjpeg']; %>
+            <% for (let i = 0; i < jpegCodecArr.length; i++) { %>
             <option value="<%= jpegCodecArr[i] %>"><%= jpegCodecArr[i] %></option>
             <% } %>
         </select>
@@ -291,7 +290,7 @@
     <div class="input jpegCodec">
         <select id="jpegRate" name="jpegRate" form="index">
             <option value="none">none</option>
-            <% for (var i = 1; i < 31; i++) { %>
+            <% for (let i = 1; i < 31; i++) { %>
             <option value="<%= i %>"><%= i %> fps</option>
             <% } %>
         </select>
@@ -304,7 +303,7 @@
     <div class="input jpegCodec">
         <select id="jpegScale" name="jpegScale" form="index">
             <option value="none">none</option>
-            <% for (var i = 10; i < 101; i++) { %>
+            <% for (let i = 10; i < 101; i++) { %>
             <option value="<%= i / 100 %>"><%= i %> %</option>
             <% } %>
         </select>
@@ -317,7 +316,7 @@
     <div class="input jpegCodec">
         <select id="jpegQuality" name="jpegQuality" form="index">
             <option value="none">none</option>
-            <% for (var i = 1; i < 32; i++) { %>
+            <% for (let i = 1; i < 32; i++) { %>
             <option value="<%= i %>"><%= i %></option>
             <% } %>
         </select>
@@ -326,9 +325,9 @@
     <div class="form">
         <form id="index" method="POST" action="/">
             <input name="action" type="submit" value="Start"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
             <input name="action" type="submit" value="Exit"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
         </form>
     </div>
 
@@ -421,7 +420,7 @@
             elem.dispatchEvent(new Event('change'));
         }
     } else {
-        const defaultVals = ['quiet', 'auto', 'hls', '10000000', '1048576', 'none', 'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8', '3', 'aac', 'copy', '7', '0.75', '1000000', 'none', 'none', 'none', 'none', 'mjpeg', '7', '0.75', '10'];
+        const defaultVals = ['quiet', 'auto', 'hls', '10000000', '1048576', 'tcp', 'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8', '3', 'aac', 'copy', '7', '0.75', '1000000', '10', 'none', 'none', 'none', 'mjpeg', '7', '0.75', '10'];
         for (let i = 0, len = elementIds.length; i < len; i++) {
             const elem = document.getElementById(elementIds[i]);
             elem.value = defaultVals[i];

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/assets/material.red-orange.min.css">
+    <link rel="stylesheet" href="/assets/material.red-orange.min.css"/>
     <script defer src="/assets/material.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script src="/assets/flv.min.js"></script>
@@ -54,9 +53,9 @@
     <div class="form">
         <form method="POST" action="/">
             <input name="action" type="submit" value="Exit"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
             <input name="action" type="submit" value="Stop"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
         </form>
     </div>
 </div>
@@ -85,13 +84,13 @@
     }
 </script>
 <script>
+    const jpegImg = document.getElementById('jpegImg');
     const jpegSocket = io.connect(`${location.origin}/jpeg`, {
         transports: ['websocket'],
         forceNew: false,
         reconnection: true,
         reconnectionDelay: 500
     });
-    const jpegImg = document.getElementById('jpegImg');
     jpegSocket.on('jpeg', function (data) {
         const arrayBufferView = new Uint8Array(data);
         const blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
@@ -99,36 +98,30 @@
         const imageUrl = urlCreator.createObjectURL(blob);
         jpegImg.src = imageUrl;
     });
-    /*jpegSocket.on('close', () => {
-        console.log('received close event');
-    });
-    jpegSocket.on('disconnect', () => {
-        console.log('received disconnect event');
-    });*/
 </script>
 <script>
+    const progress = document.getElementById('progress');
     const progressSocket = io.connect(`${location.origin}/progress`, {
         transports: ['websocket'],
         forceNew: false,
         reconnection: true,
         reconnectionDelay: 500
     });
-    const progress = document.getElementById('progress');
     progressSocket.on('progress', function (data) {
         progress.innerText = data.toString();
     });
-    setInterval(function () {
+    setInterval(() => {
         progressSocket.emit('request');
     }, 1000);
 </script>
 <script>
+    const m3u8 = document.getElementById('m3u8');
     const m3u8Socket = io.connect(`${location.origin}/m3u8`, {
         transports: ['websocket'],
         forceNew: false,
         reconnection: true,
         reconnectionDelay: 500
     });
-    const m3u8 = document.getElementById('m3u8');
     m3u8Socket.on('m3u8', function (data) {
         m3u8.innerText = data.toString();
     });
@@ -137,13 +130,13 @@
     }, 1000);
 </script>
 <script>
+    const mime = document.getElementById('mime');
     const mimeSocket = io.connect(`${location.origin}/mse`, {
         transports: ['websocket'],
         forceNew: false,
         reconnection: true,
         reconnectionDelay: 500
     });
-    const mime = document.getElementById('mime');
     mimeSocket.on('mime', function (data) {
         const type = data.toString().toLowerCase();
         let message = type;

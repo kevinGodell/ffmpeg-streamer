@@ -15,7 +15,7 @@ module.exports = function(app, io) {
                 socket.emit('m3u8', mp4frag.m3u8);
             }
             const emitM3u8 = () => {
-                    socket.emit('m3u8', mp4frag.m3u8);
+                socket.emit('m3u8', mp4frag.m3u8);
             };
             socket.on('m3u8Request', emitM3u8);
             socket.once('disconnect', () => {

@@ -3,7 +3,7 @@
 const {Writable} = require('stream');
 const namespace = '/jpeg';
 
-module.exports = function (app, io) {
+module.exports = (app, io) => {
 
     io
         .of(namespace)

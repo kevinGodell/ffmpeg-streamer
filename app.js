@@ -17,6 +17,7 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 
 const index = require('./routes/index');
+const install = require('./routes/install');
 const hls = require('./routes/hls');
 const mp4 = require('./routes/mp4');
 const mjpeg = require('./routes/mjpeg');
@@ -46,6 +47,8 @@ app.set('mseSocket', mseSocket);
 app.set('progressSocket', progressSocket);
 app.set('m3u8Socket', m3u8Socket);
 app.set('installSocket', installSocket);
+app.set('stderrSocket', stderrSocket);
+app.set('ejs', ejs);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -58,12 +61,13 @@ if (nodeEnv === 'development') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use('/assets', assets);
 app.use('/', index);
+app.use('/install', install);
 app.use('/hls', hls);
 app.use('/mp4', mp4);
 app.use('/mjpeg', mjpeg);
 app.use('/progress', progress);
-app.use('/assets', assets);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
@@ -83,6 +87,7 @@ app.use(function (err, req, res, next) {
     if (nodeEnv === 'development') {
         console.error(err);
     }
+    //next(err);
 });
 
 if (nodeEnv === 'development') {

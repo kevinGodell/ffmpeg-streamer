@@ -27,11 +27,11 @@ function renderVideo(res, params) {
     });
 }
 
-function renderInstall(res, title, subTitle) {
+function renderInstall(res) {
     const app = res.app;
     res.render('install', {
-        title: title,
-        subTitle: subTitle,
+        title: 'FFMPEG Dependency Error',
+        subTitle: 'Not found on system.',
         message: `Would you like to install a fresh copy of ffmpeg in this directory?`,
         directory: app.get('dirName')
     });
@@ -47,15 +47,6 @@ function renderActivity(res) {
     });
 }
 
-router.get('/install', (req, res) => {
-    const app = req.app;
-    const ffmpegPath = app.get('ffmpegPath');
-    if (!ffmpegPath) {
-        return renderInstall(res);
-    }
-    return renderInstall(res, 'FFMPEG Dependency OK', `Found @ ${ffmpegPath}`);
-});
-
 router.get('/activity', (req, res) => {
     renderActivity(res);
 });
@@ -63,7 +54,7 @@ router.get('/activity', (req, res) => {
 router.get('/', (req, res) => {
     const app = req.app;
     if (!app.get('ffmpegPath')) {
-        renderInstall(res, 'FFMPEG Dependency Error', 'Not found on system.');
+        renderInstall(res);
         return;
     }
     const ffmpeg = app.get('ffmpeg');

@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/', function (req, res, next) {
+router.use('/', (req, res, next) => {
     const app = req.app;
     const mp4frag = app.get('mp4frag');
     if (!mp4frag) {
@@ -46,7 +46,7 @@ router.get('/test.mp4', (req, res) => {
         res.destroy();
     }, 20000);*/
 
-    res.once('close', ()=> {
+    res.once('close', () => {
         cleanup();
     });
 

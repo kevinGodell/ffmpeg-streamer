@@ -11,8 +11,8 @@ const materialMinJs = path.join(__dirname, '../node_modules/material-design-lite
 const materialRedOrangeMinCss = path.join(__dirname, '../node_modules/material-design-lite/dist/material.red-orange.min.css');
 const materialMinJsMap = path.join(__dirname, '../node_modules/material-design-lite/dist/material.min.js.map');
 
-router.get('/', function(req, res) {
-  res.send('assets router');
+router.get('/', (req, res) => {
+    res.send('assets router');
 });
 
 router.get('/flv.min.js', (req, res) => {

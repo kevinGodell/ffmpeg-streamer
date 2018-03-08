@@ -2,9 +2,9 @@
 
 const express = require('express');
 const router = express.Router();
-const { Writable } = require('stream');
+const {Writable} = require('stream');
 
-router.use('/', function (req, res, next) {
+router.use('/', (req, res, next) => {
     const app = req.app;
     const pipe2jpeg = app.get('pipe2jpeg');
     if (!pipe2jpeg) {
@@ -57,7 +57,7 @@ router.get('/test.mjpg', (req, res) => {
             res.destroy();
     }, 20000);*/
 
-    res.once('close', ()=> {
+    res.once('close', () => {
         cleanup();
     });
 

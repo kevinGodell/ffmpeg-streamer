@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/', function (req, res, next) {
+router.use('/', (req, res, next) => {
     const app = req.app;
     const ffmpeg = app.get('ffmpeg');
     if (!ffmpeg) {

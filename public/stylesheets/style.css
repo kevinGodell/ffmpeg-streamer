@@ -85,10 +85,10 @@ body {
     margin-right: 1vw;
     width: 98vw;
     display: grid;
-    grid-template-rows: 1fr 1fr auto auto;
-    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-rows: 1fr 1fr auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 2px;
-    grid-template-areas: "mjpeg mp4 hls m3u8" "jpeg flv mse progress" "params params params mime" "form form form form";
+    grid-template-areas: "mjpeg mp4 hls" "jpeg flv mse" "params params mime" "stderr m3u8 progress" "form form form";
     font-size: small;
 }
 
@@ -120,6 +120,15 @@ body {
     grid-area: form;
     border-style: none;
     background: none;
+}
+
+.video .stderr {
+    grid-area: stderr;
+}
+
+.video .stderr, .video .m3u8, .video .progress {
+    max-height: 200px;
+    overflow: auto;
 }
 
 .video .form input[value="Stop"] {
@@ -166,7 +175,7 @@ body {
     justify-items: left;
 }
 
-.video .m3u8 span, .video .progress span, .video div.mime span {
+.video .m3u8 span, .video .progress span, .video div.mime span, .video div.mime span {
     white-space: nowrap;
 }
 

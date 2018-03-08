@@ -1,18 +1,18 @@
 'use strict';
 
-const { Writable } = require('stream');
+const {Writable} = require('stream');
 const namespace = '/mse';
 
-module.exports = function(app, io) {
+module.exports = (app, io) => {
 
-    let clients = 0;
+    //let clients = 0;
 
     io
         .of(namespace)
 
-        .on('connection', (socket)=> {
+        .on('connection', (socket) => {
 
-            clients = Object.keys(io.of(namespace).sockets).length;
+            //clients = Object.keys(io.of(namespace).sockets).length;
 
             const mp4frag = app.get('mp4frag');
 
@@ -33,7 +33,7 @@ module.exports = function(app, io) {
 
             let timestamp = 0;
 
-            socket.on('message', (msg)=> {
+            socket.on('message', (msg) => {
                 //console.log(`${namespace} message : ${msg}`);
                 switch (msg) {
                     //client is requesting mime/codec string
@@ -44,7 +44,7 @@ module.exports = function(app, io) {
                             socket.emit('mime', mp4frag.mime);
                         } else {
                             //console.log('waiting for mime');
-                            mp4frag.once('initialized', ()=> {
+                            mp4frag.once('initialized', () => {
                                 //console.log('send mime', mp4frag.mime);
                                 socket.emit('mime', mp4frag.mime);
                             });
@@ -58,7 +58,7 @@ module.exports = function(app, io) {
                             socket.emit('initialization', mp4frag.initialization);
                         } else {
                             //console.log('waiting for initialization');
-                            mp4frag.once('initialized', ()=> {
+                            mp4frag.once('initialized', () => {
                                 //console.log('send initialization');
                                 socket.emit('initialization', mp4frag.initialization);
                             });
@@ -78,7 +78,7 @@ module.exports = function(app, io) {
                             //console.log('segment already exists');
                             socket.emit('segment', mp4frag.segment);
                         }// else {
-                            //console.log('waiting for segments');
+                        //console.log('waiting for segments');
                         //}
                         mp4frag.pipe(writable);
                         break;
@@ -91,8 +91,8 @@ module.exports = function(app, io) {
                 }
             });
 
-            socket.once('disconnect', ()=> {
-                clients = Object.keys(io.of(namespace).sockets).length;
+            socket.once('disconnect', () => {
+                //clients = Object.keys(io.of(namespace).sockets).length;
                 //console.log('mse socket disconnect');
                 if (mp4frag && writable) {
                     mp4frag.unpipe(writable);

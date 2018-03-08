@@ -3,11 +3,16 @@
 const namespace = '/m3u8';
 
 module.exports = (app, io) => {
+
     io
 
         .of(namespace)
 
         .on('connection', (socket) => {
+
+            function emitM3u8() {
+                socket.emit('m3u8', mp4frag.m3u8);
+            }
 
             const mp4frag = app.get('mp4frag');
 
@@ -15,10 +20,6 @@ module.exports = (app, io) => {
                 socket.disconnect();
                 return;
             }
-
-            const emitM3u8 = () => {
-                socket.emit('m3u8', mp4frag.m3u8);
-            };
 
             if (mp4frag.m3u8) {
                 socket.emit('m3u8', mp4frag.m3u8);

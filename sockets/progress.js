@@ -10,6 +10,16 @@ module.exports = (app, io) => {
 
         .on('connection', (socket) => {
 
+            function emitProgress() {
+
+                if (!ffmpeg.progress) {
+                    return;
+                }
+
+                socket.emit('progress', ffmpeg.progress);
+
+            }
+
             const ffmpeg = app.get('ffmpeg');
 
             if (!ffmpeg) {
@@ -20,16 +30,6 @@ module.exports = (app, io) => {
             if (ffmpeg.progress) {
                 socket.emit('progress', ffmpeg.progress);
             }
-
-            const emitProgress = () => {
-
-                if (!ffmpeg.progress) {
-                    return;
-                }
-
-                socket.emit('progress', ffmpeg.progress);
-
-            };
 
             socket.on('progressRequest', emitProgress);
 

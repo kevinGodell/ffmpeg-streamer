@@ -27,12 +27,12 @@ function renderVideo(res, params) {
     });
 }
 
-function renderInstall(res) {
+function renderInstall(res, title, subTitle) {
     const app = res.app;
     res.render('install', {
-        title: 'Dependency Error',
-        subTitle: 'FFMPEG not found on system.',
-        message: `Would you like to install ffmpeg in the current directory?`,
+        title: title,
+        subTitle: subTitle,
+        message: `Would you like to install a fresh copy of ffmpeg in this directory?`,
         directory: app.get('dirName')
     });
 }
@@ -47,18 +47,23 @@ function renderActivity(res) {
     });
 }
 
-router.get('/install', function (req, res) {
-    renderInstall(res);
+router.get('/install', (req, res) => {
+    const app = req.app;
+    const ffmpegPath = app.get('ffmpegPath');
+    if (!ffmpegPath) {
+        return renderInstall(res);
+    }
+    return renderInstall(res, 'FFMPEG Dependency OK', `Found @ ${ffmpegPath}`);
 });
 
-router.get('/activity', function (req, res) {
+router.get('/activity', (req, res) => {
     renderActivity(res);
 });
 
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
     const app = req.app;
     if (!app.get('ffmpegPath')) {
-        renderInstall(res);
+        renderInstall(res, 'FFMPEG Dependency Error', 'Not found on system.');
         return;
     }
     const ffmpeg = app.get('ffmpeg');
@@ -72,7 +77,7 @@ router.get('/', function (req, res) {
     return renderIndex(res, null, null);
 });
 
-router.post('/', function (req, res) {
+router.post('/', (req, res) => {
     const app = req.app;
     const activity = app.get('activity');
     let ffmpeg = app.get('ffmpeg');

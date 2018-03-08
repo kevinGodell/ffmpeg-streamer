@@ -28,6 +28,7 @@ const mseSocket = require('./sockets/mse')(app, io);
 const progressSocket = require('./sockets/progress')(app, io);
 const m3u8Socket = require('./sockets/m3u8')(app, io);
 const installSocket = require('./sockets/install')(app, io);
+const stderrSocket = require('./sockets/stderr')(app, io);
 
 const dirName = process.pkg && process.pkg.entrypoint ? path.dirname(process.execPath) : process.cwd();
 const ffmpeg = require('./lib/ffmpegConfig')(dirName);

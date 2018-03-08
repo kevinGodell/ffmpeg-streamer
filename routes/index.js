@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const {PassThrough} = require('stream');
 const FR = require('ffmpeg-respawn');
 const M4F = require('mp4frag');
 const P2J = require('pipe2jpeg');
@@ -77,6 +78,7 @@ router.post('/', function (req, res) {
     let ffmpeg = app.get('ffmpeg');
     let mp4frag = app.get('mp4frag');
     let pipe2jpeg = app.get('pipe2jpeg');
+    let stderrLogs = app.get('stderrLogs');
     if (ffmpeg && ffmpeg.running) {
         ffmpeg.stop();
     }
@@ -294,16 +296,38 @@ router.post('/', function (req, res) {
             params.push(...['-f', 'image2pipe', 'pipe:4']);//TODO -f mpjpeg -boundary_tag ffmpeg_streamer so that we can later pipe response
 
             mp4frag = new M4F({hlsBase: 'test', hlsListSize: mp4HlsListSize})
+                .setMaxListeners(30)
                 .on('error', (err) => {
                     console.error(err.message);
                     //console.log(ffmpeg.running);
                     //ffmpeg.stop();
                 });
-            mp4frag.setMaxListeners(30);
+
             app.set('mp4frag', mp4frag);
-            pipe2jpeg = new P2J();
-            pipe2jpeg.setMaxListeners(30);
+
+            pipe2jpeg = new P2J()
+                .setMaxListeners(30)
+                .on('error', (err) => {
+                    console.log(err.message);
+                });
+
             app.set('pipe2jpeg', pipe2jpeg);
+
+            stderrLogs = new PassThrough({
+                transform(chunk, encoding, callback) {
+                    if (this._readableState.pipesCount > 0) {
+                        this.push(chunk);
+                    }
+                    callback();
+                }
+            })
+                .setMaxListeners(30)
+                .on('error', (err) => {
+                    console.log(err.message);
+                });
+
+            app.set('stderrLogs', stderrLogs);
+
             try {
                 ffmpeg = new FR(
                     {
@@ -317,9 +341,7 @@ router.post('/', function (req, res) {
                         killAfterStall: 10,
                         spawnAfterExit: 2,
                         reSpawnLimit: 10,
-                        logCallback: (data) => {
-                            console.log(data.toString());
-                        },
+                        stderrLogs: stderrLogs,
                         exitCallback: () => {
                             //console.log('exit call back');
                             mp4frag.resetCache();

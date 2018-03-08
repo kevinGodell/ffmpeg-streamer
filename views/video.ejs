@@ -12,21 +12,21 @@
 <body>
 <div class="video">
     <div class="mp4">
-        <p>mp4 via http <a href="/mp4/test.mp4">test.mp4</a></p>
+        <p>mp4 src: <a href="/mp4/test.mp4">test.mp4</a></p>
         <video id="mp4Video" muted controls autoplay>
             <source src="/mp4/test.mp4" type="video/mp4">
         </video>
     </div>
     <div class="flv">
-        <p>flv.js via http <a href="/mp4/test.mp4">test.mp4</a></p>
+        <p>flv.js src: <a href="/mp4/test.mp4">test.mp4</a></p>
         <video id="flvVideo" muted controls autoplay></video>
     </div>
     <div class="hls">
-        <p>hls.js via http <a href="/hls/test.m3u8">test.m3u8</a></p>
+        <p>hls.js src: <a href="/hls/test.m3u8">test.m3u8</a></p>
         <video id="hlsVideo" muted controls autoplay></video>
     </div>
     <div class="mjpeg">
-        <p>mjpeg via http <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
+        <p>mjpeg src: <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
         <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
     </div>
     <div class="jpeg">
@@ -128,9 +128,9 @@
     m3u8Socket.on('m3u8', function (data) {
         m3u8.innerText = data.toString();
     });
-    setInterval(function () {
+    /*setInterval(function () {
         m3u8Socket.emit('m3u8Request');
-    }, 1000);
+    }, 1000);*/
 </script>
 <script>
     const mime = document.getElementById('mime');

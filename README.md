@@ -1,8 +1,8 @@
 # ffmpeg-streamer
 
 **ffmpeg-streamer** is a packaged nodejs [express](https://github.com/expressjs/express) server that wraps `ffmpeg` to allow easy streaming of video feeds directly to ***modern*** browsers for testing purposes.
-It currently includes 6 different types of streaming which are *mjpeg*, *jpeg via socket.io*, *progressive mp4*, [*flv.js*](https://github.com/Bilibili/flv.js), [*hls.js*](https://github.com/video-dev/hls.js), and *media source via socket.io*.
-Input types supported are mjpeg and rtsp ip video streams.
+It currently includes 6 different types of output streaming which are *mjpeg*, *jpeg via socket.io*, *progressive mp4*, [*flv.js*](https://github.com/Bilibili/flv.js), [*hls.js*](https://github.com/video-dev/hls.js), and *mse via socket.io*.
+Video input types supported are *rtsp*, *mp4*, *mjpeg*, and *hls*.
 
 ### Installation
 **ffmpeg-streamer** has been packaged into an executable using [pkg](https://github.com/zeit/pkg).
@@ -82,9 +82,9 @@ Any additional details would be helpful.
 ![screenshot2](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot2.png?raw=true "Video Player")
 
 #### TODO
-* Add support for more input types such as local video hardware and artificially generated input - now supports rtsp, mp4, mjpeg, and hls
-* Add more ffmpeg settings to further customize the generated video for streaming
-* Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
-* Push ffmpeg stderr data to video web page instead of console
-* Improve playback of mse via socket.io
-* Store previously used ffmpeg params in external conf.json file (possibly encoded to hide sensitive data) -partial support added to save most recent set of params
+* [ ] Add support for more input types such as local video hardware and artificially generated input
+* [ ] Add more ffmpeg settings to further customize the generated video for streaming
+* [ ] Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
+* [x] Push ffmpeg stderr data to video web page instead of console
+* [ ] Improve playback of mse via socket.io
+* [x] Store previously used ffmpeg params in external .json file

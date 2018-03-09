@@ -10,16 +10,16 @@ module.exports = (app, io) => {
 
         .on('connection', (socket) => {
 
-            function emitM3u8() {
-                socket.emit('m3u8', mp4frag.m3u8);
-            }
-
             const mp4frag = app.get('mp4frag');
 
             if (!mp4frag) {
                 socket.disconnect();
                 return;
             }
+
+            const emitM3u8 = () => {
+                socket.emit('m3u8', mp4frag.m3u8);
+            };
 
             if (mp4frag.m3u8) {
                 socket.emit('m3u8', mp4frag.m3u8);

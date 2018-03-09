@@ -9,7 +9,6 @@ module.exports = (app, io) => {
         .of(namespace)
 
         .on('connection', (socket) => {
-
             const stderrLogs = app.get('stderrLogs');
 
             if (!stderrLogs) {

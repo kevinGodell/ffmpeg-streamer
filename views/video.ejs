@@ -7,48 +7,63 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script src="/assets/flv.min.js"></script>
     <script src="/assets/hls.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <!--<script src="/socket.io/socket.io.js"></script>-->
+    <!--<link rel="stylesheet" href="https://releases.flowplayer.org/7.2.4/skin/skin.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://releases.flowplayer.org/7.2.4/flowplayer.min.js"></script>-->
+
 </head>
 <body>
 <div class="video">
+    <div class="mjpeg">
+        <p>mjpeg src: <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
+        <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
+    </div>
     <div class="mp4">
         <p>mp4 src: <a href="/mp4/test.mp4">test.mp4</a></p>
         <video id="mp4Video" muted controls autoplay>
             <source src="/mp4/test.mp4" type="video/mp4">
         </video>
     </div>
-    <div class="flv">
-        <p>flv.js src: <a href="/mp4/test.mp4">test.mp4</a></p>
-        <video id="flvVideo" muted controls autoplay></video>
-    </div>
-    <div class="hls">
+    <div class="hlsjs">
         <p>hls.js src: <a href="/hls/test.m3u8">test.m3u8</a></p>
-        <video id="hlsVideo" muted controls autoplay></video>
+        <video id="hlsjsVideo" muted controls autoplay></video>
     </div>
-    <div class="mjpeg">
-        <p>mjpeg src: <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
-        <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
-    </div>
+    <!--<div class="hls">
+        <p>native hls src: <a href="/hls/test.m3u8">test.m3u8</a></p>
+        <video id="hlsVideo" muted controls autoplay>
+            <source src="/hls/test.m3u8" type="application/x-mpegURL"/>
+        </video>
+    </div>-->
     <div class="jpeg">
         <p>jpeg via socket.io</p>
         <img id="jpegImg"/>
+    </div>
+    <div class="flvjs">
+        <p>flv.js src: <a href="/mp4/test.mp4">test.mp4</a></p>
+        <video id="flvjsVideo" muted controls autoplay></video>
     </div>
     <div class="mse">
         <p>mse via socket.io</p>
         <video id="mseVideo" muted controls autoplay></video>
     </div>
-    <div class="m3u8">
-        <span id="m3u8">playlist...</span>
-    </div>
-    <div class="progress">
-        <span id="progress">progress...</span>
-    </div>
-
+    <!--<div class="flash">
+        <div id="player"></div>
+    </div>-->
     <div class="params">
         <span><%= params %></span>
     </div>
     <div class="mime">
         <span id="mime">codec info...</span>
+    </div>
+    <div class="stderr">
+        <span id="stderr">ffmpeg stderr...</span>
+    </div>
+    <div class="progress">
+        <span id="progress">ffmpeg progress...</span>
+    </div>
+    <div class="m3u8">
+        <span id="m3u8">m3u8 playlist...</span>
     </div>
     <div class="form">
         <form method="POST" action="/">
@@ -58,13 +73,10 @@
                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
         </form>
     </div>
-    <div class="stderr">
-        <span id="stderr">ffmpeg stderr...</span>
-    </div>
 </div>
 <script>
     if (flvjs.isSupported()) {
-        const flvVideo = document.getElementById('flvVideo');
+        const flvVideo = document.getElementById('flvjsVideo');
         const flvPlayer = flvjs.createPlayer({
             type: 'mp4',
             url: '/mp4/test.mp4',
@@ -77,7 +89,7 @@
 </script>
 <script>
     if (Hls.isSupported()) {
-        const hlsVideo = document.getElementById('hlsVideo');
+        const hlsVideo = document.getElementById('hlsjsVideo');
         const hls = new Hls();
         hls.loadSource('/hls/test.m3u8');
         hls.attachMedia(hlsVideo);
@@ -111,7 +123,7 @@
         reconnectionDelay: 500
     });
     progressSocket.on('progress', function (data) {
-        progress.innerText = data.toString();
+        progress.innerText = data;
     });
     setInterval(() => {
         progressSocket.emit('progressRequest');
@@ -126,11 +138,8 @@
         reconnectionDelay: 500
     });
     m3u8Socket.on('m3u8', function (data) {
-        m3u8.innerText = data.toString();
+        m3u8.innerText = data;
     });
-    /*setInterval(function () {
-        m3u8Socket.emit('m3u8Request');
-    }, 1000);*/
 </script>
 <script>
     const mime = document.getElementById('mime');
@@ -141,7 +150,7 @@
         reconnectionDelay: 500
     });
     mimeSocket.on('mime', function (data) {
-        const type = data.toString().toLowerCase();
+        const type = data.toLowerCase();
         let message = type;
         if ('MediaSource' in window) {
             message += '\nMediaSource.isTypeSupported = ' + MediaSource.isTypeSupported(type);
@@ -180,6 +189,28 @@
         }
         stderr.innerText = stderrArr.join('\n');
     });
+</script>
+<script>
+    /*
+    // select the above element as player container
+    var container = document.getElementById("player");
+
+    // install flowplayer into selected container
+    flowplayer(container, {
+        engine: ['flash', 'html5'],
+        live: true,  // set if it's a live stream
+        adaptiveRatio: true,
+        autoplay: true,
+        clip: {
+            sources: [
+                { type: "application/x-mpegurl",
+                    src:  "/hls/test.m3u8" },
+                { type: "video/mp4",
+                    src:  "/mp4/test.mp4" }
+            ]
+        }
+    });
+    */
 </script>
 </body>
 </html>

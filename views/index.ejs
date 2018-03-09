@@ -51,7 +51,7 @@
 
     <div class="input">
         <select id="hwAccel" name="hwAccel" form="index">
-            <% const hwAccelArr = ['none', 'auto', 'videotoolbox']; %>
+            <% const hwAccelArr = ['none', 'auto', 'videotoolbox', 'd3d11va', 'dxva2', 'qsv', 'cuvid']; %>
             <% for (let i = 0; i < hwAccelArr.length; i++) { %>
             <option value="<%= hwAccelArr[i] %>"><%= hwAccelArr[i] %></option>
             <% } %>

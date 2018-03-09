@@ -86,5 +86,5 @@ Any additional details would be helpful.
 * [ ] Add more ffmpeg settings to further customize the generated video for streaming
 * [ ] Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
 * [x] Push ffmpeg stderr data to video web page instead of console
-* [ ] Improve playback of mse via socket.io
+* [ ] Improve playback of *mse via socket.io*
 * [x] Store previously used ffmpeg params in external .json file

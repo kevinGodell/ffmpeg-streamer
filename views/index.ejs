@@ -354,7 +354,7 @@
 
     const inputType = document.getElementById('inputType');
 
-    inputType.addEventListener('change', function (evt) {
+    inputType.addEventListener('change', (evt) => {
         const elems = document.getElementsByClassName('rtspTransport');
         switch (inputType.value) {
             case 'rtsp':
@@ -374,7 +374,7 @@
 
     const mp4VideoCodec = document.getElementById('mp4VideoCodec');
 
-    mp4VideoCodec.addEventListener('change', function (evt) {
+    mp4VideoCodec.addEventListener('change', (evt) => {
         const elems = document.getElementsByClassName('mp4VideoCodec');
         switch (mp4VideoCodec.value) {
             case 'copy':
@@ -392,7 +392,7 @@
 
     const jpegCodec = document.getElementById('jpegCodec');
 
-    jpegCodec.addEventListener('change', function (evt) {
+    jpegCodec.addEventListener('change', (evt) => {
         const elems = document.getElementsByClassName('jpegCodec');
         switch (jpegCodec.value) {
             case 'copy':

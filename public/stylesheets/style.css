@@ -87,14 +87,15 @@ body {
     display: grid;
     grid-template-rows: 1fr 1fr auto auto auto;
     grid-template-columns: 1fr 1fr 1fr;
+    /*grid-template-columns: 1fr 1fr 1fr 1fr;*/
     grid-gap: 2px;
-    grid-template-areas: "mjpeg mp4 hls" "jpeg flv mse" "params params mime" "stderr m3u8 progress" "form form form";
+    grid-template-areas: "mjpeg mp4 hlsjs" "jpeg flvjs mse" "params params mime" "stderr progress m3u8" "form form form";
+    /*grid-template-areas: "mjpeg mp4 hlsjs hls" "jpeg flvjs mse flash" "params params params mime" "stderr stderr progress m3u8" "form form form form";*/
     font-size: small;
 }
 
 .video div {
     border: solid darkblue 1px;
-    /*background: #a2b9bc;*/
     background: lightskyblue;
     text-align: center;
     padding: 2px;
@@ -102,7 +103,7 @@ body {
 
 .video div video, .video div img {
     width: 100%;
-    min-width: 300px;
+    max-width: 350px;
     margin: 0;
     padding: 0;
 }
@@ -111,26 +112,11 @@ body {
     color: #d64161;
 }
 
-.video div span {
-    display: block;
-    text-align: left;
-}
-
 .video .form {
     grid-area: form;
     border-style: none;
     background: none;
 }
-
-.video .stderr {
-    grid-area: stderr;
-}
-
-.video .stderr, .video .m3u8, .video .progress {
-    max-height: 200px;
-    overflow: auto;
-}
-
 .video .form input[value="Stop"] {
     width: 200px;
     height: 50px;
@@ -141,43 +127,78 @@ body {
     height: 50px;
 }
 
+.video .mjpeg {
+    grid-area: mjpeg;
+}
+
 .video .mp4 {
     grid-area: mp4;
 }
 
-.video .flv {
-    grid-area: flv;
+.video .hlsjs {
+    grid-area: hlsjs;
 }
 
 .video .hls {
     grid-area: hls;
 }
 
+.video .jpeg {
+    grid-area: jpeg;
+}
+
+.video .flvjs {
+    grid-area: flvjs;
+}
+
+.video .mse {
+    grid-area: mse;
+}
+
+.video .flash {
+    grid-area: flash;
+}
+
 .video .params {
     grid-area: params;
 }
 
-.video .progress {
-    grid-area: progress;
+.video .mime {
+    grid-area: mime;
+}
+
+.video .stderr {
+    grid-area: stderr;
 }
 
 .video .m3u8 {
     grid-area: m3u8;
 }
 
-.video div.mime {
-    grid-area: mime;
+.video .progress {
+    grid-area: progress;
 }
 
-.video .m3u8, .video .progress, .video div.mime, .video .params {
+.video .params, .video .mime, .video .stderr, .video .m3u8, .video .progress {
     display: flex;
     align-items: center;
-    justify-items: left;
+    padding: 10px;
 }
 
-.video .m3u8 span, .video .progress span, .video div.mime span, .video div.mime span {
+.video .stderr, .video .m3u8, .video .progress {
+    overflow: auto;
+}
+
+.video span {
+    text-align: left;
+    max-height: 200px;
+}
+
+.video .mime span, .video .stderr span, .video .m3u8 span, .video .progress span {
     white-space: nowrap;
 }
+
+/* ------ install ------ */
 
 .install {
     margin-left: 1vw;

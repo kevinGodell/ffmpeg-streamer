@@ -12,7 +12,7 @@ The current binaries can be found on the [releases](https://github.com/kevinGode
 
 ###### Downloading on Linux
 ```
-wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.5/ffmpeg-streamer-linux-x64
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.7/ffmpeg-streamer-linux-x64
 ```
 
 ###### Setting executable permissions on Linux
@@ -85,6 +85,4 @@ Any additional details would be helpful.
 * [ ] Add support for more input types such as local video hardware and artificially generated input
 * [ ] Add more ffmpeg settings to further customize the generated video for streaming
 * [ ] Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
-* [x] Push ffmpeg stderr data to video web page instead of console
 * [ ] Improve playback of *mse via socket.io*
-* [x] Store previously used ffmpeg params in external .json file

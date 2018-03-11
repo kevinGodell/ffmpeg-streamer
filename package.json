@@ -35,7 +35,9 @@
   "pkg": {
     "assets": [
       "views/**/*",
-      "public/**/*"
+      "public/**/*",
+      "node_modules/material-design-icons/iconfont/**/*",
+      "node_modules/material-design-lite/dist/**/*"
     ]
   }
 }

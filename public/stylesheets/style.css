@@ -102,8 +102,7 @@ body {
 }
 
 .video div video, .video div img {
-    width: 100%;
-    max-width: 350px;
+    width: 30vw;
     margin: 0;
     padding: 0;
 }

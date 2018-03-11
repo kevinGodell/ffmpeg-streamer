@@ -21,8 +21,8 @@ function renderIndex(res, msg, vals) {
 }
 
 function renderVideo(res, params) {
-    res.render('video2', {
-        title: 'video2',
+    res.render('video', {
+        title: 'video',
         params: params
     });
 }

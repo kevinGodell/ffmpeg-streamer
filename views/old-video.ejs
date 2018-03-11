@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/assets/material.red-orange.min.css"/>
+    <script defer src="/assets/material.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="/assets/flv.min.js"></script>
+    <script src="/assets/hls.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<div class="video">
+    <div class="mjpeg">
+        <p>mjpeg src: <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
+        <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
+    </div>
+    <div class="mp4">
+        <p>mp4 src: <a href="/mp4/test.mp4">test.mp4</a></p>
+        <video id="mp4Video" muted controls autoplay>
+            <source src="/mp4/test.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="hlsjs">
+        <p>hls.js src: <a href="/hls/test.m3u8">test.m3u8</a></p>
+        <video id="hlsjsVideo" muted controls autoplay></video>
+    </div>
+    <!--<div class="hls">
+        <p>native hls src: <a href="/hls/test.m3u8">test.m3u8</a></p>
+        <video id="hlsVideo" muted controls autoplay>
+            <source src="/hls/test.m3u8" type="application/x-mpegURL"/>
+        </video>
+    </div>-->
+    <div class="jpeg">
+        <p>jpeg via socket.io</p>
+        <img id="jpegImg"/>
+    </div>
+    <div class="flvjs">
+        <p>flv.js src: <a href="/mp4/test.mp4">test.mp4</a></p>
+        <video id="flvjsVideo" muted controls autoplay></video>
+    </div>
+    <div class="mse">
+        <p>mse via socket.io</p>
+        <video id="mseVideo" muted controls autoplay></video>
+    </div>
+    <!--<div class="flash">
+        <div id="player"></div>
+    </div>-->
+    <div class="params">
+        <span><%= params %></span>
+    </div>
+    <div class="mime">
+        <span id="mime">codec info...</span>
+    </div>
+    <div class="stderr">
+        <span id="stderr">ffmpeg stderr...</span>
+    </div>
+    <div class="progress">
+        <span id="progress">ffmpeg progress...</span>
+    </div>
+    <div class="m3u8">
+        <span id="m3u8">m3u8 playlist...</span>
+    </div>
+    <div class="form">
+        <form method="POST" action="/">
+            <input name="action" type="submit" value="Exit"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+            <input name="action" type="submit" value="Stop"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+        </form>
+    </div>
+</div>
+<script>
+    if (flvjs.isSupported()) {
+        const flvVideo = document.getElementById('flvjsVideo');
+        const flvPlayer = flvjs.createPlayer({
+            type: 'mp4',
+            url: '/mp4/test.mp4',
+            isLive: true
+        });
+        flvPlayer.attachMediaElement(flvVideo);
+        flvPlayer.load();
+        flvPlayer.play();
+    }
+</script>
+<script>
+    if (Hls.isSupported()) {
+        const hlsVideo = document.getElementById('hlsjsVideo');
+        const hls = new Hls();
+        hls.loadSource('/hls/test.m3u8');
+        hls.attachMedia(hlsVideo);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            hlsVideo.play();
+        });
+    }
+</script>
+<script>
+    const jpegImg = document.getElementById('jpegImg');
+    const jpegSocket = io.connect(`${location.origin}/jpeg`, {
+        transports: ['websocket'],
+        forceNew: true,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    jpegSocket.on('jpeg', function (data) {
+        const arrayBufferView = new Uint8Array(data);
+        const blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
+        const urlCreator = window.URL || window.webkitURL;
+        const imageUrl = urlCreator.createObjectURL(blob);
+        jpegImg.src = imageUrl;
+    });
+</script>
+<script>
+    const progress = document.getElementById('progress');
+    const progressSocket = io.connect(`${location.origin}/progress`, {
+        transports: ['websocket'],
+        forceNew: true,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    progressSocket.on('progress', function (data) {
+        console.log(data.length);
+        progress.innerText = data;
+    });
+</script>
+<script>
+    const m3u8 = document.getElementById('m3u8');
+    const m3u8Socket = io.connect(`${location.origin}/m3u8`, {
+        transports: ['websocket'],
+        forceNew: true,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    m3u8Socket.on('m3u8', function (data) {
+        m3u8.innerText = data;
+    });
+</script>
+<script>
+    const mime = document.getElementById('mime');
+    const mimeSocket = io.connect(`${location.origin}/mse`, {
+        transports: ['websocket'],
+        forceNew: true,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    mimeSocket.on('mime', function (data) {
+        const type = data.toLowerCase();
+        let message = type;
+        if ('MediaSource' in window) {
+            message += '\nMediaSource.isTypeSupported = ' + MediaSource.isTypeSupported(type);
+        } else {
+            message += '\nMediaSource not supported by browser';
+        }
+        const vid = document.createElement('video');
+        message += '\nHTMLMediaElement.canPlayType = ' + vid.canPlayType(type);
+        mime.innerText = message;
+        mimeSocket.disconnect();
+    });
+    mimeSocket.emit('message', 'mime');
+</script>
+<script src="/javascripts/player.min.js"></script>
+<script>
+    const msePlayer = new VideoPlayer({
+        video: document.getElementById('mseVideo'),
+        io: io,
+        namespace: 'mse',
+        controls: ''
+    }).start();
+</script>
+<script>
+    const stderrArr = [];
+    const stderr = document.getElementById('stderr');
+    const stderrSocket = io.connect(`${location.origin}/stderr`, {
+        transports: ['websocket'],
+        forceNew: true,
+        reconnection: true,
+        reconnectionDelay: 500
+    });
+    stderrSocket.on('stderr', function (data) {
+        stderrArr.push(data);
+        while (stderrArr.length > 200) {
+            stderrArr.shift();
+        }
+        stderr.innerText = stderrArr.join('\n');
+    });
+</script>
+<script>
+    /*
+    // select the above element as player container
+    var container = document.getElementById("player");
+
+    // install flowplayer into selected container
+    flowplayer(container, {
+        engine: ['flash', 'html5'],
+        live: true,  // set if it's a live stream
+        adaptiveRatio: true,
+        autoplay: true,
+        clip: {
+            sources: [
+                { type: "application/x-mpegurl",
+                    src:  "/hls/test.m3u8" },
+                { type: "video/mp4",
+                    src:  "/mp4/test.mp4" }
+            ]
+        }
+    });
+    */
+</script>
+</body>
+</html>

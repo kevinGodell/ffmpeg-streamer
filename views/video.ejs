@@ -1,97 +1,188 @@
 <!DOCTYPE html>
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/assets/material.red-orange.min.css"/>
-    <script defer src="/assets/material.min.js"></script>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel="stylesheet" href="/mdl/material-icons.css"/>
+    <link rel="stylesheet" href="/mdl/material.grey-blue.min.css"/>
+    <style>
+
+        .mdl-grid {
+            background: grey;
+        }
+
+        .mdl-cell {
+            background: black;
+            color: white;
+        }
+
+        .mdl-cell > span {
+            display: block;
+            max-height: 240px;
+            width: 100%;
+            overflow: auto;
+            padding: 5px;
+        }
+
+        .mdl-cell.player {
+            text-align: center;
+        }
+
+        .mdl-cell.data {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .form {
+            background: none;
+            text-align: center;
+        }
+
+        .form button {
+            min-width: 200px;
+            min-height: 50px;
+        }
+
+        .mdl-card__media {
+            margin: 0;
+            background: none;
+            height: 100%;
+        }
+
+        .mdl-card__media > img, .mdl-card__media > video {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background: black;
+        }
+
+        .mdl-card__supporting-text {
+            color: white;
+        }
+
+    </style>
+    <script defer src="/mdl/material.min.js"></script>
     <script src="/assets/flv.min.js"></script>
     <script src="/assets/hls.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-<div class="video">
-    <div class="mjpeg">
-        <p>mjpeg src: <a href="/mjpeg/test.mjpg">test.mjpg</a></p>
-        <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
+
+<div class="content-grid mdl-grid">
+
+    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+        <figure class="mdl-card__media">
+            <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
+        </figure>
+        <div class="mdl-card__supporting-text">
+            mjpeg src: <a href="/mjpeg/test.mjpg">test.mjpg</a>
+        </div>
     </div>
-    <div class="mp4">
-        <p>mp4 src: <a href="/mp4/test.mp4">test.mp4</a></p>
-        <video id="mp4Video" muted controls autoplay>
-            <source src="/mp4/test.mp4" type="video/mp4">
-        </video>
+
+    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+        <figure class="mdl-card__media">
+            <video id="mp4Video" muted autoplay src="/mp4/test.mp4" type="video/mp4"/>
+        </figure>
+        <div class="mdl-card__supporting-text">
+            mp4 src: <a href="/mp4/test.mp4">test.mp4</a>
+        </div>
     </div>
-    <div class="hlsjs">
-        <p>hls.js src: <a href="/hls/test.m3u8">test.m3u8</a></p>
-        <video id="hlsjsVideo" muted controls autoplay></video>
+
+    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+        <figure class="mdl-card__media">
+            <video id="hlsjsVideo" muted autoplay/>
+        </figure>
+        <div class="mdl-card__supporting-text">
+            hls.js src: <a href="/hls/test.m3u8">test.m3u8</a>
+        </div>
     </div>
-    <!--<div class="hls">
-        <p>native hls src: <a href="/hls/test.m3u8">test.m3u8</a></p>
-        <video id="hlsVideo" muted controls autoplay>
-            <source src="/hls/test.m3u8" type="application/x-mpegURL"/>
-        </video>
-    </div>-->
-    <div class="jpeg">
-        <p>jpeg via socket.io</p>
-        <img id="jpegImg"/>
+
+    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+        <figure class="mdl-card__media">
+            <img id="jpegImg"/>
+        </figure>
+        <div class="mdl-card__supporting-text">
+            jpeg via socket.io
+        </div>
     </div>
-    <div class="flvjs">
-        <p>flv.js src: <a href="/mp4/test.mp4">test.mp4</a></p>
-        <video id="flvjsVideo" muted controls autoplay></video>
+
+    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+        <figure class="mdl-card__media">
+            <video id="flvjsVideo" muted autoplay/>
+        </figure>
+        <div class="mdl-card__supporting-text">
+            flv.js src: <a href="/mp4/test.mp4">test.mp4</a>
+        </div>
     </div>
-    <div class="mse">
-        <p>mse via socket.io</p>
-        <video id="mseVideo" muted controls autoplay></video>
+
+    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+        <figure class="mdl-card__media">
+            <video id="mseVideo" muted autoplay/>
+        </figure>
+        <div class="mdl-card__supporting-text">
+            mse via socket.io
+        </div>
     </div>
-    <!--<div class="flash">
-        <div id="player"></div>
-    </div>-->
-    <div class="params">
+
+    <div class="mdl-shadow--16dp mdl-cell mdl-cell--8-col data">
         <span><%= params %></span>
     </div>
-    <div class="mime">
+
+    <div class="mdl-shadow--16dp mdl-cell mdl-cell--4-col data">
         <span id="mime">codec info...</span>
     </div>
-    <div class="stderr">
+
+    <div class="mdl-shadow--16dp mdl-cell mdl-cell--6-col data">
         <span id="stderr">ffmpeg stderr...</span>
     </div>
-    <div class="progress">
+
+    <div class="mdl-shadow--16dp mdl-cell mdl-cell--3-col data">
         <span id="progress">ffmpeg progress...</span>
     </div>
-    <div class="m3u8">
+
+    <div class="mdl-shadow--16dp mdl-cell mdl-cell--3-col data">
         <span id="m3u8">m3u8 playlist...</span>
     </div>
-    <div class="form">
+
+    <div class="mdl-cell mdl-cell--12-col form">
         <form method="POST" action="/">
-            <input name="action" type="submit" value="Exit"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
-            <input name="action" type="submit" value="Stop"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+            <button name="action" type="submit" value="Exit"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                        class="material-icons">clear</i></button>
+            <button name="action" type="submit" value="Stop"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                        class="material-icons">stop</i></button>
         </form>
     </div>
 </div>
 <script>
+    const flvjsVideo = document.getElementById('flvjsVideo');
     if (flvjs.isSupported()) {
-        const flvVideo = document.getElementById('flvjsVideo');
         const flvPlayer = flvjs.createPlayer({
             type: 'mp4',
             url: '/mp4/test.mp4',
             isLive: true
         });
-        flvPlayer.attachMediaElement(flvVideo);
+        flvPlayer.attachMediaElement(flvjsVideo);
         flvPlayer.load();
         flvPlayer.play();
+    } else {
+        flvjsVideo.parentElement.innerHTML = '<p>flv.js not supported</p>';
     }
 </script>
 <script>
+    const hlsjsVideo = document.getElementById('hlsjsVideo');
     if (Hls.isSupported()) {
-        const hlsVideo = document.getElementById('hlsjsVideo');
         const hls = new Hls();
         hls.loadSource('/hls/test.m3u8');
-        hls.attachMedia(hlsVideo);
+        hls.attachMedia(hlsjsVideo);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             hlsVideo.play();
         });
+    } else {
+        hlsjsVideo.parentElement.innerHTML = '<p>hls.js not supported</p>';
     }
 </script>
 <script>
@@ -119,7 +210,6 @@
         reconnectionDelay: 500
     });
     progressSocket.on('progress', function (data) {
-        console.log(data.length);
         progress.innerText = data;
     });
 </script>
@@ -185,26 +275,16 @@
     });
 </script>
 <script>
-    /*
-    // select the above element as player container
-    var container = document.getElementById("player");
-
-    // install flowplayer into selected container
-    flowplayer(container, {
-        engine: ['flash', 'html5'],
-        live: true,  // set if it's a live stream
-        adaptiveRatio: true,
-        autoplay: true,
-        clip: {
-            sources: [
-                { type: "application/x-mpegurl",
-                    src:  "/hls/test.m3u8" },
-                { type: "video/mp4",
-                    src:  "/mp4/test.mp4" }
-            ]
-        }
+    const mp4Video = document.getElementById('mp4Video');
+    mp4Video.addEventListener('error', (evt) => {
+        mp4Video.parentElement.innerHTML = '<p>mp4 playback error</p>';
     });
-    */
+</script>
+<script>
+    const mjpegImg = document.getElementById('mjpegImg');
+    mjpegImg.addEventListener('error', (evt) => {
+        mjpegImg.parentElement.innerHTML = '<p>mjpeg playback error</p>';
+    })
 </script>
 </body>
 </html>

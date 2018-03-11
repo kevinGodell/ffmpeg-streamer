@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="/mdl/material.grey-blue.min.css"/>
     <style>
 
-        .mdl-grid {
+        body {
             background: grey;
+        }
+
+        .mdl-grid {
+            /*background: grey;*/
         }
 
         .mdl-cell {
@@ -109,11 +113,17 @@
     </div>
 
     <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
-        <figure class="mdl-card__media">
+        <!--<figure class="mdl-card__media">
             <video id="flvjsVideo" muted autoplay/>
         </figure>
         <div class="mdl-card__supporting-text">
             flv.js src: <a href="/mp4/test.mp4">test.mp4</a>
+        </div>-->
+        <figure class="mdl-card__media">
+            <video id="hlsVideo" muted autoplay src="/hls/test.m3u8" type="application/x-mpegURL"/>
+        </figure>
+        <div class="mdl-card__supporting-text">
+            native hls src: <a href="/hls/test.m3u8">test.m3u8</a>
         </div>
     </div>
 
@@ -158,7 +168,7 @@
     </div>
 </div>
 <script>
-    const flvjsVideo = document.getElementById('flvjsVideo');
+    /*const flvjsVideo = document.getElementById('flvjsVideo');
     if (flvjs.isSupported()) {
         const flvPlayer = flvjs.createPlayer({
             type: 'mp4',
@@ -168,9 +178,12 @@
         flvPlayer.attachMediaElement(flvjsVideo);
         flvPlayer.load();
         flvPlayer.play();
+        flvjsVideo.addEventListener('error', (evt) => {
+            flvjsVideo.parentElement.innerHTML = '<p>flv.js playback error</p>';
+        });
     } else {
         flvjsVideo.parentElement.innerHTML = '<p>flv.js not supported</p>';
-    }
+    }*/
 </script>
 <script>
     const hlsjsVideo = document.getElementById('hlsjsVideo');
@@ -178,8 +191,11 @@
         const hls = new Hls();
         hls.loadSource('/hls/test.m3u8');
         hls.attachMedia(hlsjsVideo);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            hlsVideo.play();
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            hlsjsVideo.play();
+        });
+        hlsjsVideo.addEventListener('error', (evt) => {
+            hlsjsVideo.parentElement.innerHTML = '<p>hls.js playback error</p>';
         });
     } else {
         hlsjsVideo.parentElement.innerHTML = '<p>hls.js not supported</p>';
@@ -278,6 +294,12 @@
     const mp4Video = document.getElementById('mp4Video');
     mp4Video.addEventListener('error', (evt) => {
         mp4Video.parentElement.innerHTML = '<p>mp4 playback error</p>';
+    });
+</script>
+<script>
+    const hlsVideo = document.getElementById('hlsVideo');
+    hlsVideo.addEventListener('error', (evt) => {
+        hlsVideo.parentElement.innerHTML = '<p>native hls playback error</p>';
     });
 </script>
 <script>

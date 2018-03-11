@@ -1,7 +1,7 @@
 # ffmpeg-streamer
 
 **ffmpeg-streamer** is a packaged nodejs [express](https://github.com/expressjs/express) server that wraps `ffmpeg` to allow easy streaming of video feeds directly to ***modern*** browsers for testing purposes.
-It currently includes 6 different types of output streaming which are *mjpeg*, *jpeg via socket.io*, *progressive mp4*, [*flv.js*](https://github.com/Bilibili/flv.js), [*hls.js*](https://github.com/video-dev/hls.js), and *mse via socket.io*.
+It currently includes 6 different types of output streaming which are *mjpeg*, *jpeg via socket.io*, *progressive mp4*, *native hls*, [~~*flv.js*~~](https://github.com/Bilibili/flv.js), [*hls.js*](https://github.com/video-dev/hls.js), and *mse via socket.io*.
 Video input types supported are *rtsp*, *mp4*, *mjpeg*, and *hls*.
 
 ### Installation

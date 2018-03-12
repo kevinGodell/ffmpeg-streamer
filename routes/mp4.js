@@ -19,36 +19,33 @@ router.use('/', (req, res, next) => {
     next();
 });
 
+router.get('/', (req, res) => {
+    res.send('mp4 router');
+});
+
 router.get('/test.mp4', (req, res) => {
-    function onInit() {
-        //clearTimeout(timeOut);
+
+    const mp4frag = res.locals.mp4frag;
+
+    const onInit = () => {
         res.set('Content-Type', 'video/mp4');
         res.write(mp4frag.initialization);
         if (mp4frag.segment) {
             res.write(mp4frag.segment);
         }
         mp4frag.pipe(res, {end: true});
-    }
+    };
 
-    function cleanup() {
-        //clearTimeout(timeOut);
+    const cleanup = () => {
+        res.removeListener('close', cleanup);
+        res.destroy();
         if (mp4frag) {
             mp4frag.removeListener('initialized', onInit);
             mp4frag.unpipe(res);
         }
-    }
+    };
 
-    const mp4frag = res.locals.mp4frag;
-
-    /*const timeOut = setTimeout(() => {
-        cleanup();
-        res.sendStatus(503);
-        res.destroy();
-    }, 20000);*/
-
-    res.once('close', () => {
-        cleanup();
-    });
+    res.once('close', cleanup);
 
     if (mp4frag.initialization) {
         onInit();

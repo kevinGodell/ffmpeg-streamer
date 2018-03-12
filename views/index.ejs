@@ -3,192 +3,299 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css"/>
     <link rel="stylesheet" href="/mdl/material-icons.css"/>
-    <link rel="stylesheet" href="/mdl/material.grey-blue.min.css"/>
+    <link rel="stylesheet" href="/mdl/material.deep_orange-blue.min.css"/>
     <script defer src="/mdl/material.min.js"></script>
+    <style>
+
+        body {
+            background: lightgrey;
+        }
+
+        .mdl-cell {
+            background: black;
+            color: white;
+            text-align: center;
+            margin: 4px;
+        }
+
+        .mdl-cell.header {
+            padding: 5px;
+        }
+
+        .mdl-cell.form {
+            background: none;
+            direction: rtl;
+        }
+
+        .mdl-cell > span {
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 <body>
-<div class="index">
 
-    <div class="header">
-        <p><%= title %></p>
-        <p><%= subTitle %></p>
+<div class="content-grid mdl-grid">
+
+    <div class="mdl-layout-title mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <h5><%= title %></h5>
+        <h6><%= subTitle %></h6>
+        <% if (message) { %>
+        <span><%= message %></span>
+        <% } %>
     </div>
 
-    <% if (message) { %>
-    <div class="message">
+    <!--<% if (message) { %>
+    <div class="message mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
         <span><%= message %></span>
     </div>
-    <% } %>
+    <% } %>-->
 
-    <!-- +++++++++++++++++ Global ++++++++++++++++ -->
-
-    <div class="section">
-        <span>Global</span>
-    </div>
-
-    <div class="label">
-        <label for="logLevel">log level</label>
-    </div>
-
-    <div class="input">
-        <select id="logLevel" name="logLevel" form="index">
-            <% var logLevelArr = ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug', 'trace']; %>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="logLevel" name="logLevel" form="index" class="mdl-textfield__input">
+            <% const logLevelArr = ['quiet', 'panic', 'fatal', 'error', 'warning', 'info', 'verbose', 'debug', 'trace']; %>
             <% for (var i = 0; i < logLevelArr.length; i++) { %>
             <option value="<%= logLevelArr[i] %>"><%= logLevelArr[i] %></option>
             <% } %>
         </select>
+        <label for="logLevel" class="mdl-textfield__label">log level</label>
     </div>
 
     <!-- +++++++++++++++++ Input ++++++++++++++++ -->
 
-    <div class="section">
-        <span>Input</span>
+    <div class="header mdl-layout-title mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        video input
     </div>
 
-    <div class="label">
-        <label for="hwAccel">hardware accel</label>
-    </div>
-
-    <div class="input">
-        <select id="hwAccel" name="hwAccel" form="index">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="hwAccel" name="hwAccel" form="index" class="mdl-textfield__input">
             <% const hwAccelArr = ['none', 'auto', 'videotoolbox', 'd3d11va', 'dxva2', 'qsv', 'cuvid']; %>
             <% for (let i = 0; i < hwAccelArr.length; i++) { %>
             <option value="<%= hwAccelArr[i] %>"><%= hwAccelArr[i] %></option>
             <% } %>
         </select>
+        <label for="hwAccel" class="mdl-textfield__label">hardware acceleration</label>
     </div>
 
-    <div class="label">
-        <label for="inputType">input type</label>
-    </div>
-
-    <div class="input">
-        <select id="inputType" name="inputType" form="index">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="inputType" name="inputType" form="index" class="mdl-textfield__input">
             <% const inputTypeArr = [/*'artificial',*/'rtsp', 'mjpeg', 'hls', 'mp4'/*,'local'*/]; %>
             <% for (let i = 0; i < inputTypeArr.length; i++) { %>
             <option value="<%= inputTypeArr[i] %>"><%= inputTypeArr[i] %></option>
             <% } %>
         </select>
+        <label for="inputType" class="mdl-textfield__label">input type</label>
     </div>
 
-    <div class="label">
-        <label for="analyzeDuration">analyze duration</label>
-    </div>
-
-    <div class="input">
-        <select id="analyzeDuration" name="analyzeDuration" form="index">
-            <option value="none">none</option>
-            <% for (let i = 0; i < 11; i++) { %>
-            <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label">
-        <label for="probeSize">probe size</label>
-    </div>
-
-    <div class="input">
-        <select id="probeSize" name="probeSize" form="index">
-            <option value="none">none</option>
-            <% for (let i = 5; i < 21; i++) { %>
-            <option value="<%= 2 ** i %>"><%= 2 ** i %> bytes</option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label rtspTransport">
-        <label for="rtspTransport">rtsp transport</label>
-    </div>
-
-    <div class="input rtspTransport">
-        <select id="rtspTransport" name="rtspTransport" form="index">
+    <div class="rtsp-transport mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="rtspTransport" name="rtspTransport" form="index" class="mdl-textfield__input">
             <% const rtspTransportArr = ['none', 'tcp', 'udp', 'http']; %>
             <% for (let i = 0; i < rtspTransportArr.length; i++) { %>
             <option value="<%= rtspTransportArr[i] %>"><%= rtspTransportArr[i] %></option>
             <% } %>
         </select>
+        <label for="rtspTransport" class="mdl-textfield__label">rtsp transport</label>
     </div>
 
-    <div class="label">
-        <label for="inputUrl">input url</label>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="analyzeDuration" name="analyzeDuration" form="index" class="mdl-textfield__input">
+            <option value="none">none</option>
+            <% for (let i = 0; i < 11; i++) { %>
+            <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
+            <% } %>
+        </select>
+        <label for="analyzeDuration" class="mdl-textfield__label">analyze duration</label>
     </div>
 
-    <div class="input">
-        <input form="index" type="text" id="inputUrl" name="inputUrl"/>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="probeSize" name="probeSize" form="index" class="mdl-textfield__input">
+            <option value="none">none</option>
+            <% for (let i = 5; i < 21; i++) { %>
+            <option value="<%= 2 ** i %>"><%= 2 ** i %> bytes</option>
+            <% } %>
+        </select>
+        <label for="probeSize" class="mdl-textfield__label">probe size</label>
+    </div>
+
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <input form="index" type="text" id="inputUrl" name="inputUrl" class="mdl-textfield__input"/>
+        <label for="inputUrl" class="mdl-textfield__label">input url</label>
     </div>
 
     <!-- +++++++++++++++++ MP4 ++++++++++++++++++ -->
 
-    <div class="section">
-        <span>MP4</span>
+    <div class="header mdl-layout-title mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        mp4 output
     </div>
 
-    <div class="label">
-        <label for="mp4HlsListSize">hls list size</label>
-    </div>
-
-    <div class="input">
-        <select id="mp4HlsListSize" name="mp4HlsListSize" form="index">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4HlsListSize" name="mp4HlsListSize" form="index" class="mdl-textfield__input">
             <% for (let i = 2; i < 6; i++) { %>
             <option value="<%= i %>"><%= i %></option>
             <% } %>
         </select>
+        <label for="mp4HlsListSize" class="mdl-textfield__label">hls list size</label>
     </div>
 
-    <div class="label">
-        <label for="mp4AudioCodec">audio codec</label>
-    </div>
-
-    <div class="input">
-        <select id="mp4AudioCodec" name="mp4AudioCodec" form="index">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4AudioCodec" name="mp4AudioCodec" form="index" class="mdl-textfield__input">
             <option value="an">no audio</option>
             <option value="aac">aac</option>
         </select>
+        <label for="mp4AudioCodec" class="mdl-textfield__label">audio codec</label>
     </div>
 
-    <div class="label">
-        <label for="mp4VideoCodec">video codec</label>
-    </div>
-
-    <div class="input">
-        <select id="mp4VideoCodec" name="mp4VideoCodec" form="index">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4VideoCodec" name="mp4VideoCodec" form="index" class="mdl-textfield__input">
             <% const mp4VideoCodecArr = ['copy', 'libx264'/*,'libx264rgb','h264_videotoolbox'*/]; %>
             <% for (let i = 0; i < mp4VideoCodecArr.length; i++) { %>
             <option value="<%= mp4VideoCodecArr[i] %>"><%= mp4VideoCodecArr[i] %></option>
             <% } %>
         </select>
+        <label for="mp4VideoCodec" class="mdl-textfield__label">video codec</label>
     </div>
 
-    <div class="label mp4VideoCodec">
-        <label for="mp4Rate">frame rate</label>
-    </div>
-
-    <div class="input mp4VideoCodec">
-        <select id="mp4Rate" name="mp4Rate" form="index">
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4Rate" name="mp4Rate" form="index" class="mdl-textfield__input">
             <option value="none">none</option>
             <% for (let i = 1; i < 31; i++) { %>
             <option value="<%= i %>"><%= i %> fps</option>
             <% } %>
         </select>
+        <label for="mp4Rate" class="mdl-textfield__label">frame rate</label>
     </div>
 
-    <div class="label mp4VideoCodec">
-        <label for="mp4Scale">scaled size</label>
-    </div>
-
-    <div class="input mp4VideoCodec">
-        <select id="mp4Scale" name="mp4Scale" form="index">
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4Scale" name="mp4Scale" form="index" class="mdl-textfield__input">
             <option value="none">none</option>
             <% for (let i = 10; i < 101; i++) { %>
             <option value="<%= i / 100 %>"><%= i %> %</option>
             <% } %>
         </select>
+        <label for="mp4Scale" class="mdl-textfield__label">scaled size</label>
     </div>
 
-    <!--<div class="label">
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="fragDuration" name="fragDuration" form="index" class="mdl-textfield__input">
+            <option value="none">none</option>
+            <% for (let i = 1; i < 11; i++) { %>
+            <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
+            <% } %>
+        </select>
+        <label for="fragDuration" class="mdl-textfield__label">fragment duration</label>
+    </div>
+
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+
+        <select id="mp4Crf" name="mp4Crf" form="index" class="mdl-textfield__input">
+            <option value="none">none</option>
+            <% for (let i = 0; i < 52; i++) { %>
+            <option value="<%= i %>"><%= i %></option>
+            <% } %>
+        </select>
+        <label for="mp4Crf" class="mdl-textfield__label">constant rate factor</label>
+    </div>
+
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+
+        <select id="mp4Preset" name="mp4Preset" form="index" class="mdl-textfield__input">
+            <% const mp4PresetArr = ['none', 'medium', 'fast', 'faster', 'veryfast', 'superfast', 'ultrafast']; %>
+            <% for (let i = 0; i < mp4PresetArr.length; i++) { %>
+            <option value="<%= mp4PresetArr[i] %>"><%= mp4PresetArr[i] %></option>
+            <% } %>
+        </select>
+        <label for="mp4Preset" class="mdl-textfield__label">preset</label>
+    </div>
+
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4Profile" name="mp4Profile" form="index" class="mdl-textfield__input">
+            <% const mp4ProfileArr = ['none', 'baseline', 'main', 'high'/*,'high10','high422','high444'*/]; %>
+            <% for (let i = 0; i < mp4ProfileArr.length; i++) { %>
+            <option value="<%= mp4ProfileArr[i] %>"><%= mp4ProfileArr[i] %></option>
+            <% } %>
+        </select>
+        <label for="mp4Profile" class="mdl-textfield__label">profile</label>
+    </div>
+
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4Level" name="mp4Level" form="index" class="mdl-textfield__input">
+            <% const mp4LevelArr = ['none', '3.0', '3.1', '4.0', '4.1', '4.2']; %>
+            <% for (let i = 0; i < mp4LevelArr.length; i++) { %>
+            <option value="<%= mp4LevelArr[i] %>"><%= mp4LevelArr[i] %></option>
+            <% } %>
+        </select>
+        <label for="mp4Level" class="mdl-textfield__label">level</label>
+    </div>
+
+    <!-- +++++++++++++++++ JPEG +++++++++++++++++ -->
+
+    <div class="header mdl-layout-title mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        jpeg output
+    </div>
+
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="jpegCodec" name="jpegCodec" form="index" class="mdl-textfield__input">
+            <% const jpegCodecArr = ['copy', 'mjpeg']; %>
+            <% for (let i = 0; i < jpegCodecArr.length; i++) { %>
+            <option value="<%= jpegCodecArr[i] %>"><%= jpegCodecArr[i] %></option>
+            <% } %>
+        </select>
+        <label for="jpegCodec" class="mdl-textfield__label">codec</label>
+    </div>
+
+    <div class="jpegCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="jpegRate" name="jpegRate" form="index" class="mdl-textfield__input">
+            <option value="none">none</option>
+            <% for (let i = 1; i < 31; i++) { %>
+            <option value="<%= i %>"><%= i %> fps</option>
+            <% } %>
+        </select>
+        <label for="jpegRate" class="mdl-textfield__label">rate</label>
+    </div>
+
+    <div class="jpegCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="jpegScale" name="jpegScale" form="index" class="mdl-textfield__input">
+            <option value="none">none</option>
+            <% for (let i = 10; i < 101; i++) { %>
+            <option value="<%= i / 100 %>"><%= i %> %</option>
+            <% } %>
+        </select>
+        <label for="jpegScale" class="mdl-textfield__label">scale</label>
+    </div>
+
+    <div class="jpegCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="jpegQuality" name="jpegQuality" form="index" class="mdl-textfield__input">
+            <option value="none">none</option>
+            <% for (let i = 1; i < 32; i++) { %>
+            <option value="<%= i %>"><%= i %></option>
+            <% } %>
+        </select>
+        <label for="jpegQuality" class="mdl-textfield__label">quality</label>
+    </div>
+
+    <!-- +++++++++++++++++ FORM +++++++++++++++++ -->
+
+    <div class="form mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <form id="index" method="POST" action="/">
+            <button name="action" type="submit" value="Start"
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <i
+                        class="material-icons">done</i></button>
+            <button name="action" type="submit" value="Exit"
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <i
+                        class="material-icons">clear</i></button>
+        </form>
+    </div>
+
+</div>
+
+<a href="https://github.com/kevinGodell/ffmpeg-streamer"><img style="position: absolute; top: 0; right: 0; border: 0;"
+                                                              src="/images/forkme_right_orange_ff7600.png"
+                                                              alt="Fork me on GitHub"></a>
+
+<!--<div class="label">
             <label for="mp4PixFmt">pixel format</label>
         </div>
 
@@ -201,163 +308,12 @@
             </select>
         </div>-->
 
-    <div class="label mp4VideoCodec">
-        <label for="fragDuration">frag duration</label>
-    </div>
-
-    <div class="input mp4VideoCodec">
-        <select id="fragDuration" name="fragDuration" form="index">
-            <option value="none">none</option>
-            <% for (let i = 1; i < 11; i++) { %>
-            <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label mp4VideoCodec">
-        <label for="mp4Crf">crf</label>
-    </div>
-
-    <div class="input mp4VideoCodec">
-        <select id="mp4Crf" name="mp4Crf" form="index">
-            <option value="none">none</option>
-            <% for (let i = 0; i < 52; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label mp4VideoCodec">
-        <label for="mp4Preset">preset</label>
-    </div>
-
-    <div class="input mp4VideoCodec">
-        <select id="mp4Preset" name="mp4Preset" form="index">
-            <% const mp4PresetArr = ['none', 'medium', 'fast', 'faster', 'veryfast', 'superfast', 'ultrafast']; %>
-            <% for (let i = 0; i < mp4PresetArr.length; i++) { %>
-            <option value="<%= mp4PresetArr[i] %>"><%= mp4PresetArr[i] %></option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label mp4VideoCodec">
-        <label for="mp4Profile">profile</label>
-    </div>
-
-    <div class="input mp4VideoCodec">
-        <select id="mp4Profile" name="mp4Profile" form="index">
-            <% const mp4ProfileArr = ['none', 'baseline', 'main', 'high'/*,'high10','high422','high444'*/]; %>
-            <% for (let i = 0; i < mp4ProfileArr.length; i++) { %>
-            <option value="<%= mp4ProfileArr[i] %>"><%= mp4ProfileArr[i] %></option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label mp4VideoCodec">
-        <label for="mp4Level">level</label>
-    </div>
-
-    <div class="input mp4VideoCodec">
-        <select id="mp4Level" name="mp4Level" form="index">
-            <% const mp4LevelArr = ['none', '3.0', '3.1', '4.0', '4.1', '4.2']; %>
-            <% for (let i = 0; i < mp4LevelArr.length; i++) { %>
-            <option value="<%= mp4LevelArr[i] %>"><%= mp4LevelArr[i] %></option>
-            <% } %>
-        </select>
-    </div>
-
-    <!-- +++++++++++++++++ JPEG +++++++++++++++++ -->
-
-    <div class="section">
-        <span>JPEG</span>
-    </div>
-
-    <div class="label">
-        <label for="jpegCodec">codec</label>
-    </div>
-
-    <div class="input">
-        <select id="jpegCodec" name="jpegCodec" form="index">
-            <% const jpegCodecArr = ['copy', 'mjpeg']; %>
-            <% for (let i = 0; i < jpegCodecArr.length; i++) { %>
-            <option value="<%= jpegCodecArr[i] %>"><%= jpegCodecArr[i] %></option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label jpegCodec">
-        <label for="jpegRate">rate</label>
-    </div>
-
-    <div class="input jpegCodec">
-        <select id="jpegRate" name="jpegRate" form="index">
-            <option value="none">none</option>
-            <% for (let i = 1; i < 31; i++) { %>
-            <option value="<%= i %>"><%= i %> fps</option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label jpegCodec">
-        <label for="jpegScale">scale</label>
-    </div>
-
-    <div class="input jpegCodec">
-        <select id="jpegScale" name="jpegScale" form="index">
-            <option value="none">none</option>
-            <% for (let i = 10; i < 101; i++) { %>
-            <option value="<%= i / 100 %>"><%= i %> %</option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="label jpegCodec">
-        <label for="jpegQuality">quality</label>
-    </div>
-
-    <div class="input jpegCodec">
-        <select id="jpegQuality" name="jpegQuality" form="index">
-            <option value="none">none</option>
-            <% for (let i = 1; i < 32; i++) { %>
-            <option value="<%= i %>"><%= i %></option>
-            <% } %>
-        </select>
-    </div>
-
-    <div class="form">
-        <form id="index" method="POST" action="/">
-            <input name="action" type="submit" value="Start"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
-            <input name="action" type="submit" value="Exit"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
-        </form>
-    </div>
-
-
-    <!--<div class="label">
-
-    </div>
-
-    <div class="input">
-
-    </div>
-
-    <div class="label">
-
-    </div>
-
-    <div class="input">
-
-    </div>-->
-
-</div>
-
 <script>
 
     const inputType = document.getElementById('inputType');
 
     inputType.addEventListener('change', (evt) => {
-        const elems = document.getElementsByClassName('rtspTransport');
+        const elems = document.getElementsByClassName('rtsp-transport');
         switch (inputType.value) {
             case 'rtsp':
                 for (let i = 0; i < elems.length; i++) {
@@ -410,7 +366,6 @@
         }
     });
 
-
     const elementIds = ['logLevel', 'hwAccel', 'inputType', 'analyzeDuration', 'probeSize', 'rtspTransport', 'inputUrl', 'mp4HlsListSize', 'mp4AudioCodec', 'mp4VideoCodec', 'mp4Rate', 'mp4Scale', 'fragDuration', 'mp4Crf', 'mp4Preset', 'mp4Profile', 'mp4Level', 'jpegCodec', 'jpegRate', 'jpegScale', 'jpegQuality'];
 
     const vals = <%- JSON.stringify(values) %>;
@@ -431,6 +386,7 @@
     }
 
 </script>
-<a href="https://github.com/kevinGodell/ffmpeg-streamer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/images/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
 </body>
 </html>
+
+<!-- add support for local file input for mp4 etc-->

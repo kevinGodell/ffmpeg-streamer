@@ -1,23 +1,31 @@
 # ffmpeg-streamer
 
 **ffmpeg-streamer** is a packaged nodejs [express](https://github.com/expressjs/express) server that wraps `ffmpeg` to allow easy streaming of video feeds directly to ***modern*** browsers for testing purposes.
-It currently includes 6 different types of output streaming which are *mjpeg*, *jpeg via socket.io*, *progressive mp4*, *native hls*, [~~*flv.js*~~](https://github.com/Bilibili/flv.js), [*hls.js*](https://github.com/video-dev/hls.js), and *mse via socket.io*.
+It currently includes 6 different types of output streaming which are *mjpeg*, *jpeg via socket.io*, *progressive mp4*, *native hls*, [*hls.js*](https://github.com/video-dev/hls.js), and *mse via socket.io*.
 Video input types supported are *rtsp*, *mp4*, *mjpeg*, and *hls*.
 
 ### Installation
 **ffmpeg-streamer** has been packaged into an executable using [pkg](https://github.com/zeit/pkg).
 The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases) page.
 * The Windows binary is already executable and can be run simply by downloading and launching it.
-* Linux and Mac installation require the binary to be give executable permissions before it can run.
+* Linux and Mac installation require the binary to be given executable permissions before it can run.
 
-###### Downloading on Linux
+###### Downloading
 ```
-wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.7/ffmpeg-streamer-linux-x64
+//linux
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.8/ffmpeg-streamer-linux-x64
+
+//mac
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.8/ffmpeg-streamer-macos-x64
 ```
 
-###### Setting executable permissions on Linux
+###### Setting executable permissions
 ```
+//linux
 chmod +x ffmpeg-streamer-linux-x64
+
+//mac
+chmod +x ffmpeg-streamer-macos-x64
 ```
 
 ### Usage
@@ -26,7 +34,11 @@ For command line usage on Mac or Linux, the following shows 2 options to run it.
 
 ###### Start the app from the command line
 ```
+//linux
 ./ffmpeg-streamer-linux-x64
+
+//mac
+./ffmpeg-streamer-macos-x64
 ```
 
 ###### Start the app from the command line via [pm2](https://github.com/Unitech/pm2)

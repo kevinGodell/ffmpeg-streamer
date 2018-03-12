@@ -78,8 +78,8 @@ For problems, please include information about what operating system the app is 
 Any additional details would be helpful.
 
 #### Screenshots
-![screenshot1](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot1.png?raw=true "Main Screen")
-![screenshot2](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot2.png?raw=true "Video Player")
+![screenshot1](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot1_0.0.8.png?raw=true "Main Screen")
+![screenshot2](https://github.com/kevinGodell/ffmpeg-streamer/blob/master/screenshots/screenshot2_0.0.8.png?raw=true "Video Player")
 
 #### TODO
 * [ ] Add support for more input types such as local video hardware and artificially generated input

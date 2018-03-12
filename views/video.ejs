@@ -44,11 +44,6 @@
             text-align: center;
         }
 
-        .form button {
-            min-width: 200px;
-            min-height: 50px;
-        }
-
         .mdl-card__media {
             margin: 0;
             background: none;
@@ -68,7 +63,7 @@
 
     </style>
     <script defer src="/mdl/material.min.js"></script>
-    <script src="/assets/flv.min.js"></script>
+    <!--<script src="/assets/flv.min.js"></script>-->
     <script src="/assets/hls.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </head>
@@ -87,7 +82,7 @@
 
     <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
         <figure class="mdl-card__media">
-            <video id="mp4Video" muted autoplay src="/mp4/test.mp4" type="video/mp4"/>
+            <video id="mp4Video" muted src="/mp4/test.mp4" type="video/mp4"/>
         </figure>
         <div class="mdl-card__supporting-text">
             mp4 src: <a href="/mp4/test.mp4">test.mp4</a>
@@ -96,7 +91,7 @@
 
     <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
         <figure class="mdl-card__media">
-            <video id="hlsjsVideo" muted autoplay/>
+            <video id="hlsjsVideo" muted />
         </figure>
         <div class="mdl-card__supporting-text">
             hls.js src: <a href="/hls/test.m3u8">test.m3u8</a>
@@ -114,13 +109,13 @@
 
     <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
         <!--<figure class="mdl-card__media">
-            <video id="flvjsVideo" muted autoplay/>
+            <video id="flvjsVideo" muted />
         </figure>
         <div class="mdl-card__supporting-text">
             flv.js src: <a href="/mp4/test.mp4">test.mp4</a>
         </div>-->
         <figure class="mdl-card__media">
-            <video id="hlsVideo" muted autoplay src="/hls/test.m3u8" type="application/x-mpegURL"/>
+            <video id="hlsVideo" muted src="/hls/test.m3u8" type="application/vnd.apple.mpegurl"/>
         </figure>
         <div class="mdl-card__supporting-text">
             native hls src: <a href="/hls/test.m3u8">test.m3u8</a>
@@ -129,7 +124,7 @@
 
     <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
         <figure class="mdl-card__media">
-            <video id="mseVideo" muted autoplay/>
+            <video id="mseVideo" muted />
         </figure>
         <div class="mdl-card__supporting-text">
             mse via socket.io
@@ -159,11 +154,11 @@
     <div class="mdl-cell mdl-cell--12-col form">
         <form method="POST" action="/">
             <button name="action" type="submit" value="Exit"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                    class="mdl-shadow--16dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
                         class="material-icons">clear</i></button>
             <button name="action" type="submit" value="Stop"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
-                        class="material-icons">stop</i></button>
+                    class="mdl-shadow--16dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                        class="material-icons">undo</i></button>
         </form>
     </div>
 </div>
@@ -213,8 +208,7 @@
         const arrayBufferView = new Uint8Array(data);
         const blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
         const urlCreator = window.URL || window.webkitURL;
-        const imageUrl = urlCreator.createObjectURL(blob);
-        jpegImg.src = imageUrl;
+        jpegImg.src = urlCreator.createObjectURL(blob);
     });
 </script>
 <script>
@@ -225,7 +219,7 @@
         reconnection: true,
         reconnectionDelay: 500
     });
-    progressSocket.on('progress', function (data) {
+    progressSocket.on('progress', (data) => {
         progress.innerText = data;
     });
 </script>
@@ -282,7 +276,7 @@
         reconnection: true,
         reconnectionDelay: 500
     });
-    stderrSocket.on('stderr', function (data) {
+    stderrSocket.on('stderr', (data) => {
         stderrArr.push(data);
         while (stderrArr.length > 200) {
             stderrArr.shift();
@@ -292,12 +286,19 @@
 </script>
 <script>
     const mp4Video = document.getElementById('mp4Video');
+    mp4Video.src += '?t=' + new Date().toLocaleTimeString().split(' ').join('_');
+    mp4Video.addEventListener('canplay', (evt) => {
+        mp4Video.play();
+    });
     mp4Video.addEventListener('error', (evt) => {
         mp4Video.parentElement.innerHTML = '<p>mp4 playback error</p>';
     });
 </script>
 <script>
     const hlsVideo = document.getElementById('hlsVideo');
+    hlsVideo.addEventListener('canplay', (evt) => {
+        hlsVideo.play();
+    });
     hlsVideo.addEventListener('error', (evt) => {
         hlsVideo.parentElement.innerHTML = '<p>native hls playback error</p>';
     });
@@ -307,6 +308,20 @@
     mjpegImg.addEventListener('error', (evt) => {
         mjpegImg.parentElement.innerHTML = '<p>mjpeg playback error</p>';
     })
+</script>
+<script>
+    window.addEventListener('beforeunload', (evt) => {
+        stderrSocket.disconnect();
+        progressSocket.disconnect();
+        m3u8Socket.disconnect();
+        mimeSocket.disconnect();
+        jpegSocket.disconnect();
+        mjpegImg.src = '';
+        mp4Video.pause();
+        hlsVideo.pause();
+        hlsjsVideo.pause();
+        msePlayer.stop();
+    });
 </script>
 </body>
 </html>

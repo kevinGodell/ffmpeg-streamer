@@ -21,15 +21,30 @@ router.use('/', (req, res, next) => {
 
 router.get('/test.m3u8', (req, res) => {
     const mp4frag = res.locals.mp4frag;
-    if (mp4frag.m3u8) {
+
+    const onSegment = () => {
         res.set('Content-Type', 'application/vnd.apple.mpegurl');
         res.end(mp4frag.m3u8);
+    };
+
+    const cleanup = () => {
+        res.removeListener('finish', cleanup);
+        res.removeListener('close', cleanup);
+        res.destroy();
+        if (mp4frag) {
+            mp4frag.removeListener('segment', onSegment);
+        }
+    };
+
+    res.once('finish', cleanup);
+    res.once('close', cleanup);
+
+    if (mp4frag.m3u8) {
+        onSegment();
     } else {
-        mp4frag.once('segment', () => {
-            res.set('Content-Type', 'application/vnd.apple.mpegurl');
-            res.end(mp4frag.m3u8);
-        });
+        mp4frag.once('segment', onSegment);
     }
+
 });
 
 router.get('/test.m3u8.txt', (req, res) => {

@@ -25,7 +25,8 @@
     "mp4frag": "0.0.17",
     "pipe2jpeg": "^0.2.7",
     "serve-favicon": "~2.4.5",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "videojs-contrib-hls": "^5.13.0"
   },
   "bin": "app.js",
   "main": "app.js",

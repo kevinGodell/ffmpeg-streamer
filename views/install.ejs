@@ -5,35 +5,70 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/mdl/material-icons.css"/>
     <link rel="stylesheet" href="/mdl/material.grey-blue.min.css"/>
-    <script defer src="/mdl/material.min.js"></script>
+    <style>
 
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
+        body {
+            background: lightgrey;
+        }
+
+        .mdl-cell {
+            background: black;
+            color: white;
+            text-align: center;
+            margin: 4px;
+        }
+
+        .mdl-cell.header {
+            padding: 5px;
+        }
+
+        .mdl-cell.form {
+            background: none;
+        }
+
+        #progressbar {
+            display: none;
+        }
+
+        #message {
+            background: blue;
+            color: red;
+        }
+
+    </style>
+    <script defer src="/mdl/material.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-<div class="install">
-    <div class="header">
-        <p><%= title %></p>
-        <p><%= subTitle %></p>
+
+<div class="content-grid mdl-grid">
+
+    <div class="mdl-layout-title mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <h5><%= title %></h5>
+        <h6><%= subTitle %></h6>
     </div>
-    <div class="message" id="message">
-        <span><%= message %></span>
+
+    <div id="message"
+         class="mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <%= message %>
         <br/>
-        <span><%= directory %></span>
+        <%= directory %>
     </div>
-    <div class="form">
+
+    <div id = "progressbar" class="mdl-progress mdl-js-progress mdl-progress__indeterminate mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone"></div>
+
+    <div class="form mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
         <form method="POST" action="/">
-            <button name="action" type="submit" value="Exit"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Exit
-            </button>
-            <button id="install" name="action" type="button" value="Install"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Install
-            </button>
+            <button name="action" type="submit" value="Exit" class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i class="material-icons">clear</i></button>
+            <button id="install" name="action" type="button" value="Install" class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i class="material-icons">file_download</i></button>
         </form>
     </div>
+
 </div>
+
 <script>
     const message = document.getElementById('message');
+    const progressbar = document.getElementById('progressbar');
     const installSocket = io.connect(`${location.origin}/install`, {
         transports: ['websocket'],
         forceNew: false,
@@ -55,12 +90,16 @@
             switch (data.type) {
                 case 'downloading':
                     message.innerText = 'Downloading...';
+                    progressbar.style.display = 'inline';
                     break;
                 case 'fail':
                     message.innerText = `Fail: ${data.msg}`;
+                    progressbar.style.display = 'none';
+                    installSocket.disconnect();
                     break;
                 case 'complete':
                     message.innerText = 'Complete';
+                    progressbar.style.display = 'none';
                     installSocket.disconnect();
                     window.location.replace('/');
                     break;

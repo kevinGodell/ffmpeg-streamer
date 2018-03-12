@@ -295,98 +295,19 @@
                                                               src="/images/forkme_right_orange_ff7600.png"
                                                               alt="Fork me on GitHub"></a>
 
-<!--<div class="label">
-            <label for="mp4PixFmt">pixel format</label>
-        </div>
-
-        <div class="input">
-            <select id="mp4PixFmt" name="mp4PixFmt" form="index">
-                <% const mp4PixFmtArr = ['yuv420p', 'yuvj420p', 'yuv410p', 'yuv411p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
-                <% for (let i = 0; i < mp4PixFmtArr.length; i++) { %>
-                <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4PixFmtArr[i] %>"><%= mp4PixFmtArr[i] %></option>
-                <% } %>
-            </select>
-        </div>-->
+<!--<div class="input">
+    <select id="mp4PixFmt" name="mp4PixFmt" form="index">
+        <% const mp4PixFmtArr = ['yuv420p', 'yuvj420p', 'yuv410p', 'yuv411p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
+        <% for (let i = 0; i < mp4PixFmtArr.length; i++) { %>
+        <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4PixFmtArr[i] %>"><%= mp4PixFmtArr[i] %></option>
+        <% } %>
+    </select>
+    <label for="mp4PixFmt">pixel format</label>
+</div>-->
 
 <script>
-
-    const inputType = document.getElementById('inputType');
-
-    inputType.addEventListener('change', (evt) => {
-        const elems = document.getElementsByClassName('rtsp-transport');
-        switch (inputType.value) {
-            case 'rtsp':
-                for (let i = 0; i < elems.length; i++) {
-                    elems[i].style.display = 'inline';
-                }
-                break;
-            case 'mjpeg':
-            case 'hls':
-            case 'mp4':
-                for (let i = 0; i < elems.length; i++) {
-                    elems[i].style.display = 'none';
-                }
-                break;
-        }
-    });
-
-    const mp4VideoCodec = document.getElementById('mp4VideoCodec');
-
-    mp4VideoCodec.addEventListener('change', (evt) => {
-        const elems = document.getElementsByClassName('mp4VideoCodec');
-        switch (mp4VideoCodec.value) {
-            case 'copy':
-                for (let i = 0; i < elems.length; i++) {
-                    elems[i].style.display = 'none';
-                }
-                break;
-            case 'libx264':
-                for (let i = 0; i < elems.length; i++) {
-                    elems[i].style.display = 'inline';
-                }
-                break;
-        }
-    });
-
-    const jpegCodec = document.getElementById('jpegCodec');
-
-    jpegCodec.addEventListener('change', (evt) => {
-        const elems = document.getElementsByClassName('jpegCodec');
-        switch (jpegCodec.value) {
-            case 'copy':
-                for (let i = 0; i < elems.length; i++) {
-                    elems[i].style.display = 'none';
-                }
-                break;
-            case 'mjpeg':
-                for (let i = 0; i < elems.length; i++) {
-                    elems[i].style.display = 'inline';
-                }
-                break;
-        }
-    });
-
-    const elementIds = ['logLevel', 'hwAccel', 'inputType', 'analyzeDuration', 'probeSize', 'rtspTransport', 'inputUrl', 'mp4HlsListSize', 'mp4AudioCodec', 'mp4VideoCodec', 'mp4Rate', 'mp4Scale', 'fragDuration', 'mp4Crf', 'mp4Preset', 'mp4Profile', 'mp4Level', 'jpegCodec', 'jpegRate', 'jpegScale', 'jpegQuality'];
-
-    const vals = <%- JSON.stringify(values) %>;
-
-    if (vals) {
-        for (let i = 0, len = elementIds.length; i < len; i++) {
-            const elem = document.getElementById(elementIds[i]);
-            elem.value = vals[elementIds[i]];
-            elem.dispatchEvent(new Event('change'));
-        }
-    } else {
-        const defaultVals = ['warning', 'auto', 'hls', '10000000', '1048576', 'tcp', 'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8', '3', 'aac', 'copy', '7', '0.75', '1000000', '10', 'none', 'none', 'none', 'mjpeg', '7', '0.75', '10'];
-        for (let i = 0, len = elementIds.length; i < len; i++) {
-            const elem = document.getElementById(elementIds[i]);
-            elem.value = defaultVals[i];
-            elem.dispatchEvent(new Event('change'));
-        }
-    }
-
+    var vals = <%- JSON.stringify(values) %>;
 </script>
+<script src="/javascripts/index.js"></script>
 </body>
 </html>
-
-<!-- add support for local file input for mp4 etc-->

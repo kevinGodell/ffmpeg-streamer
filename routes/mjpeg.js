@@ -22,7 +22,6 @@ router.use('/', (req, res, next) => {
 
 router.get('/test.mjpg', (req, res) => {
     function onJpeg() {
-        //clearTimeout(timeOut);
         res.set('Content-Type', 'multipart/x-mixed-replace;boundary=ffmpeg_streamer');
         //res.set('Transfer-Encoding', '');
         res.write('--ffmpeg_streamer\r\n');
@@ -33,7 +32,6 @@ router.get('/test.mjpg', (req, res) => {
     }
 
     function cleanup() {
-        //clearTimeout(timeOut);
         if (pipe2jpeg) {
             pipe2jpeg.removeListener('jpeg', onJpeg);
             pipe2jpeg.unpipe(writable);
@@ -50,12 +48,6 @@ router.get('/test.mjpg', (req, res) => {
             callback();
         }
     });
-
-    /*const timeOut = setTimeout(() => {
-            cleanup();
-            res.sendStatus(503);
-            res.destroy();
-    }, 20000);*/
 
     res.once('close', () => {
         cleanup();

@@ -8,7 +8,7 @@
     <style>
 
         body {
-            background: grey;
+            background: lightgrey;
         }
 
         .mdl-grid {
@@ -71,7 +71,7 @@
 
 <div class="content-grid mdl-grid">
 
-    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+    <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
             <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
         </figure>
@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+    <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
             <video id="mp4Video" muted src="/mp4/test.mp4" type="video/mp4"/>
         </figure>
@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+    <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
             <video id="hlsjsVideo" muted />
         </figure>
@@ -98,7 +98,7 @@
         </div>
     </div>
 
-    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+    <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
             <img id="jpegImg"/>
         </figure>
@@ -107,7 +107,7 @@
         </div>
     </div>
 
-    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+    <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <!--<figure class="mdl-card__media">
             <video id="flvjsVideo" muted />
         </figure>
@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <div class="mdl-card mdl-shadow--16dp mdl-cell mdl-cell--4-col player">
+    <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
             <video id="mseVideo" muted />
         </figure>
@@ -131,33 +131,33 @@
         </div>
     </div>
 
-    <div class="mdl-shadow--16dp mdl-cell mdl-cell--8-col data">
-        <span><%= params %></span>
-    </div>
-
-    <div class="mdl-shadow--16dp mdl-cell mdl-cell--4-col data">
+    <div class="data mdl-shadow--8dp mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-tablet mdl-cell--4-col-phone">
         <span id="mime">codec info...</span>
     </div>
 
-    <div class="mdl-shadow--16dp mdl-cell mdl-cell--6-col data">
+    <div class="data mdl-shadow--8dp mdl-cell mdl-cell--9-col-desktop mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+        <span><%= params %></span>
+    </div>
+
+    <div class="data mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <span id="stderr">ffmpeg stderr...</span>
     </div>
 
-    <div class="mdl-shadow--16dp mdl-cell mdl-cell--3-col data">
+    <div class="data mdl-shadow--8dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <span id="progress">ffmpeg progress...</span>
     </div>
 
-    <div class="mdl-shadow--16dp mdl-cell mdl-cell--3-col data">
+    <div class="data mdl-shadow--8dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <span id="m3u8">m3u8 playlist...</span>
     </div>
 
     <div class="mdl-cell mdl-cell--12-col form">
         <form method="POST" action="/">
             <button name="action" type="submit" value="Exit"
-                    class="mdl-shadow--16dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
                         class="material-icons">clear</i></button>
             <button name="action" type="submit" value="Stop"
-                    class="mdl-shadow--16dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
                         class="material-icons">undo</i></button>
         </form>
     </div>

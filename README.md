@@ -84,5 +84,4 @@ Any additional details would be helpful.
 #### TODO
 * [ ] Add support for more input types such as local video hardware and artificially generated input
 * [ ] Add more ffmpeg settings to further customize the generated video for streaming
-* [ ] Improve appearance, or not. Its just a utility app and does not necessarily have to be pretty
 * [ ] Improve playback of *mse via socket.io*

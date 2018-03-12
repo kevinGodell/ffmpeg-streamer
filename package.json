@@ -38,7 +38,8 @@
       "views/**/*",
       "public/**/*",
       "node_modules/material-design-icons/iconfont/**/*",
-      "node_modules/material-design-lite/dist/**/*"
+      "node_modules/material-design-lite/dist/material.deep_orange-blue.min.css",
+      "node_modules/material-design-lite/dist/material.min.js"
     ]
   }
 }

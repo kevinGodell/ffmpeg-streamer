@@ -1,35 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title><%= title %></title>
+
     <link rel="stylesheet" href="/mdl/material-icons.css"/>
-    <link rel="stylesheet" href="/mdl/material.grey-blue.min.css"/>
+    <link rel="stylesheet" href="/mdl/material.deep_orange-blue.min.css"/>
+
+    <style>
+
+        body {
+            background: lightgrey;
+        }
+
+        .mdl-cell {
+            background: black;
+            color: white;
+            text-align: center;
+            margin: 4px;
+        }
+
+        .mdl-cell.form {
+            background: none;
+        }
+
+        .mdl-cell.message {
+            background: #FF5722;
+            color: yellow;
+            padding: 10px;
+        }
+
+    </style>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script defer src="/mdl/material.min.js"></script>
 
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
-<div class="activity">
-    <div class="header">
-        <p><%= title %></p>
-        <p><%= subTitle %></p>
+
+<div class="content-grid mdl-grid">
+
+    <div class="mdl-layout-title mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <h5><%= title %></h5>
+        <h6><%= subTitle %></h6>
     </div>
-    <div class="message" id="message">
-        <span><%= message %></span>
+
+    <div id="message"
+         class="message mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <%= message %>
         <br/>
-        <span><%= directory %></span>
+        <%= directory %>
     </div>
-    <div class="form">
+
+    <div class="form mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
         <form method="POST" action="/">
             <button name="action" type="submit" value="Destroy"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Destroy
-            </button>
-            <button id="install" name="action" type="submit" value="Create"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Create
-            </button>
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <i class="material-icons">delete_forever</i></button>
+            <button name="action" type="submit" value="Create"
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <i class="material-icons">create</i></button>
         </form>
     </div>
+
 </div>
+
 </body>
 </html>

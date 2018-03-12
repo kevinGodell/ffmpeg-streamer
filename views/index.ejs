@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title><%= title %></title>
+
     <link rel="stylesheet" href="/mdl/material-icons.css"/>
     <link rel="stylesheet" href="/mdl/material.deep_orange-blue.min.css"/>
-    <script defer src="/mdl/material.min.js"></script>
+
     <style>
 
         body {
@@ -28,12 +31,18 @@
             direction: rtl;
         }
 
-        .mdl-cell > span {
-            font-weight: bold;
+        .mdl-cell.message {
+            background: #FF5722;
+            color: yellow;
+            padding: 10px;
         }
 
     </style>
+
+    <script defer src="/mdl/material.min.js"></script>
+
 </head>
+
 <body>
 
 <div class="content-grid mdl-grid">
@@ -41,16 +50,13 @@
     <div class="mdl-layout-title mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
         <h5><%= title %></h5>
         <h6><%= subTitle %></h6>
-        <% if (message) { %>
-        <span><%= message %></span>
-        <% } %>
     </div>
 
-    <!--<% if (message) { %>
-    <div class="message mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+    <% if (message) { %>
+    <div class="message mdl-shadow--8dp mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
         <span><%= message %></span>
     </div>
-    <% } %>-->
+    <% } %>
 
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
         <select id="logLevel" name="logLevel" form="index" class="mdl-textfield__input">
@@ -309,5 +315,6 @@
     var vals = <%- JSON.stringify(values) %>;
 </script>
 <script src="/javascripts/index.js"></script>
+
 </body>
 </html>

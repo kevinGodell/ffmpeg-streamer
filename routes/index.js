@@ -63,7 +63,7 @@ router.get('/', (req, res) => {
     }
     const activity = app.get('activity');
     if (activity.running && activity.lastActivity) {
-        return renderIndex(res, 'Previous session loaded.', activity.lastActivity);
+        return renderIndex(res, null, activity.lastActivity);
     }
     return renderIndex(res, null, null);
 });

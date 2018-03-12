@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title><%= title %></title>
+
     <link rel="stylesheet" href="/mdl/material-icons.css"/>
-    <link rel="stylesheet" href="/mdl/material.grey-blue.min.css"/>
+    <link rel="stylesheet" href="/mdl/material.deep_orange-blue.min.css"/>
+
     <style>
 
         body {
             background: lightgrey;
-        }
-
-        .mdl-grid {
-            /*background: grey;*/
         }
 
         .mdl-cell {
@@ -62,10 +62,12 @@
         }
 
     </style>
-    <script defer src="/mdl/material.min.js"></script>
+
     <!--<script src="/assets/flv.min.js"></script>-->
     <script src="/assets/hls.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script defer src="/mdl/material.min.js"></script>
+
 </head>
 <body>
 
@@ -91,7 +93,7 @@
 
     <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
-            <video id="hlsjsVideo" muted />
+            <video id="hlsjsVideo" muted/>
         </figure>
         <div class="mdl-card__supporting-text">
             hls.js src: <a href="/hls/test.m3u8">test.m3u8</a>
@@ -124,7 +126,7 @@
 
     <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
-            <video id="mseVideo" muted />
+            <video id="mseVideo" muted/>
         </figure>
         <div class="mdl-card__supporting-text">
             mse via socket.io
@@ -154,10 +156,12 @@
     <div class="mdl-cell mdl-cell--12-col form">
         <form method="POST" action="/">
             <button name="action" type="submit" value="Exit"
-                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <i
                         class="material-icons">clear</i></button>
             <button name="action" type="submit" value="Stop"
-                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><i
+                    class="mdl-shadow--8dp mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <i
                         class="material-icons">undo</i></button>
         </form>
     </div>

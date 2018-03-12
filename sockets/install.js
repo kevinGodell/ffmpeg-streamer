@@ -16,6 +16,12 @@ module.exports = (app, io) => {
 
             socket.on('download', () => {
 
+                const ffmpeg = app.get('ffmpeg');
+
+                if (ffmpeg && ffmpeg.running) {
+                    ffmpeg.stop();
+                }
+
                 socket.emit('status', {type: 'downloading'});
 
                 if (downloading) {

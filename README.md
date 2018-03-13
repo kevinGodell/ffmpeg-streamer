@@ -41,9 +41,13 @@ For command line usage on Mac or Linux, the following shows 2 options to run it.
 ./ffmpeg-streamer-macos-x64
 ```
 
-###### Start the app from the command line via [pm2](https://github.com/Unitech/pm2)
+###### Or start the app from the command line via [pm2](https://github.com/Unitech/pm2)
 ```
+//linux
 pm2 start ffmpeg-streamer-linux-x64
+
+//mac
+pm2 start ffmpeg-streamer-macos-x64
 ```
 After launching, you can use it via the web interface on port 8181.
 For example, if your are running it on your current machine, visit it in a ***modern*** browser via [http://localhost:8181](http://localhost:8181).

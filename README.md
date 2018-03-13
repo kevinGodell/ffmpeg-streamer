@@ -6,7 +6,7 @@ Video input types supported are *rtsp*, *mp4*, *mjpeg*, and *hls*.
 
 ### Installation
 **ffmpeg-streamer** has been packaged into an executable using [pkg](https://github.com/zeit/pkg).
-The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases) page.
+The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases/tag/v0.0.8) page.
 * The Windows binary is already executable and can be run simply by downloading and launching it.
 * Linux and Mac installation require the binary to be given executable permissions before it can run.
 

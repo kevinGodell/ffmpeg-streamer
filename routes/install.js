@@ -13,7 +13,7 @@ router.use('/', (req, res) => {
         res.render('install', {
             title: 'FFMPEG Dependency Error',
             subTitle: 'Not found on system.',
-            message: `Would you like to install a fresh copy of ffmpeg in this directory?`,
+            message: `Would you like to install an updated copy of ffmpeg in this directory?`,
             directory: app.get('dirName')
         });
         return;
@@ -22,7 +22,7 @@ router.use('/', (req, res) => {
     res.render('install', {
         title: 'FFMPEG Dependency OK',
         subTitle: `Found @ ${ffmpegPath}`,
-        message: `Would you like to install a fresh copy of ffmpeg in this directory?`,
+        message: `Would you like to install an updated copy of ffmpeg in this directory?`,
         directory: app.get('dirName')
     });
 

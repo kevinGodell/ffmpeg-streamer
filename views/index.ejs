@@ -311,10 +311,9 @@
     <label for="mp4PixFmt">pixel format</label>
 </div>-->
 
-<script>
-    var vals = <%- JSON.stringify(values) %>;
-</script>
 <script src="/javascripts/index.js"></script>
-
+<script>
+    setValues(<%- JSON.stringify(values) %>);
+</script>
 </body>
 </html>

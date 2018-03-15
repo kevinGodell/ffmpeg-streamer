@@ -10,22 +10,22 @@ The current binaries can be found on the [releases](https://github.com/kevinGode
 * The Windows binary is already executable and can be run simply by downloading and launching it.
 * Linux and Mac installation require the binary to be given executable permissions before it can run.
 
-###### Downloading
+###### Downloading zipped archive
 ```
 //linux
-wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.8/ffmpeg-streamer-linux-x64
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.8/ffmpeg-streamer-linux-x64.zip
 
 //mac
-curl -L -O --compressed https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.8/ffmpeg-streamer-macos-x64
+curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.8/ffmpeg-streamer-macos-x64.zip
 ```
 
-###### Setting executable permissions
+###### Extracting zipped archive
 ```
 //linux
-chmod +x ffmpeg-streamer-linux-x64
+unzip ffmpeg-streamer-linux-x64.zip
 
 //mac
-chmod +x ffmpeg-streamer-macos-x64
+unzip ffmpeg-streamer-macos-x64.zip
 ```
 
 ### Usage

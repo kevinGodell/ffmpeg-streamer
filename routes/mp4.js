@@ -7,7 +7,12 @@ router.use('/', (req, res, next) => {
     const app = req.app;
     const mp4frag = app.get('mp4frag');
     if (!mp4frag) {
-        res.sendStatus(503);
+        res.status(404).send('mp4 resource not available');
+        res.destroy();
+        return;
+    }
+    if (!mp4frag.initialization) {
+        res.status(503).send('mp4 resource not ready');
         res.destroy();
         return;
     }
@@ -24,35 +29,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/test.mp4', (req, res) => {
-
     const mp4frag = res.locals.mp4frag;
-
-    const onInit = () => {
-        res.set('Content-Type', 'video/mp4');
-        res.write(mp4frag.initialization);
-        if (mp4frag.segment) {
-            res.write(mp4frag.segment);
-        }
-        mp4frag.pipe(res, {end: true});
-    };
-
-    const cleanup = () => {
-        res.removeListener('close', cleanup);
-        res.destroy();
+    res.set('Content-Type', 'video/mp4');
+    res.write(mp4frag.initialization);
+    if (mp4frag.segment) {
+        res.write(mp4frag.segment);
+    }
+    mp4frag.pipe(res, {end: true});
+    res.once('close', () => {
         if (mp4frag) {
-            mp4frag.removeListener('initialized', onInit);
             mp4frag.unpipe(res);
         }
-    };
-
-    res.once('close', cleanup);
-
-    if (mp4frag.initialization) {
-        onInit();
-    } else {
-        mp4frag.once('initialized', onInit);
-    }
-
+        res.destroy();
+    });
 });
 
 module.exports = router;

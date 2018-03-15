@@ -84,10 +84,10 @@
 
     <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
-            <video id="mp4Video" muted src="/mp4/test.mp4" type="video/mp4"/>
+            <video id="mp4Video" muted/>
         </figure>
         <div class="mdl-card__supporting-text">
-            mp4 src: <a href="/mp4/test.mp4">test.mp4</a>
+            progressive mp4 src: <a href="/mp4/test.mp4">test.mp4</a>
         </div>
     </div>
 
@@ -290,13 +290,24 @@
 </script>
 <script>
     const mp4Video = document.getElementById('mp4Video');
-    mp4Video.src += '?t=' + new Date().toLocaleTimeString().split(' ').join('_');
+    let mp4VideoLoads = 0;
+    const loadMp4Video = () => {
+        mp4Video.src = '/mp4/test.mp4?t=' + new Date().toLocaleTimeString().split(' ').join('_');
+        mp4Video.load();
+        mp4VideoLoads++;
+    };
     mp4Video.addEventListener('canplay', (evt) => {
+        mp4VideoLoads = 0;
         mp4Video.play();
     });
     mp4Video.addEventListener('error', (evt) => {
-        mp4Video.parentElement.innerHTML = '<p>mp4 playback error</p>';
+        if (mp4VideoLoads > 20) {
+            mp4Video.parentElement.innerHTML = '<p>progressive mp4 playback error</p>';
+            return;
+        }
+        setTimeout(loadMp4Video, 500);
     });
+    loadMp4Video();
 </script>
 <script>
     const hlsVideo = document.getElementById('hlsVideo');

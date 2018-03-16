@@ -65,7 +65,7 @@
 
     <script src="/assets/hls.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/javascripts/player.min.js"></script>
+    <script src="/javascripts/player.js"></script>
     <script defer src="/mdl/material.min.js"></script>
 
 </head>
@@ -180,15 +180,17 @@
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
             console.log('hls error', data);
-            if (data.type === 'networkError') {
+            console.log(data.type);
+            console.log(data.details);
+            //if (data.type === 'networkError') {
                 //hlsjsVideo.parentElement.innerHTML = '<p>hls.js network error</p>';
-            }
+            //}
         });
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
             hlsjsVideo.play();
         });
         hls.attachMedia(hlsjsVideo);
-        hls.loadSource('/hls/test.m3u8?hlsjs');
+        hls.loadSource('/hls/test.m3u8');
     } else {
         hlsjsVideo.parentElement.innerHTML = '<p>hls.js not supported</p>';
     }

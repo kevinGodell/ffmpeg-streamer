@@ -23,7 +23,6 @@ module.exports = (app, io) => {
 
             const writable = new Writable({
                 write(chunk, encoding, callback) {
-                    //console.log('writable segment');
                     socket.emit('segment', chunk);
                     //todo broadcast to all clients from single writable
                     //io.of(namespace).emit('jpeg', chunk);
@@ -73,10 +72,9 @@ module.exports = (app, io) => {
                         break;
                     //client is requesting ALL segments
                     case 'segments' :
-                        //console.log('send ALL segments');
-                        if (mp4frag.segment) {
-                            //console.log('segment already exists');
-                            socket.emit('segment', mp4frag.segment);
+                        const segment = mp4frag.segment;
+                        if (segment) {
+                            socket.emit('segment', segment);
                         }// else {
                         //console.log('waiting for segments');
                         //}

@@ -502,8 +502,9 @@ class VideoPlayer {
     _onSegment(data) {
         if (this._sourceBuffer.buffered.length) {
             const lag = this._sourceBuffer.buffered.end(0) - this._video.currentTime;
-            if (lag > 1.0) {//was 0.5
-                this._video.currentTime = this._sourceBuffer.buffered.end(0) - 1.0;//was 0.5
+            if (lag > 2.0) {//was 0.5
+                //console.log('trimmed buffer');
+                this._video.currentTime = this._sourceBuffer.buffered.end(0) - 2.0;//was 0.5
             }
         }
         if (this._sourceBuffer.updating) {

@@ -8,7 +8,7 @@
     "dev-win": "set NODE_ENV=development&& node --trace-warnings app.js",
     "dist": "npm run dist:pkg && npm run dist:zip",
     "dist:pkg": "node node_modules/pkg/lib-es5/bin.js package.json --out-path dist --targets node8-macos-x64,node8-win-x64,node8-win-x86,node8-linux-x64,node8-linux-x86",
-    "dist:zip": "zip -j dist/ffmpeg-streamer-macos-x64.zip dist/ffmpeg-streamer-macos-x64 && zip -j dist/ffmpeg-streamer-win-x64.zip dist/ffmpeg-streamer-win-x64.exe && zip -j dist/ffmpeg-streamer-win-x86.zip dist/ffmpeg-streamer-win-x86.exe && zip -j dist/ffmpeg-streamer-linux-x64.zip dist/ffmpeg-streamer-linux-x64 && zip -j dist/ffmpeg-streamer-linux-x86.zip dist/ffmpeg-streamer-linux-x86",
+    "dist:zip": "zip -j dist/ffmpeg-streamer-macos-x64.zip dist/ffmpeg-streamer-macos-x64 && zip -j dist/ffmpeg-streamer-win-x64.zip dist/ffmpeg-streamer-win-x64.exe && zip -j dist/ffmpeg-streamer-win-x86.zip dist/ffmpeg-streamer-win-x86.exe && zip -j dist/ffmpeg-streamer-linux-x64.zip dist/ffmpeg-streamer-linux-x64 && zip -j dist/ffmpeg-streamer-linux-x86.zip dist/ffmpeg-streamer-linux-x86"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -17,7 +17,6 @@
     "express": "^4.16.2",
     "ffbinaries": "^1.0.8",
     "ffmpeg-respawn": "0.0.14",
-    "flv.js": "^1.4.0",
     "hls.js": "^0.8.9",
     "material-design-icons": "^3.0.1",
     "material-design-lite": "^1.3.0",

@@ -65,7 +65,7 @@ function setValues(vals) {
             elem.dispatchEvent(new Event('change'));
         }
     } else {
-        const defaultVals = ['info', 'auto', 'hls', '10000000', '1048576', 'tcp', 'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8', '3', 'aac', 'copy', '7', '0.75', '1000000', '10', 'none', 'none', 'none', 'mjpeg', '7', '0.75', '10'];
+        const defaultVals = ['info', 'none', 'hls', '10000000', '1048576', 'tcp', 'https://kevingodell.github.io/streams/hls_fmp4/hls.m3u8', '4', 'aac', 'copy', '7', '0.75', '1000000', '10', 'none', 'none', 'none', 'mjpeg', '7', '0.75', '10'];
         for (let i = 0, len = elementIds.length; i < len; i++) {
             const elem = document.getElementById(elementIds[i]);
             elem.value = defaultVals[i];

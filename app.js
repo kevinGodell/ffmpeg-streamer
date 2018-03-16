@@ -68,7 +68,7 @@ app.use('/hls', hls);
 app.use('/mp4', mp4);
 app.use('/mjpeg', mjpeg);
 app.use('/progress', progress);
-app.use('/mdl', express.static(path.join(__dirname, 'node_modules/material-design-icons/iconfont')));
+app.use('/mdi', express.static(path.join(__dirname, 'node_modules/material-design-icons/iconfont')));
 app.use('/mdl', express.static(path.join(__dirname, 'node_modules/material-design-lite/dist')));
 app.use(express.static(path.join(__dirname, 'public')));
 

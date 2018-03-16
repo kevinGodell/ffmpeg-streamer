@@ -7,11 +7,12 @@ router.use('/', (req, res, next) => {
     const app = req.app;
     const mp4frag = app.get('mp4frag');
     if (!mp4frag) {
-        res.sendStatus(503);
+        res.status(404).send('hls resource not available');
         res.destroy();
         return;
     }
     res.locals.mp4frag = mp4frag;
+    res.set('Access-Control-Allow-Origin', '*');
     res.set('Connection', 'close');
     res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.set('Expires', '-1');
@@ -19,32 +20,21 @@ router.use('/', (req, res, next) => {
     next();
 });
 
+router.get('/', (req, res) => {
+    res.send('hls router');
+});
+
 router.get('/test.m3u8', (req, res) => {
     const mp4frag = res.locals.mp4frag;
-
-    const onSegment = () => {
-        res.set('Content-Type', 'application/vnd.apple.mpegurl');
-        res.end(mp4frag.m3u8);
-    };
-
-    const cleanup = () => {
-        res.removeListener('finish', cleanup);
-        res.removeListener('close', cleanup);
+    const m3u8 = mp4frag.m3u8;
+    if (!m3u8) {
+        res.set('Retry-After',  1.0);
+        res.status(503).send('m3u8 resource not ready');
         res.destroy();
-        if (mp4frag) {
-            mp4frag.removeListener('segment', onSegment);
-        }
-    };
-
-    res.once('finish', cleanup);
-    res.once('close', cleanup);
-
-    if (mp4frag.m3u8) {
-        onSegment();
-    } else {
-        mp4frag.once('segment', onSegment);
+        return;
     }
-
+    res.set('Content-Type', 'application/vnd.apple.mpegurl');
+    res.end(m3u8);
 });
 
 router.get('/test.m3u8.txt', (req, res) => {

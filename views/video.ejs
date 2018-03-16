@@ -188,7 +188,7 @@
             hlsjsVideo.play();
         });
         hls.attachMedia(hlsjsVideo);
-        hls.loadSource('/hls/test.m3u8?kevin');
+        hls.loadSource('/hls/test.m3u8?hlsjs');
     } else {
         hlsjsVideo.parentElement.innerHTML = '<p>hls.js not supported</p>';
     }
@@ -202,7 +202,7 @@
         reconnection: true,
         reconnectionDelay: 500
     });
-    jpegSocket.on('jpeg', function (data) {
+    jpegSocket.on('jpeg', (data) => {
         const arrayBufferView = new Uint8Array(data);
         const blob = new Blob([arrayBufferView], {type: 'image/jpeg'});
         const urlCreator = window.URL || window.webkitURL;
@@ -231,7 +231,7 @@
         reconnection: true,
         reconnectionDelay: 500
     });
-    m3u8Socket.on('m3u8', function (data) {
+    m3u8Socket.on('m3u8', (data) => {
         m3u8.innerText = data;
     });
 </script>
@@ -244,7 +244,7 @@
         reconnection: true,
         reconnectionDelay: 500
     });
-    mimeSocket.on('mime', function (data) {
+    mimeSocket.on('mime', (data) => {
         const type = data.toLowerCase();
         let message = type;
         if ('MediaSource' in window) {

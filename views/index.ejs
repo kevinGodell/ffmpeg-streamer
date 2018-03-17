@@ -183,17 +183,16 @@
     </div>
 
     <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-        <select id="fragDuration" name="fragDuration" form="index" class="mdl-textfield__input">
+        <select id="mp4FragDur" name="mp4FragDur" form="index" class="mdl-textfield__input">
             <option value="none">none</option>
             <% for (let i = 1; i < 11; i++) { %>
             <option value="<%= i * 1000000 %>"><%= i * 1000000 %> microseconds</option>
             <% } %>
         </select>
-        <label for="fragDuration" class="mdl-textfield__label">fragment duration</label>
+        <label for="mp4FragDur" class="mdl-textfield__label">fragment duration</label>
     </div>
 
     <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-
         <select id="mp4Crf" name="mp4Crf" form="index" class="mdl-textfield__input">
             <option value="none">none</option>
             <% for (let i = 0; i < 52; i++) { %>
@@ -204,7 +203,6 @@
     </div>
 
     <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
-
         <select id="mp4Preset" name="mp4Preset" form="index" class="mdl-textfield__input">
             <% const mp4PresetArr = ['none', 'medium', 'fast', 'faster', 'veryfast', 'superfast', 'ultrafast']; %>
             <% for (let i = 0; i < mp4PresetArr.length; i++) { %>
@@ -216,7 +214,7 @@
 
     <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
         <select id="mp4Profile" name="mp4Profile" form="index" class="mdl-textfield__input">
-            <% const mp4ProfileArr = ['none', 'baseline', 'main', 'high'/*,'high10','high422','high444'*/]; %>
+            <% const mp4ProfileArr = ['none', 'baseline', 'main', 'high', 'high10', 'high422', 'high444']; %>
             <% for (let i = 0; i < mp4ProfileArr.length; i++) { %>
             <option value="<%= mp4ProfileArr[i] %>"><%= mp4ProfileArr[i] %></option>
             <% } %>
@@ -232,6 +230,16 @@
             <% } %>
         </select>
         <label for="mp4Level" class="mdl-textfield__label">level</label>
+    </div>
+
+    <div class="mp4VideoCodec mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
+        <select id="mp4PixFmt" name="mp4PixFmt" form="index" class="mdl-textfield__input">
+            <% const mp4PixFmtArr = ['none', 'yuv420p', 'yuvj420p', 'yuv410p', 'yuv411p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
+            <% for (let i = 0; i < mp4PixFmtArr.length; i++) { %>
+            <option value="<%= mp4PixFmtArr[i] %>"><%= mp4PixFmtArr[i] %></option>
+            <% } %>
+        </select>
+        <label for="mp4PixFmt" class="mdl-textfield__label">pixel format</label>
     </div>
 
     <!-- +++++++++++++++++ JPEG +++++++++++++++++ -->
@@ -300,16 +308,6 @@
 <a href="https://github.com/kevinGodell/ffmpeg-streamer"><img style="position: absolute; top: 0; right: 0; border: 0;"
                                                               src="/images/forkme_right_orange_ff7600.png"
                                                               alt="Fork me on GitHub"></a>
-
-<!--<div class="input">
-    <select id="mp4PixFmt" name="mp4PixFmt" form="index">
-        <% const mp4PixFmtArr = ['yuv420p', 'yuvj420p', 'yuv410p', 'yuv411p', 'yuv422p', 'yuv440p', 'yuv444p']; %>
-        <% for (let i = 0; i < mp4PixFmtArr.length; i++) { %>
-        <option <%= i === 0 ? 'selected ' : '' %>value="<%= mp4PixFmtArr[i] %>"><%= mp4PixFmtArr[i] %></option>
-        <% } %>
-    </select>
-    <label for="mp4PixFmt">pixel format</label>
-</div>-->
 
 <script src="/javascripts/index.js"></script>
 <script>

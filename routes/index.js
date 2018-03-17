@@ -141,7 +141,7 @@ router.post('/', (req, res) => {
             const mp4Scale = values.mp4Scale;
 
             //optional
-            const fragDuration = values.fragDuration;
+            const mp4FragDur = values.mp4FragDur;
 
             //optional
             const mp4Crf = values.mp4Crf;
@@ -154,6 +154,9 @@ router.post('/', (req, res) => {
 
             //optional
             const mp4Level = values.mp4Level;
+
+            //optional
+            const mp4PixFmt = values.mp4PixFmt;
 
             //mandatory
             const jpegCodec = values.jpegCodec;
@@ -182,9 +185,7 @@ router.post('/', (req, res) => {
                 params.push(...['-probesize', probeSize]);
             }
 
-            //params.push(...['-fflags', '+nobuffer', '-re']);
-
-            params.push(...['-re']);
+            params.push('-re');
 
             switch (inputType) {
 
@@ -193,9 +194,10 @@ router.post('/', (req, res) => {
                     break;
 
                 case 'mp4':
-                    if (inputUrl.indexOf('http://') !== 0 && inputUrl.indexOf('https://') !== 0) {
-                        return renderIndex(res, 'Input url must begin with http(s)://', values);
-                    }
+                    //mp4 might be a local file, dont check url
+                    //if (inputUrl.indexOf('http://') !== 0 && inputUrl.indexOf('https://') !== 0) {
+                        //return renderIndex(res, 'Input url must begin with http(s)://', values);
+                    //}
                     params.push(...['-f', 'mp4', '-i', inputUrl]);
                     break;
 
@@ -247,8 +249,8 @@ router.post('/', (req, res) => {
                     params.push(...['-vf', `scale=trunc(iw*${mp4Scale}/2)*2:-2`]);
                 }
 
-                if (fragDuration !== 'none') {
-                    params.push(...['-min_frag_duration', fragDuration, '-frag_duration', fragDuration]);
+                if (mp4FragDur !== 'none') {
+                    params.push(...['-min_frag_duration', mp4FragDur, '-frag_duration', mp4FragDur]);
                 }
 
                 if (mp4Crf !== 'none') {
@@ -267,9 +269,19 @@ router.post('/', (req, res) => {
                     params.push(...['-level', mp4Level]);
                 }
 
+                if (mp4PixFmt !== 'none') {
+                    params.push(...['-pix_fmt', mp4PixFmt]);
+                }
+
             }
 
-            params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset+frag_discont+global_sidx+dash+negative_cts_offsets', /*'-use_editlist', 0,  '-reset_timestamps', '1',*/ 'pipe:1']);
+            params.push(...['-f', 'mp4', '-movflags', '+dash+negative_cts_offsets', 'pipe:1']);
+
+            //+frag_keyframe needed for all, +empty_moov for firefox, +default_base_moof+negative_cts_offsets for chrome
+
+            //params.push(...['-f', 'mp4', '-movflags', '+empty_moov+default_base_moof+negative_cts_offsets', 'pipe:1']);//+frag_keyframe needed for all, +empty_moov for firefox, +default_base_moof+negative_cts_offsets for chrome
+
+            //params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset+frag_discont+global_sidx+dash+negative_cts_offsets', /*'-use_editlist', 0,  '-reset_timestamps', '1',*/ 'pipe:1']);
 
             //params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset+frag_discont+global_sidx+dash+negative_cts_offsets', '-use_editlist', 0,  '-reset_timestamps', '1', 'pipe:1']);
 

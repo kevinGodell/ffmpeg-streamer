@@ -57,7 +57,7 @@ jpegCodec.addEventListener('change', (evt) => {
 });
 
 function setValues(vals) {
-    const elementIds = ['logLevel', 'hwAccel', 'inputType', 'analyzeDuration', 'probeSize', 'rtspTransport', 'inputUrl', 'mp4HlsListSize', 'mp4AudioCodec', 'mp4VideoCodec', 'mp4Rate', 'mp4Scale', 'fragDuration', 'mp4Crf', 'mp4Preset', 'mp4Profile', 'mp4Level', 'jpegCodec', 'jpegRate', 'jpegScale', 'jpegQuality'];
+    const elementIds = ['logLevel', 'hwAccel', 'inputType', 'analyzeDuration', 'probeSize', 'rtspTransport', 'inputUrl', 'mp4HlsListSize', 'mp4AudioCodec', 'mp4VideoCodec', 'mp4Rate', 'mp4Scale', 'mp4FragDur', 'mp4Crf', 'mp4Preset', 'mp4Profile', 'mp4Level', 'mp4PixFmt', 'jpegCodec', 'jpegRate', 'jpegScale', 'jpegQuality'];
     if (vals) {
         for (let i = 0, len = elementIds.length; i < len; i++) {
             const elem = document.getElementById(elementIds[i]);
@@ -65,7 +65,7 @@ function setValues(vals) {
             elem.dispatchEvent(new Event('change'));
         }
     } else {
-        const defaultVals = ['info', 'none', 'hls', '10000000', '1048576', 'tcp', 'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8', '4', 'aac', 'copy', '7', '0.75', '1000000', '10', 'none', 'none', 'none', 'mjpeg', '7', '0.75', '10'];
+        const defaultVals = ['info', 'auto', 'hls', '10000000', '1048576', 'tcp', 'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8', '4', 'aac', 'copy', '7', '0.75', '2000000', '15', 'veryfast', 'baseline', '3.1', 'yuv420p', 'mjpeg', '7', '0.75', '10'];
         for (let i = 0, len = elementIds.length; i < len; i++) {
             const elem = document.getElementById(elementIds[i]);
             elem.value = defaultVals[i];

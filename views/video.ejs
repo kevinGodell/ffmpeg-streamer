@@ -75,7 +75,7 @@
 
     <div class="player mdl-card mdl-shadow--8dp mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone">
         <figure class="mdl-card__media">
-            <img id="mjpegImg" src="/mjpeg/test.mjpg"/>
+            <img id="mjpegImg" validate="always"/>
         </figure>
         <div class="mdl-card__supporting-text">
             mjpeg src: <a href="/mjpeg/test.mjpg">test.mjpg</a>
@@ -166,17 +166,10 @@
     const hlsjsVideo = document.getElementById('hlsjsVideo');
     if (Hls.isSupported()) {
         const hls = new Hls({
-            //debug : true,
-            //maxBufferLength: 15,
-            //maxBufferHole: 1,
-            //maxSeekHole: 2,
-            //capLevelToPlayerSize: true,
-            //startFragPrefetch: false,
-            //autoStartLoad: false,
+            liveDurationInfinity: true,
             manifestLoadingTimeOut: 1000,
             manifestLoadingMaxRetry: 30,
             manifestLoadingRetryDelay: 500
-            //,enableCEA708Captions: true
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
             console.log('hls error', data);
@@ -335,6 +328,7 @@
 
 <script>
     const mjpegImg = document.getElementById('mjpegImg');
+    mjpegImg.src = '/mjpeg/test.mjpg';
     mjpegImg.addEventListener('error', (evt) => {
         mjpegImg.parentElement.innerHTML = '<p>mjpeg playback error</p>';
     })

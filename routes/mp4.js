@@ -7,12 +7,12 @@ router.use('/', (req, res, next) => {
     const app = req.app;
     const mp4frag = app.get('mp4frag');
     if (!mp4frag) {
-        res.status(404).send('mp4 resource not available');
+        res.status(404).send('mp4 not available');
         res.destroy();
         return;
     }
     if (!mp4frag.initialization) {
-        res.status(503).send('mp4 resource not ready');
+        res.status(503).send('mp4 not ready');
         res.destroy();
         return;
     }

@@ -269,7 +269,9 @@ router.post('/', (req, res) => {
 
             }
 
-            params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset', '-reset_timestamps', '1', 'pipe:1']);
+            params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset+frag_discont+global_sidx+dash+negative_cts_offsets', /*'-use_editlist', 0,  '-reset_timestamps', '1',*/ 'pipe:1']);
+
+            //params.push(...['-f', 'mp4', '-movflags', '+frag_keyframe+empty_moov+default_base_moof+omit_tfhd_offset+frag_discont+global_sidx+dash+negative_cts_offsets', '-use_editlist', 0,  '-reset_timestamps', '1', 'pipe:1']);
 
             params.push(...['-c', jpegCodec]);
 

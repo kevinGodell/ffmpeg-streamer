@@ -6,17 +6,17 @@ Video input types supported are *rtsp*, *mp4*, *mjpeg*, and *hls*.
 
 ### Installation
 **ffmpeg-streamer** has been packaged into an executable using [pkg](https://github.com/zeit/pkg).
-The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases/tag/v0.0.9) page.
-* The Windows binary is already executable and can be run simply by downloading, extracting, and launching it.
-* Linux and Mac installation may require the binary to be given executable permissions before it can run.
+The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases/tag/v0.0.10) page.
+* For desktop installation, simply download and extract.
+* For command line installation, see the following steps.
 
 ###### Downloading zipped archive
 ```
 //linux
-wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.9/ffmpeg-streamer-linux-x64.zip
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.10/ffmpeg-streamer-linux-x64.zip
 
 //mac
-curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.9/ffmpeg-streamer-macos-x64.zip
+curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.10/ffmpeg-streamer-macos-x64.zip
 ```
 
 ###### Extracting zipped archive
@@ -29,8 +29,8 @@ unzip ffmpeg-streamer-macos-x64.zip
 ```
 
 ### Usage
-For desktop usage, double click the executable to run it.
-For command line usage on Mac or Linux, the following shows 2 options to run it.
+* For desktop usage, double click the executable to run it.
+* For command line usage, the following shows 2 options.
 
 ###### Start the app from the command line
 ```
@@ -57,7 +57,7 @@ If you would like to store your last used settings, go to [http://localhost:8181
 
 #### Dependencies
 **Ffmpeg** is the only external software required to run the app.
-Nodejs is packaged inside the binary and is not need to be installed separately on your system.
+Nodejs is packaged inside the binary and is not needed to be installed separately on your system.
 When launching the app, it tries to find ffmpeg on your system using [ffbinaries](https://github.com/vot/ffbinaries-node).
 If it cannot find ffmpeg, you will be prompted to install it to the current running directory via the web interface on port 8181.
 If it does find ffmpeg, but you would like to install a newer version, you can visit [http://localhost:8181/install](http://localhost:8181/install) and force the installation.
@@ -100,4 +100,5 @@ Any additional details would be helpful.
 #### TODO
 * [ ] Add support for more input types such as local video hardware and artificially generated input
 * [ ] Add more ffmpeg settings to further customize the generated video for streaming
+* [ ] Improve playback of *hls.js*
 * [ ] Improve playback of *mse via socket.io*

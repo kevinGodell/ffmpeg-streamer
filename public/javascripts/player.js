@@ -4,6 +4,17 @@
 /*global io*/
 'use strict';
 
+/*
+lag 2 = threshold for current play time behind available buffer end time to trigger play head move, will split the measured lag difference / 2
+past 20 = duration of buffered video past current play time to trigger buffer removal
+keep 5 = duration of buffer to keep past current play time when removing old buffer
+- too low of allowable lag will cause unstable playback
+- too high of allowable lag may cause realtime latency
+- removing too much past buffer can cause unstable playback
+- removing too little will increase memory use in browser for storing extra buffer
+ */
+const config = {lag: 2.0, past: 20, keep: 5};
+
 class VideoPlayer {
     constructor(options, callback) {
         if (typeof callback === 'function' && callback.length === 2) {
@@ -428,13 +439,17 @@ class VideoPlayer {
         if (!this._sourceBuffer.buffered.length) {
             return;
         }
+        //current time of play position
         const currentTime = this._video.currentTime;
+        //start time for currently buffered video
         const start = this._sourceBuffer.buffered.start(0);
+        //end time for currently buffered video
         const end = this._sourceBuffer.buffered.end(0);
+        //duration of currently buffered video behind current play time
         const past = currentTime - start;
         //todo play with numbers and make dynamic or user configurable
-        if (past > 20 && currentTime < end) {
-            this._sourceBuffer.remove(start, currentTime - 4);
+        if (past > config.past && currentTime < end) {
+            this._sourceBuffer.remove(start, currentTime - config.keep);//was 4
         }
     }
 
@@ -502,9 +517,9 @@ class VideoPlayer {
     _onSegment(data) {
         if (this._sourceBuffer.buffered.length) {
             const lag = this._sourceBuffer.buffered.end(0) - this._video.currentTime;
-            if (lag > 2.0) {//was 0.5
-                //console.log('trimmed buffer');
-                this._video.currentTime = this._sourceBuffer.buffered.end(0) - 2.0;//was 0.5
+            if (lag > config.lag) {//was 0.5
+                //move play head
+                this._video.currentTime = this._sourceBuffer.buffered.end(0) - lag / 2;//split the difference between buffer end time and current play time
             }
         }
         if (this._sourceBuffer.updating) {

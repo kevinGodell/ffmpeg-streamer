@@ -1,57 +1,49 @@
-'use strict';
+'use strict'
 
-const ffmpegConfig = require('../lib/ffmpegConfig');
-const ffbinaries = require('ffbinaries');
-const namespace = '/install';
+const ffmpegConfig = require('../lib/ffmpegConfig')
+const ffbinaries = require('ffbinaries')
+const namespace = '/install'
 
-let downloading = false;
+let downloading = false
 
 module.exports = (app, io) => {
+  io
 
-    io
+    .of(namespace)
 
-        .of(namespace)
+    .on('connection', (socket) => {
+      socket.on('download', () => {
+        const ffmpeg = app.get('ffmpeg')
 
-        .on('connection', (socket) => {
+        if (ffmpeg && ffmpeg.running) {
+          ffmpeg.stop()
+        }
 
-            socket.on('download', () => {
+        socket.emit('status', {type: 'downloading'})
 
-                const ffmpeg = app.get('ffmpeg');
+        if (downloading) {
+          return
+        }
 
-                if (ffmpeg && ffmpeg.running) {
-                    ffmpeg.stop();
-                }
+        downloading = true
 
-                socket.emit('status', {type: 'downloading'});
+        ffbinaries.clearCache()
 
-                if (downloading) {
-                    return;
-                }
+        const dirName = app.get('dirName')
 
-                downloading = true;
+        ffbinaries.downloadBinaries('ffmpeg', {quiet: true, destination: dirName, force: true}, (err, data) => {
+          if (err) {
+            socket.emit('status', {type: 'fail', msg: err})
+            console.error(err)
+          } else {
+            const ffmpeg = ffmpegConfig(dirName)
+            app.set('ffmpegVersion', ffmpeg.version)
+            app.set('ffmpegPath', ffmpeg.path)
+            socket.emit('status', {type: 'complete'})
+          }
 
-                ffbinaries.clearCache();
-
-                const dirName = app.get('dirName');
-
-                ffbinaries.downloadBinaries('ffmpeg', {quiet: true, destination: dirName, force: true}, (err, data) => {
-
-                    if (err) {
-                        socket.emit('status', {type: 'fail', msg: err});
-                        console.error(err);
-                    } else {
-                        const ffmpeg = ffmpegConfig(dirName);
-                        app.set('ffmpegVersion', ffmpeg.version);
-                        app.set('ffmpegPath', ffmpeg.path);
-                        socket.emit('status', {type: 'complete'});
-                    }
-
-                    downloading = false;
-
-                });
-
-            });
-
-        });
-
-};
+          downloading = false
+        })
+      })
+    })
+}

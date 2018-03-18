@@ -1,40 +1,34 @@
-'use strict';
+'use strict'
 
-const namespace = '/progress';
+const namespace = '/progress'
 
 module.exports = (app, io) => {
+  io
 
-    io
+    .of(namespace)
 
-        .of(namespace)
+    .on('connection', (socket) => {
+      const ffmpeg = app.get('ffmpeg')
 
-        .on('connection', (socket) => {
+      if (!ffmpeg) {
+        socket.disconnect()
+        return
+      }
 
-            const ffmpeg = app.get('ffmpeg');
+      const emitProgress = () => {
+        socket.emit('progress', ffmpeg.progress)
+      }
 
-            if (!ffmpeg) {
-                socket.disconnect();
-                return;
-            }
+      if (ffmpeg.progress) {
+        emitProgress()
+      }
 
-            const emitProgress = () => {
-                socket.emit('progress', ffmpeg.progress);
-            };
+      ffmpeg.on('progress', emitProgress)
 
-            if (ffmpeg.progress) {
-                emitProgress();
-            }
-
-            ffmpeg.on('progress', emitProgress);
-
-            socket.once('disconnect', () => {
-
-                if (ffmpeg) {
-                    ffmpeg.removeListener('progress', emitProgress);
-                }
-
-            });
-
-        });
-
-};
+      socket.once('disconnect', () => {
+        if (ffmpeg) {
+          ffmpeg.removeListener('progress', emitProgress)
+        }
+      })
+    })
+}

@@ -13,5 +13,6 @@
   "nonew":          true,
   "strict":         true,
   "unused":         true,
-  "undef":          true
+  "undef":          true,
+  "asi":            true
 }

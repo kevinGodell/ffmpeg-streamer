@@ -120,12 +120,11 @@ function onError (error) {
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges')
-      process.exit(1)
-      break
+      return process.exit(1)
     case 'EADDRINUSE':
       console.error(`${bind} is already in use.`)
       if (typeof port === 'string' || port >= portRange) {
-        process.exit(1)
+        return process.exit(1)
       }
       console.log(`Incrementing to port ${++port} and trying again.`)
       server.listen(port)

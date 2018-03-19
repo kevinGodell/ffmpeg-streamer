@@ -42,7 +42,6 @@
     <script defer src="/mdl/material.min.js"></script>
 
 </head>
-
 <body>
 
 <div class="content-grid mdl-grid">
@@ -309,9 +308,7 @@
                                                               src="/images/forkme_right_orange_ff7600.png"
                                                               alt="Fork me on GitHub"></a>
 
-<script src="/javascripts/index.js"></script>
-<script>
-    setValues(<%- JSON.stringify(values) %>);
-</script>
+<script id="values" src="/javascripts/index.js" data-vals='<%- JSON.stringify(values, null, ' ') %>'></script>
+
 </body>
 </html>

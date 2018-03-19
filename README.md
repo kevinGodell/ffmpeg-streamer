@@ -102,3 +102,5 @@ Any additional details would be helpful.
 * [ ] Add more ffmpeg settings to further customize the generated video for streaming
 * [ ] Improve playback of *hls.js*
 * [ ] Improve playback of *mse via socket.io*
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)

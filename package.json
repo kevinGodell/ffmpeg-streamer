@@ -9,8 +9,8 @@
     "dist": "npm run dist:pkg && npm run dist:zip",
     "dist:pkg": "pkg package.json --out-path dist --targets node8-macos-x64,node8-win-x64,node8-win-x86,node8-linux-x64,node8-linux-x86",
     "dist:zip": "zip -j dist/ffmpeg-streamer-macos-x64.zip dist/ffmpeg-streamer-macos-x64 && zip -j dist/ffmpeg-streamer-win-x64.zip dist/ffmpeg-streamer-win-x64.exe && zip -j dist/ffmpeg-streamer-win-x86.zip dist/ffmpeg-streamer-win-x86.exe && zip -j dist/ffmpeg-streamer-linux-x64.zip dist/ffmpeg-streamer-linux-x64 && zip -j dist/ffmpeg-streamer-linux-x86.zip dist/ffmpeg-streamer-linux-x86",
-    "standard": "standard",
-    "standard:fix": "standard --fix"
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

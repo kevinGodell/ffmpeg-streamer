@@ -374,3 +374,4 @@ module.exports = router
 // http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8
 // https://kevingodell.github.io/streams/hls_fmp4/hls.m3u8
 // http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/hls/TearsOfSteel.m3u8
+// http://commondatastorage.googleapis.com/gtv-videos-bucket/

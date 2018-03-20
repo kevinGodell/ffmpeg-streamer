@@ -2,6 +2,7 @@
   "name": "ffmpeg-streamer",
   "version": "0.0.10",
   "private": true,
+  "description": "Connect to your video source and stream it to your browser.",
   "scripts": {
     "start": "node app",
     "dev": "node --trace-warnings app 3000 development",
@@ -29,6 +30,20 @@
   },
   "bin": "app.js",
   "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinGodell/ffmpeg-streamer.git"
+  },
+  "keywords": [
+    "spawn",
+    "respawn"
+  ],
+  "author": "Kevin Godell <kevin.godell@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinGodell/ffmpeg-streamer/issues"
+  },
+  "homepage": "https://github.com/kevinGodell/ffmpeg-streamer#readme",
   "devDependencies": {
     "pkg": "^4.3.0",
     "standard": "^11.0.1"

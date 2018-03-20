@@ -70,7 +70,7 @@
 
       elem.value = vals[elementIds[i]]
 
-      elem.dispatchEvent(new window.Event('change'))
+      // elem.dispatchEvent(new window.Event('change'))
     }
   } else {
     var defaultVals = ['info', 'auto', 'hls', '10000000', '1048576', 'tcp', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/hls/TearsOfSteel.m3u8', '5', 'aac', 'copy', '7', '0.75', '2000000', '15', 'veryfast', 'baseline', '3.1', 'yuv420p', 'mjpeg', '7', '0.75', '10']
@@ -80,7 +80,15 @@
 
       _elem.value = defaultVals[_i4]
 
-      _elem.dispatchEvent(new window.Event('change'))
+      if (typeof window.Event === 'function') {
+        _elem.dispatchEvent(new window.Event('change'))
+      } else {
+        var event = document.createEvent('Event')
+        event.initEvent('change', true, true)
+        _elem.dispatchEvent(event)
+      }
+
+      // elem.dispatchEvent(new window.Event('change'))
     }
   }
 })(JSON.parse(document.getElementById('values').dataset.vals))

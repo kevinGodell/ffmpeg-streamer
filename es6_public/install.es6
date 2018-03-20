@@ -1,8 +1,6 @@
-// jshint browser: true
+'use strict';
 
 (function init () {
-  'use strict'
-
   const message = document.getElementById('message')
 
   const progressbar = document.getElementById('progressbar')

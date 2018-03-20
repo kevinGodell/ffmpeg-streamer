@@ -1,8 +1,6 @@
-// jshint browser: true
+'use strict';
 
 (function init () {
-  'use strict'
-
   const inputType = document.getElementById('inputType')
 
   inputType.addEventListener('change', (/* evt */) => {
@@ -64,8 +62,6 @@
 })();
 
 (function setValues (vals) {
-  'use strict'
-
   const elementIds = ['logLevel', 'hwAccel', 'inputType', 'analyzeDuration', 'probeSize', 'rtspTransport', 'inputUrl', 'mp4HlsListSize', 'mp4AudioCodec', 'mp4VideoCodec', 'mp4Rate', 'mp4Scale', 'mp4FragDur', 'mp4Crf', 'mp4Preset', 'mp4Profile', 'mp4Level', 'mp4PixFmt', 'jpegCodec', 'jpegRate', 'jpegScale', 'jpegQuality']
 
   if (vals) {

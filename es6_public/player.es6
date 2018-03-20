@@ -1,5 +1,32 @@
-// jshint browser: true
-'use strict'
+'use strict';
+
+(function mse (window) {
+  if (!('io' in window)) {
+    throw new Error('socket.io was not found')
+    // return;
+  }
+
+  // get all video elements on page
+  const videos = document.getElementsByTagName('video')
+
+  // array to keep reference to newly created VideoPlayers, maybe could be a keyed object
+  // const videoPlayers = [];
+
+  for (let i = 0; i < videos.length; i++) {
+    const video = videos[i]
+    // only grab video elements that deliberately have data-namespace attribute
+    if (video.dataset.namespace) {
+      const videoPlayer = new VideoPlayer({video: video, io: window.io, namespace: video.dataset.namespace, controls: video.dataset.controls})
+      if (video.autoplay) {
+        videoPlayer.start()
+      }
+      // videoPlayers.push(videoPlayer);
+    }
+  }
+
+  // make videoPlayers accessible (done in constructor)
+  // window.videoPlayers = videoPlayers;
+})(window)
 
 /*
 lag 2 = threshold for current play time behind available buffer end time to trigger play head move, will split the measured lag difference / 2
@@ -557,34 +584,6 @@ class VideoPlayer {
     delete this.onSegment
   }
 }
-
-(function mse (window) {
-  if (!('io' in window)) {
-    throw new Error('socket.io was not found')
-    // return;
-  }
-
-  // get all video elements on page
-  const videos = document.getElementsByTagName('video')
-
-  // array to keep reference to newly created VideoPlayers, maybe could be a keyed object
-  // const videoPlayers = [];
-
-  for (let i = 0; i < videos.length; i++) {
-    const video = videos[i]
-    // only grab video elements that deliberately have data-namespace attribute
-    if (video.dataset.namespace) {
-      const videoPlayer = new VideoPlayer({video: video, io: window.io, namespace: video.dataset.namespace, controls: video.dataset.controls})
-      if (video.autoplay) {
-        videoPlayer.start()
-      }
-      // videoPlayers.push(videoPlayer);
-    }
-  }
-
-  // make videoPlayers accessible
-  // window.videoPlayers = videoPlayers;
-})(window)
 
 // todo steps for creation of video player
 // script is loaded at footer so that it can run after html is ready on page

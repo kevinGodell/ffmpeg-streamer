@@ -1,0 +1,19 @@
+{
+  "asi":            true,
+  "browser":        true,
+  "camelcase":      true,
+  "curly":          true,
+  "devel":          true,
+  "eqeqeq":         true,
+  "esversion":      6,
+  "forin":          true,
+  "futurehostile":  true,
+  "newcap":         true,
+  "noarg":          true,
+  "node":           false,
+  "noempty":        true,
+  "nonew":          true,
+  "strict":         "global",
+  "unused":         true,
+  "undef":          true
+}

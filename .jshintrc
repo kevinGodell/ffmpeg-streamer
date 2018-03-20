@@ -1,18 +1,18 @@
 {
+  "asi":            true,
+  "browser":        false,
   "camelcase":      true,
   "curly":          true,
   "eqeqeq":         true,
   "esversion":      6,
   "forin":          true,
   "futurehostile":  true,
-  "globalstrict":   true,
   "newcap":         true,
   "noarg":          true,
   "node":           true,
   "noempty":        true,
   "nonew":          true,
-  "strict":         true,
+  "strict":         "global",
   "unused":         true,
-  "undef":          true,
-  "asi":            true
+  "undef":          true
 }

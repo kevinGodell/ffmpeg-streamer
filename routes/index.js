@@ -104,70 +104,70 @@ router.post('/', (req, res) => {
 
       values = body
 
-      // mandatory, will be passed to ffmpeg-respawn
+      /** @param {String} values.logLevel - (-loglevel logLevel) */
       const logLevel = values.logLevel
 
-      // mandatory
+      /** @param {String} values.hwAccel - (-hwaccel hwAccel) */
       const hwAccel = values.hwAccel
 
-      // optional
+      /** @param {Number} [values.analyzeDuration] - (-analyzeduration analyzeDuration) 0 - 10000000 */
       const analyzeDuration = values.analyzeDuration
 
-      // optional
+      /** @param {Number} [values.probeSize] - (-probesize probeSize) 32 - 1048576 */
       const probeSize = values.probeSize
 
-      // mandatory
+      /** @param {String} values.inputType - (-f inputType) */
       const inputType = values.inputType
 
-      // mandatory
+      /** @param {String} values.inputUrl - (-i inputUrl) */
       const inputUrl = values.inputUrl
 
-      // optional
+      /** @param {String} [values.rtspTransport] - (-rtsp_transport rtspTransport) */
       const rtspTransport = values.rtspTransport
 
-      // mandatory
+      /** @param {Number} values.mp4HlsListSize - (mp4frag.hlsListSize = mp4HlsListSize) 2 - 5 */
       const mp4HlsListSize = values.mp4HlsListSize
 
-      // mandatory
+      /** @param {String} values.mp4AudioCodec - (-c:a mp4AudioCodec or -an) */
       const mp4AudioCodec = values.mp4AudioCodec
 
-      // mandatory
+      /** @param {String} values.mp4VideoCodec - (-c:v mp4VideoCodec) */
       const mp4VideoCodec = values.mp4VideoCodec
 
-      // optional
+      /** @param {Number} [values.mp4Rate] - (-r mp4Rate) 1 - 30 */
       const mp4Rate = values.mp4Rate
 
-      // optional
+      /** @param {Number} [values.mp4Scale] - (-vf scale=trunc(iw*mp4Scale/2)*2:-2) .10 - 1 */
       const mp4Scale = values.mp4Scale
 
-      // optional
+      /** @param {Number} [values.mp4FragDur] - (-min_frag_duration mp4FragDur -frag_duration mp4FragDur) */
       const mp4FragDur = values.mp4FragDur
 
-      // optional
+      /** @param {Number} [values.mp4Crf] - (-crf mp4Crf) 0 - 51 */
       const mp4Crf = values.mp4Crf
 
-      // optional
+      /** @param {String} [values.mp4Preset] - (-preset mp4Preset) */
       const mp4Preset = values.mp4Preset
 
-      // optional
+      /** @param {String} [values.mp4Profile] - (-profile:v mp4Profile) */
       const mp4Profile = values.mp4Profile
 
-      // optional
+      /** @param {Number} [values.mp4Level] - (-level:v mp4Level) */
       const mp4Level = values.mp4Level
 
-      // optional
+      /** @param {String} [values.mp4PixFmt] - (-pix_fmt mp4PixFmt) */
       const mp4PixFmt = values.mp4PixFmt
 
-      // mandatory
+      /** @param {String} values.jpegCodec - (-c jpegCodec) */
       const jpegCodec = values.jpegCodec
 
-      // optional
+      /** @param {Number} [values.jpegRate] - (-r jpegRate) 1 - 30 */
       const jpegRate = values.jpegRate
 
-      // optional
+      /** @param {Number} [values.jpegScale] - (-vf scale=trunc(iw*jpegScale/2)*2:-2) .10 - 1 */
       const jpegScale = values.jpegScale
 
-      // optional
+      /** @param {Number} [values.jpegQuality] - (-q jpegQuality) 1 - 31 */
       const jpegQuality = values.jpegQuality
 
       /* +++++++++ process form input values ++++++++++ */
@@ -264,7 +264,7 @@ router.post('/', (req, res) => {
         }
 
         if (mp4Level !== 'none') {
-          params.push(...['-level', mp4Level])
+          params.push(...['-level:v', mp4Level])
         }
 
         if (mp4PixFmt !== 'none') {
@@ -298,7 +298,7 @@ router.post('/', (req, res) => {
         }
       }
 
-      // TODO -f mpjpeg -boundary_tag ffmpeg_streamer so that we can later pipe response
+      // TODO -f mpjpeg -boundary_tag ffmpeg_streamer so that we can later pipe response without parsing individual jpegs
       params.push(...['-f', 'image2pipe', 'pipe:4'])
 
       mp4frag = new M4F({hlsBase: 'test', hlsListSize: mp4HlsListSize})

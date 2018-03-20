@@ -1,9 +1,8 @@
 'use strict'
 
-const nodeEnv = process.env.NODE_ENV || 'production'
-
-let port = normalizePort(process.env.PORT || '8181')
+let port = normalizePort(process.argv[2] || process.env.PORT || '8181')
 const portRange = port + 10
+const nodeEnv = process.argv[3] || process.env.NODE_ENV || 'production'
 
 const express = require('express')
 const app = express()

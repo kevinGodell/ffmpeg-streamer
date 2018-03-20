@@ -7,7 +7,6 @@ module.exports = (app, io) => {
   // let clients = 0;
   io
     .of(namespace)
-
     .on('connection', (socket) => {
       // clients = Object.keys(io.of(namespace).sockets).length;
 

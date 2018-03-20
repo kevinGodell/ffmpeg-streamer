@@ -31,7 +31,7 @@ const installSocket = require('./sockets/install')(app, io)
 const stderrSocket = require('./sockets/stderr')(app, io)
 
 const dirName = process.pkg && process.pkg.entrypoint ? path.dirname(process.execPath) : process.cwd()
-const ffmpeg = require('./lib/ffmpegConfig')(dirName)
+const ffmpeg = require('./lib/findFfmpeg')(dirName)
 const activity = require('./lib/activityLog')(dirName)
 
 app.set('dirName', dirName)

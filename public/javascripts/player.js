@@ -1,5 +1,36 @@
-// jshint browser: true
 'use strict'
+
+var _createClass = (function () { function defineProperties (target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor) } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor } }())
+
+function _classCallCheck (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function') } }
+
+(function mse (window) {
+  if (!('io' in window)) {
+    throw new Error('socket.io was not found')
+    // return;
+  }
+
+  // get all video elements on page
+  var videos = document.getElementsByTagName('video')
+
+  // array to keep reference to newly created VideoPlayers, maybe could be a keyed object
+  // const videoPlayers = [];
+
+  for (var i = 0; i < videos.length; i++) {
+    var video = videos[i]
+    // only grab video elements that deliberately have data-namespace attribute
+    if (video.dataset.namespace) {
+      var videoPlayer = new VideoPlayer({ video: video, io: window.io, namespace: video.dataset.namespace, controls: video.dataset.controls })
+      if (video.autoplay) {
+        videoPlayer.start()
+      }
+      // videoPlayers.push(videoPlayer);
+    }
+  }
+
+  // make videoPlayers accessible (done in constructor)
+  // window.videoPlayers = videoPlayers;
+})(window)
 
 /*
 lag 2 = threshold for current play time behind available buffer end time to trigger play head move, will split the measured lag difference / 2
@@ -10,11 +41,6 @@ keep 5 = duration of buffer to keep past current play time when removing old buf
 - removing too much past buffer can cause unstable playback
 - removing too little will increase memory use in browser for storing extra buffer
  */
-
-var _createClass = (function () { function defineProperties (target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor) } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor } }())
-
-function _classCallCheck (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function') } }
-
 var config = { lag: 2.0, past: 20, keep: 5 }
 
 var VideoPlayer = (function () {
@@ -603,35 +629,7 @@ var VideoPlayer = (function () {
   }])
 
   return VideoPlayer
-}());
-
-(function mse (window) {
-  if (!('io' in window)) {
-    throw new Error('socket.io was not found')
-    // return;
-  }
-
-  // get all video elements on page
-  var videos = document.getElementsByTagName('video')
-
-  // array to keep reference to newly created VideoPlayers, maybe could be a keyed object
-  // const videoPlayers = [];
-
-  for (var i = 0; i < videos.length; i++) {
-    var video = videos[i]
-    // only grab video elements that deliberately have data-namespace attribute
-    if (video.dataset.namespace) {
-      var videoPlayer = new VideoPlayer({ video: video, io: window.io, namespace: video.dataset.namespace, controls: video.dataset.controls })
-      if (video.autoplay) {
-        videoPlayer.start()
-      }
-      // videoPlayers.push(videoPlayer);
-    }
-  }
-
-  // make videoPlayers accessible
-  // window.videoPlayers = videoPlayers;
-})(window)
+}())
 
 // todo steps for creation of video player
 // script is loaded at footer so that it can run after html is ready on page

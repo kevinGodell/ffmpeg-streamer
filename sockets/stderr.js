@@ -6,7 +6,6 @@ const namespace = '/stderr'
 module.exports = (app, io) => {
   io
     .of(namespace)
-
     .on('connection', (socket) => {
       const stderrLogs = app.get('stderrLogs')
 

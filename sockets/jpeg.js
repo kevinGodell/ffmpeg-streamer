@@ -6,7 +6,6 @@ const namespace = '/jpeg'
 module.exports = (app, io) => {
   io
     .of(namespace)
-
     .on('connection', (socket) => {
       const pipe2jpeg = app.get('pipe2jpeg')
 

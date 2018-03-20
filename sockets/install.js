@@ -1,6 +1,6 @@
 'use strict'
 
-const ffmpegConfig = require('../lib/ffmpegConfig')
+const ffmpegConfig = require('../lib/findFfmpeg')
 const ffbinaries = require('ffbinaries')
 const namespace = '/install'
 
@@ -8,9 +8,7 @@ let downloading = false
 
 module.exports = (app, io) => {
   io
-
     .of(namespace)
-
     .on('connection', (socket) => {
       socket.on('download', () => {
         const ffmpeg = app.get('ffmpeg')

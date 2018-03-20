@@ -4,9 +4,7 @@ const namespace = '/progress'
 
 module.exports = (app, io) => {
   io
-
     .of(namespace)
-
     .on('connection', (socket) => {
       const ffmpeg = app.get('ffmpeg')
 

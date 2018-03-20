@@ -4,9 +4,7 @@ const namespace = '/m3u8'
 
 module.exports = (app, io) => {
   io
-
     .of(namespace)
-
     .on('connection', (socket) => {
       const mp4frag = app.get('mp4frag')
 

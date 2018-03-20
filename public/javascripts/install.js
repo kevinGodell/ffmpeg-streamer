@@ -3,11 +3,11 @@
 (function init () {
   'use strict'
 
-  const message = document.getElementById('message')
+  var message = document.getElementById('message')
 
-  const progressbar = document.getElementById('progressbar')
+  var progressbar = document.getElementById('progressbar')
 
-  const installSocket = window.io.connect(`${window.location.origin}/install`, {
+  var installSocket = window.io.connect(window.location.origin + '/install', {
 
     transports: ['websocket'],
 
@@ -19,7 +19,7 @@
 
   })
 
-  installSocket.on('connect_failed', () => {
+  installSocket.on('connect_failed', function () {
     message.innerText = 'Socket Connection failed.'
   })
 
@@ -29,14 +29,14 @@
   })
   */
 
-  installSocket.on('error', () => {
+  installSocket.on('error', function () {
     message.innerText = 'Socket Error.'
   })
 
-  installSocket.on('connect', () => {
-    const button = document.getElementById('install')
+  installSocket.on('connect', function () {
+    var button = document.getElementById('install')
 
-    installSocket.on('status', (data) => {
+    installSocket.on('status', function (data) {
       switch (data.type) {
         case 'downloading':
 
@@ -48,7 +48,7 @@
 
         case 'fail':
 
-          message.innerText = `Fail: ${data.msg}`
+          message.innerText = 'Fail: ' + data.msg
 
           progressbar.style.display = 'none'
 
@@ -70,8 +70,10 @@
       }
     })
 
-    button.addEventListener('click', () => {
+    button.addEventListener('click', function () {
       installSocket.emit('download')
     })
   })
 })()
+
+// # sourceMappingURL=install.js.map

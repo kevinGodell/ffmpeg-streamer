@@ -15,9 +15,9 @@
       console.log('hls error', data)
       console.log(data.type)
       console.log(data.details)
-      //if (data.type === 'networkError') {
-      //hlsjsVideo.parentElement.innerHTML = '<p>hls.js network error</p>';
-      //}
+      // if (data.type === 'networkError') {
+      // hlsjsVideo.parentElement.innerHTML = '<p>hls.js network error</p>';
+      // }
     })
     hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
       hlsjsVideo.play()
@@ -148,7 +148,7 @@
     hlsVideoLoads++
   }
   hlsVideo.addEventListener('canplay', (evt) => {
-    //console.log('can play');
+    // console.log('can play');
     hlsVideoLoads = 0
     hlsVideo.play()
   })
@@ -170,7 +170,9 @@
   const mjpegImg = document.getElementById('mjpegImg')
   mjpegImg.src = '/mjpeg/test.mjpg'
   mjpegImg.addEventListener('error', (evt) => {
-    mjpegImg.parentElement.innerHTML = '<p>mjpeg playback error</p>'
+    if (mjpegImg && mjpegImg.parentElement) {
+      mjpegImg.parentElement.innerHTML = '<p>mjpeg playback error</p>'
+    }
   })
 
   /* -------------------- mse socket.io -------------------- */
@@ -202,5 +204,4 @@
     hlsjsVideo.pause()
     msePlayer.stop()
   })
-
 })()

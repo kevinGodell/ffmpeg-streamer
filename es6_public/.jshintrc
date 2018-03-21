@@ -15,5 +15,13 @@
   "nonew":          true,
   "strict":         "global",
   "unused":         true,
-  "undef":          true
+  "undef":          true,
+  "globals"   : {
+    "io":               true,
+    "console":          true,
+    "MediaSource":      true,
+    "HTMLVideoElement": true,
+    "URL":              true,
+    "Element":          true
+  }
 }

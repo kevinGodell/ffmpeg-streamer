@@ -3,11 +3,7 @@
     ["env", {
       "targets": {
         "browsers": [
-          "Chrome >= 52",
-          "FireFox >= 44",
-          "Safari >= 7",
-          "Explorer 10",
-          "last 4 Edge versions"
+          "last 4 versions"
         ]
       }
     }]

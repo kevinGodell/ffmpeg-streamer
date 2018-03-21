@@ -16,7 +16,7 @@
   "strict":         "global",
   "unused":         true,
   "undef":          true,
-  "globals"   : {
+  "globals": {
     "io":               true,
     "console":          true,
     "MediaSource":      true,

@@ -6,17 +6,17 @@ Video input types supported are *rtsp*, *mp4*, *mjpeg*, and *hls*.
 
 ### Installation
 **ffmpeg-streamer** has been packaged into an executable using [pkg](https://github.com/zeit/pkg).
-The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases/tag/v0.0.10) page.
+The current binaries can be found on the [releases](https://github.com/kevinGodell/ffmpeg-streamer/releases/tag/v0.0.11) page.
 * For desktop installation, simply download and extract.
 * For command line installation, see the following steps.
 
 ###### Downloading zipped archive
 ```
 //linux
-wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.10/ffmpeg-streamer-linux-x64.zip
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.11/ffmpeg-streamer-linux-x64.zip
 
 //mac
-curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.10/ffmpeg-streamer-macos-x64.zip
+curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.11/ffmpeg-streamer-macos-x64.zip
 ```
 
 ###### Extracting zipped archive

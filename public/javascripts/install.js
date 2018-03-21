@@ -1,9 +1,9 @@
 'use strict';
 
-(function init () {
-  var message = document.getElementById('message')
+(function init() {
+  var message = document.getElementById('message');
 
-  var progressbar = document.getElementById('progressbar')
+  var progressbar = document.getElementById('progressbar');
 
   var installSocket = window.io.connect(window.location.origin + '/install', {
 
@@ -15,11 +15,11 @@
 
     reconnectionDelay: 500
 
-  })
+  });
 
   installSocket.on('connect_failed', function () {
-    message.innerText = 'Socket Connection failed.'
-  })
+    message.innerText = 'Socket Connection failed.';
+  });
 
   /*
   installSocket.on('disconnect', () => {
@@ -28,50 +28,50 @@
   */
 
   installSocket.on('error', function () {
-    message.innerText = 'Socket Error.'
-  })
+    message.innerText = 'Socket Error.';
+  });
 
   installSocket.on('connect', function () {
-    var button = document.getElementById('install')
+    var button = document.getElementById('install');
 
     installSocket.on('status', function (data) {
       switch (data.type) {
         case 'downloading':
 
-          message.innerText = 'Downloading...'
+          message.innerText = 'Downloading...';
 
-          progressbar.style.display = 'inline'
+          progressbar.style.display = 'inline';
 
-          break
+          break;
 
         case 'fail':
 
-          message.innerText = 'Fail: ' + data.msg
+          message.innerText = 'Fail: ' + data.msg;
 
-          progressbar.style.display = 'none'
+          progressbar.style.display = 'none';
 
-          installSocket.disconnect()
+          installSocket.disconnect();
 
-          break
+          break;
 
         case 'complete':
 
-          message.innerText = 'Complete'
+          message.innerText = 'Complete';
 
-          progressbar.style.display = 'none'
+          progressbar.style.display = 'none';
 
-          installSocket.disconnect()
+          installSocket.disconnect();
 
-          window.location.replace('/')
+          window.location.replace('/');
 
-          break
+          break;
       }
-    })
+    });
 
     button.addEventListener('click', function () {
-      installSocket.emit('download')
-    })
-  })
-})()
+      installSocket.emit('download');
+    });
+  });
+})();
 
-// # sourceMappingURL=install.js.map
+//# sourceMappingURL=install.js.map

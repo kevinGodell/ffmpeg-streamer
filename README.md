@@ -13,7 +13,7 @@ The current binaries can be found on the [releases](https://github.com/kevinGode
 ###### Downloading zipped archive
 ```
 //linux
-wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.11/ffmpeg-streamer-linux-x64.zip
+wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.11/ffmpeg-streamer-linux-x64.tar.gz
 
 //mac
 curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.11/ffmpeg-streamer-macos-x64.zip
@@ -22,7 +22,7 @@ curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0
 ###### Extracting zipped archive
 ```
 //linux
-unzip ffmpeg-streamer-linux-x64.zip
+tar -xvf ffmpeg-streamer-linux-x64.tar.gz
 
 //mac
 unzip ffmpeg-streamer-macos-x64.zip

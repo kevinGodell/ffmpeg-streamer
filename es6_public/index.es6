@@ -2,10 +2,8 @@
 
 (function init () {
   const inputType = document.getElementById('inputType')
-
   inputType.addEventListener('change', (/* evt */) => {
     const elems = document.getElementsByClassName('rtsp-transport')
-
     switch (inputType.value) {
       case 'rtsp':
         for (let i = 0; i < elems.length; i++) {
@@ -21,12 +19,9 @@
         break
     }
   })
-
   const mp4VideoCodec = document.getElementById('mp4VideoCodec')
-
   mp4VideoCodec.addEventListener('change', (/* evt */) => {
     const elems = document.getElementsByClassName('mp4VideoCodec')
-
     switch (mp4VideoCodec.value) {
       case 'copy':
         for (let i = 0; i < elems.length; i++) {
@@ -40,12 +35,9 @@
         break
     }
   })
-
   const jpegCodec = document.getElementById('jpegCodec')
-
   jpegCodec.addEventListener('change', (/* evt */) => {
     const elems = document.getElementsByClassName('jpegCodec')
-
     switch (jpegCodec.value) {
       case 'copy':
         for (let i = 0; i < elems.length; i++) {
@@ -62,37 +54,45 @@
 })();
 
 (function setValues (vals) {
-  const elementIds = ['logLevel', 'hwAccel', 'inputType', 'analyzeDuration', 'probeSize', 'rtspTransport', 'inputUrl', 'mp4HlsListSize', 'mp4AudioCodec', 'mp4VideoCodec', 'mp4Rate', 'mp4Scale', 'mp4FragDur', 'mp4Crf', 'mp4Preset', 'mp4Profile', 'mp4Level', 'mp4PixFmt', 'jpegCodec', 'jpegRate', 'jpegScale', 'jpegQuality']
-
-  if (vals) {
-    for (let i = 0, len = elementIds.length; i < len; i++) {
-      const elem = document.getElementById(elementIds[i])
-
-      elem.value = vals[elementIds[i]]
-
-      if (typeof window.Event === 'function') {
-        elem.dispatchEvent(new window.Event('change'))
-      } else {
-        const event = document.createEvent('Event')
-        event.initEvent('change', true, true)
-        elem.dispatchEvent(event)
-      }
-    }
-  } else {
-    const defaultVals = ['info', 'auto', 'hls', '10000000', '1048576', 'tcp', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/hls/TearsOfSteel.m3u8', '5', 'aac', 'copy', '7', '0.75', '2000000', '15', 'veryfast', 'baseline', '3.1', 'yuv420p', 'mjpeg', '7', '0.75', '10']
-
-    for (let i = 0, len = elementIds.length; i < len; i++) {
-      const elem = document.getElementById(elementIds[i])
-
-      elem.value = defaultVals[i]
-
-      if (typeof window.Event === 'function') {
-        elem.dispatchEvent(new window.Event('change'))
-      } else {
-        const event = document.createEvent('Event')
-        event.initEvent('change', true, true)
-        elem.dispatchEvent(event)
-      }
+  const values = vals || {
+    logLevel: 'info',
+    hwAccel: 'auto',
+    inputType: 'hls',
+    analyzeDuration: 10000000,
+    probeSize: 1048576,
+    rtspTransport: 'tcp',
+    inputUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/hls/TearsOfSteel.m3u8',
+    mp4HlsListSize: 5,
+    mp4AudioCodec: 'aac',
+    mp4VideoCodec: 'copy',
+    mp4Rate: 7,
+    mp4Scale: 0.75,
+    mp4FragDur: 2000000,
+    mp4Crf: 15,
+    mp4Preset: 'veryfast',
+    mp4Profile: 'baseline',
+    mp4Level: 3.1,
+    mp4PixFmt: 'yuv420p',
+    jpegCodec: 'mjpeg',
+    jpegRate: 7,
+    jpegScale: 0.75,
+    jpegQuality: 10
+  }
+  const elems = document.getElementsByClassName('mdl-textfield__input')
+  const dispatchChangeEvent = typeof window.Event === 'function' ? (el) => {
+    el.dispatchEvent(new window.Event('change'))
+  } : (el) => {
+    const event = document.createEvent('Event')
+    event.initEvent('change', true, true)
+    el.dispatchEvent(event)
+  }
+  for (let i = 0; i < elems.length; i++) {
+    const elem = elems[i]
+    const name = elem.name
+    const value = values[name]
+    if (typeof value !== 'undefined') {
+      elem.value = value
+      dispatchChangeEvent(elem)
     }
   }
 })(JSON.parse(document.getElementById('values').dataset.vals))

@@ -3,7 +3,7 @@
     ["env", {
       "targets": {
         "browsers": [
-          "last 4 versions"
+          "last 2 versions"
         ]
       }
     }]

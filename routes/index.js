@@ -346,7 +346,7 @@ router.post('/', (req, res) => {
             ],
             killAfterStall: 10,
             spawnAfterExit: 2,
-            reSpawnLimit: 10,
+            reSpawnLimit: 100,
             stderrLogs: stderrLogs,
             exitCallback: () => {
               // console.log('exit call back');

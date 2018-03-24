@@ -301,7 +301,7 @@ router.post('/', (req, res) => {
       // TODO -f mpjpeg -boundary_tag ffmpeg_streamer so that we can later pipe response without parsing individual jpegs
       params.push(...['-f', 'image2pipe', 'pipe:4'])
 
-      mp4frag = new M4F({hlsBase: 'test', hlsListSize: mp4HlsListSize})
+      mp4frag = new M4F({hlsBase: 'test', hlsListSize: mp4HlsListSize, hlsListInit: false})
         .setMaxListeners(30)
         .on('error', (err) => {
           console.error(err.message)

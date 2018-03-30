@@ -31,7 +31,7 @@ const m3u8Socket = require('./sockets/m3u8')(app, io)
 const installSocket = require('./sockets/install')(app, io)
 const stderrSocket = require('./sockets/stderr')(app, io)
 
-const dirName = process.pkg && process.pkg.entrypoint ? path.dirname(process.execPath) : process.cwd()
+const dirName = process.pkg && process.pkg.entrypoint ? path.dirname(process.execPath) : __dirname
 const ffmpeg = require('./lib/findFfmpeg')(dirName)
 const activity = require('./lib/activityLog')(dirName)
 

@@ -11,20 +11,22 @@ The current binaries can be found on the [releases](https://github.com/kevinGode
 * For command line installation, see the following steps.
 
 ###### Downloading zipped archive
+*linux*
 ```
-//linux
 wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.11/ffmpeg-streamer-linux-x64.tar.gz
-
-//mac
+```
+*mac*
+```
 curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.11/ffmpeg-streamer-macos-x64.zip
 ```
 
 ###### Extracting zipped archive
+*linux*
 ```
-//linux
 tar -xvf ffmpeg-streamer-linux-x64.tar.gz
-
-//mac
+```
+*mac*
+```
 unzip ffmpeg-streamer-macos-x64.zip
 ```
 
@@ -33,20 +35,22 @@ unzip ffmpeg-streamer-macos-x64.zip
 * For command line usage, the following shows 2 options.
 
 ###### Start the app from the command line
+*linux*
 ```
-//linux
 ./ffmpeg-streamer-linux-x64
-
-//mac
+```
+*mac*
+```
 ./ffmpeg-streamer-macos-x64
 ```
 
 ###### Or start the app from the command line via [pm2](https://github.com/Unitech/pm2)
+*linux*
 ```
-//linux
 pm2 start ffmpeg-streamer-linux-x64
-
-//mac
+```
+*mac*
+```
 pm2 start ffmpeg-streamer-macos-x64
 ```
 After launching, you can use it via the web interface on port 8181.
@@ -76,16 +80,12 @@ npm install
 
 ###### Start the app in development mode
 ```
-//mac and linux
 npm run dev
-
-//windows
-npm run dev-win
 ```
 
 ###### Build the binaries
 ```
-npm run pkg
+npm run dist:pkg
 ```
 
 #### Feature requests and problems

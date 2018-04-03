@@ -36,11 +36,11 @@ unzip ffmpeg-streamer-macos-x64.zip
 
 ###### Start the app from the command line
 *linux*
-```
+```console
 ./ffmpeg-streamer-linux-x64
 ```
 *mac*
-```
+```bash
 ./ffmpeg-streamer-macos-x64
 ```
 

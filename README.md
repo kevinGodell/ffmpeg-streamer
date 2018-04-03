@@ -16,17 +16,17 @@ The current binaries can be found on the [releases](https://github.com/kevinGode
 wget https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.12/ffmpeg-streamer-linux-x64.tar.gz
 ```
 *mac*
-```sh
+```console
 curl -L -O https://github.com/kevinGodell/ffmpeg-streamer/releases/download/v0.0.12/ffmpeg-streamer-macos-x64.zip
 ```
 
 ###### Extracting zipped archive
 *linux*
-```shell
+```console
 tar -xvf ffmpeg-streamer-linux-x64.tar.gz
 ```
 *mac*
-```
+```console
 unzip ffmpeg-streamer-macos-x64.zip
 ```
 
@@ -41,16 +41,16 @@ unzip ffmpeg-streamer-macos-x64.zip
 ```
 *mac*
 ```console
-user ~ $ ./ffmpeg-streamer-macos-x64
+./ffmpeg-streamer-macos-x64
 ```
 
 ###### Or start the app from the command line via [pm2](https://github.com/Unitech/pm2)
 *linux*
-```
+```console
 pm2 start ffmpeg-streamer-linux-x64
 ```
 *mac*
-```
+```console
 pm2 start ffmpeg-streamer-macos-x64
 ```
 After launching, you can use it via the web interface on port 8181.
@@ -69,22 +69,22 @@ If it does find ffmpeg, but you would like to install a newer version, you can v
 #### Development
 
 ###### Clone the repo and move into the newly created directory
-```
+```console
 git clone https://github.com/kevinGodell/ffmpeg-streamer.git && cd ffmpeg-streamer
 ```
 
 ###### Install the module dependencies
-```
+```console
 npm install
 ```
 
 ###### Start the app in development mode
-```
+```console
 npm run dev
 ```
 
 ###### Build the binaries
-```
+```console
 npm run dist:pkg
 ```
 

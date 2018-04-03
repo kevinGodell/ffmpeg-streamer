@@ -40,8 +40,8 @@ unzip ffmpeg-streamer-macos-x64.zip
 ./ffmpeg-streamer-linux-x64
 ```
 *mac*
-```bash
-./ffmpeg-streamer-macos-x64
+```console
+user ~ $ ./ffmpeg-streamer-macos-x64
 ```
 
 ###### Or start the app from the command line via [pm2](https://github.com/Unitech/pm2)

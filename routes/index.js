@@ -188,9 +188,13 @@ router.post('/', (req, res) => {
       params.push('-re')
 
       switch (inputType) {
-        case 'artificial':
+        /* case 'artificial':
           params.push(...['-f', 'lavfi', '-i', 'testsrc=size=1280x720:rate=15'])
           break
+
+        case 'avfoundation':
+          params.push(...['-f', 'avfoundation', '-video_size', '640x480', '-framerate', '30', '-i', inputUrl])
+          break */
 
         case 'mp4':
           // mp4 might be a local file, dont check url

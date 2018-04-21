@@ -87,7 +87,7 @@
 
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--4-col-phone">
             <select id="inputType" name="inputType" form="index" class="mdl-textfield__input">
-                <% const inputTypeArr = [/*'artificial',*/'rtsp', 'mjpeg', 'hls', 'mp4'/*,'local'*/]; %>
+                <% const inputTypeArr = [/*'artificial', 'avfoundation',*/'rtsp', 'mjpeg', 'hls', 'mp4']; %>
                 <% for (let i = 0; i < inputTypeArr.length; i++) { %>
                 <option value="<%= inputTypeArr[i] %>"><%= inputTypeArr[i] %></option>
                 <% } %>

@@ -3,26 +3,29 @@
 const express = require('express')
 const router = express.Router()
 const os = require('os')
+const util = require('util')
 
 router.use('/', (req, res) => {
   const app = req.app
-  let response = `<p>${app.get('dirName')}</p><p>${app.get('ffmpegVersion')}</p><p>${app.get('ffmpegPath')}</p>`
-  response += `<p>${os.arch()}</p>`
-  response += `<p>${os.cpus().length}</p>`
-  response += `<p>${os.freemem}</p>`
-  response += `<p>${os.loadavg()}</p>`
-  response += `<p>${os.platform()}</p>`
-  response += `<p>${os.release}</p>`
-  response += `<p>${os.uptime}</p>`
-  response += `<p>${os.userInfo}</p>`
-  response += `<p>${os.endianness()}</p>`
-  response += `<p>${os.homedir}</p>`
-  response += `<p>${os.hostname}</p>`
-  response += `<p>${os.tmpdir()}</p>`
-  response += `<p>${os.type}</p>`
-  response += `<p>${os.totalmem}</p>`
-  response += `<p>${(os.freemem - os.totalmem) / os.totalmem}</p>`
-  response += `<p>${os.freemem / os.totalmem}</p>`
+  let response = `<p>${app.get('dirName')}</p>
+  <p>${app.get('ffmpegVersion')}</p>
+  <p>${app.get('ffmpegPath')}</p>
+  <p>${os.arch()}</p>
+  <p>${os.cpus().length}</p>
+  <p>${os.freemem}</p>
+  <p>${os.loadavg()}</p>
+  <p>${os.platform()}</p>
+  <p>${os.release}</p>
+  <p>${os.uptime}</p>
+  <p>${util.inspect(os.userInfo())}</p>
+  <p>${os.endianness()}</p>
+  <p>${os.homedir}</p>
+  <p>${os.hostname}</p>
+  <p>${os.tmpdir()}</p>
+  <p>${os.type}</p>
+  <p>${os.totalmem}</p>
+  <p>${(os.freemem - os.totalmem) / os.totalmem}</p>
+  <p>${os.freemem / os.totalmem}</p>`
   res.status(200).send(response)
 })
 

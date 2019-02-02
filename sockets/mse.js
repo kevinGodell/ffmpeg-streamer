@@ -1,6 +1,6 @@
 'use strict'
 
-const {Writable} = require('stream')
+const { Writable } = require('stream')
 const namespace = '/mse'
 
 module.exports = (app, io) => {

@@ -36,7 +36,7 @@ router.get('/test.mp4', (req, res) => {
   if (mp4frag.segment) {
     res.write(mp4frag.segment)
   }
-  mp4frag.pipe(res, {end: true})
+  mp4frag.pipe(res, { end: true })
   res.once('close', () => {
     if (mp4frag) {
       mp4frag.unpipe(res)

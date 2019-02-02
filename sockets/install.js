@@ -17,7 +17,7 @@ module.exports = (app, io) => {
           ffmpeg.stop()
         }
 
-        socket.emit('status', {type: 'downloading'})
+        socket.emit('status', { type: 'downloading' })
 
         if (downloading) {
           return
@@ -29,15 +29,15 @@ module.exports = (app, io) => {
 
         const dirName = app.get('dirName')
 
-        ffbinaries.downloadBinaries('ffmpeg', {quiet: true, destination: dirName, force: true}, (err, data) => {
+        ffbinaries.downloadBinaries('ffmpeg', { quiet: true, destination: dirName, force: true }, (err, data) => {
           if (err) {
-            socket.emit('status', {type: 'fail', msg: err})
+            socket.emit('status', { type: 'fail', msg: err })
             console.error(err)
           } else {
             const ffmpeg = ffmpegConfig(dirName)
             app.set('ffmpegVersion', ffmpeg.version)
             app.set('ffmpegPath', ffmpeg.path)
-            socket.emit('status', {type: 'complete'})
+            socket.emit('status', { type: 'complete' })
           }
 
           downloading = false

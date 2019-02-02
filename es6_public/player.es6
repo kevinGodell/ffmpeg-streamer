@@ -58,7 +58,7 @@ keep 5 = duration of buffer to keep past current play time when removing old buf
 
 */
 
-const config = {lag: 2.0, past: 20, keep: 5}
+const config = { lag: 2.0, past: 20, keep: 5 }
 
 class VideoPlayer {
   constructor (options, callback) {
@@ -446,7 +446,7 @@ class VideoPlayer {
 
     this._playing = true
 
-    this._socket = this._io(`${window.location.origin}/${namespace}`, {transports: ['websocket'], forceNew: false})
+    this._socket = this._io(`${window.location.origin}/${namespace}`, { transports: ['websocket'], forceNew: false })
 
     this._addSocketEvents()
 
@@ -537,9 +537,9 @@ class VideoPlayer {
 
         .then(() => {
 
-        // this._callback(null, 'play promise fulfilled');
+          // this._callback(null, 'play promise fulfilled');
 
-        // todo remove "click to play" poster
+          // todo remove "click to play" poster
 
         })
 
@@ -560,11 +560,11 @@ class VideoPlayer {
 
     this.onVideoError = this._onVideoError.bind(this)
 
-    this._video.addEventListener('error', this.onVideoError, {capture: true, passive: true, once: true})
+    this._video.addEventListener('error', this.onVideoError, { capture: true, passive: true, once: true })
 
     this.onVideoLoadedData = this._onVideoLoadedData.bind(this)
 
-    this._video.addEventListener('loadeddata', this.onVideoLoadedData, {capture: true, passive: true, once: true})
+    this._video.addEventListener('loadeddata', this.onVideoLoadedData, { capture: true, passive: true, once: true })
 
     this._callback(null, 'added video events')
   }
@@ -574,11 +574,11 @@ class VideoPlayer {
       return
     }
 
-    this._video.removeEventListener('error', this.onVideoError, {capture: true, passive: true, once: true})
+    this._video.removeEventListener('error', this.onVideoError, { capture: true, passive: true, once: true })
 
     delete this.onVideoError
 
-    this._video.removeEventListener('loadeddata', this.onVideoLoadedData, {capture: true, passive: true, once: true})
+    this._video.removeEventListener('loadeddata', this.onVideoLoadedData, { capture: true, passive: true, once: true })
 
     delete this.onVideoLoadedData
 
@@ -610,7 +610,7 @@ class VideoPlayer {
 
     this.onSegment = this._onSegment.bind(this)
 
-    this._socket.addEventListener('segment', this.onSegment, {capture: true, passive: true, once: false})
+    this._socket.addEventListener('segment', this.onSegment, { capture: true, passive: true, once: false })
 
     this._socket.send('segments')
 
@@ -636,7 +636,7 @@ class VideoPlayer {
 
     this.onMediaSourceOpen = this._onMediaSourceOpen.bind(this)
 
-    this._mediaSource.addEventListener('sourceopen', this.onMediaSourceOpen, {capture: true, passive: true, once: true})
+    this._mediaSource.addEventListener('sourceopen', this.onMediaSourceOpen, { capture: true, passive: true, once: true })
   }
 
   _removeMediaSourceEvents () {
@@ -730,7 +730,7 @@ class VideoPlayer {
 
     this.onSourceBufferError = this._onSourceBufferError.bind(this)
 
-    this._sourceBuffer.addEventListener('error', this.onSourceBufferError, {capture: true, passive: true, once: true})
+    this._sourceBuffer.addEventListener('error', this.onSourceBufferError, { capture: true, passive: true, once: true })
 
     this.onSourceBufferUpdateEnd = this._onSourceBufferUpdateEnd.bind(this)
 
@@ -784,7 +784,7 @@ class VideoPlayer {
 
     this.onMime = this._onMime.bind(this)
 
-    this._socket.addEventListener('mime', this.onMime, {capture: true, passive: true, once: true})
+    this._socket.addEventListener('mime', this.onMime, { capture: true, passive: true, once: true })
 
     this._socket.send('mime')
   }
@@ -816,7 +816,7 @@ class VideoPlayer {
 
     this.onInit = this._onInit.bind(this)
 
-    this._socket.addEventListener('initialization', this.onInit, {capture: true, passive: true, once: true})
+    this._socket.addEventListener('initialization', this.onInit, { capture: true, passive: true, once: true })
 
     this._socket.send('initialization')
   }
@@ -860,15 +860,15 @@ class VideoPlayer {
 
     this.onSocketConnect = this._onSocketConnect.bind(this)
 
-    this._socket.addEventListener('connect', this.onSocketConnect, {capture: true, passive: true, once: true})
+    this._socket.addEventListener('connect', this.onSocketConnect, { capture: true, passive: true, once: true })
 
     this.onSocketDisconnect = this._onSocketDisconnect.bind(this)
 
-    this._socket.addEventListener('disconnect', this.onSocketDisconnect, {capture: true, passive: true, once: true})
+    this._socket.addEventListener('disconnect', this.onSocketDisconnect, { capture: true, passive: true, once: true })
 
     this.onSocketError = this._onSocketError.bind(this)
 
-    this._socket.addEventListener('error', this.onSocketError, {capture: true, passive: true, once: true})
+    this._socket.addEventListener('error', this.onSocketError, { capture: true, passive: true, once: true })
   }
 
   _removeSocketEvents () {
@@ -876,27 +876,27 @@ class VideoPlayer {
       return
     }
 
-    this._socket.removeEventListener('connect', this.onSocketConnect, {capture: true, passive: true, once: true})
+    this._socket.removeEventListener('connect', this.onSocketConnect, { capture: true, passive: true, once: true })
 
     delete this.onSocketConnect
 
-    this._socket.removeEventListener('disconnect', this.onSocketDisconnect, {capture: true, passive: true, once: true})
+    this._socket.removeEventListener('disconnect', this.onSocketDisconnect, { capture: true, passive: true, once: true })
 
     delete this.onSocketDisconnect
 
-    this._socket.removeEventListener('error', this.onSocketError, {capture: true, passive: true, once: true})
+    this._socket.removeEventListener('error', this.onSocketError, { capture: true, passive: true, once: true })
 
     delete this.onSocketError
 
-    this._socket.removeEventListener('mime', this.onMime, {capture: true, passive: true, once: true})
+    this._socket.removeEventListener('mime', this.onMime, { capture: true, passive: true, once: true })
 
     delete this.onMime
 
-    this._socket.removeEventListener('initialization', this.onInit, {capture: true, passive: true, once: true})
+    this._socket.removeEventListener('initialization', this.onInit, { capture: true, passive: true, once: true })
 
     delete this.onInit
 
-    this._socket.removeEventListener('segment', this.onSegment, {capture: true, passive: true, once: false})
+    this._socket.removeEventListener('segment', this.onSegment, { capture: true, passive: true, once: false })
 
     delete this.onSegment
   }

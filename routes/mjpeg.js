@@ -2,7 +2,7 @@
 
 const express = require('express')
 const router = express.Router()
-const {Writable} = require('stream')
+const { Writable } = require('stream')
 
 router.use('/', (req, res, next) => {
   const app = req.app
@@ -38,7 +38,7 @@ router.get('/test.mjpg', (req, res) => {
   res.set('Content-Type', 'multipart/x-mixed-replace;boundary=ffmpeg_streamer')
   res.write('--ffmpeg_streamer\r\n')
   if (jpeg) {
-    writable.write(jpeg, {end: true})
+    writable.write(jpeg, { end: true })
   }
   pipe2jpeg.pipe(writable)
   res.once('close', () => {

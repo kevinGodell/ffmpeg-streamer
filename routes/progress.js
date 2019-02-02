@@ -19,6 +19,10 @@ router.use('/', (req, res, next) => {
   next()
 })
 
+router.get('/', (req, res) => {
+  res.send('progress router')
+})
+
 router.get('/test.txt', (req, res) => {
   const ffmpeg = res.locals.ffmpeg
   if (ffmpeg.progress) {

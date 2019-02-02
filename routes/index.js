@@ -2,7 +2,7 @@
 
 const express = require('express')
 const router = express.Router()
-const {PassThrough} = require('stream')
+const { PassThrough } = require('stream')
 const FR = require('ffmpeg-respawn')
 const M4F = require('mp4frag')
 const P2J = require('pipe2jpeg')
@@ -305,7 +305,7 @@ router.post('/', (req, res) => {
       // TODO -f mpjpeg -boundary_tag ffmpeg_streamer so that we can later pipe response without parsing individual jpegs
       params.push(...['-f', 'image2pipe', 'pipe:4'])
 
-      mp4frag = new M4F({hlsBase: 'test', hlsListSize: mp4HlsListSize, hlsListInit: true})
+      mp4frag = new M4F({ hlsBase: 'test', hlsListSize: mp4HlsListSize, hlsListInit: true })
         .setMaxListeners(30)
         .on('error', (err) => {
           console.error(err.message)
@@ -345,8 +345,8 @@ router.post('/', (req, res) => {
             params: params,
             logLevel: logLevel,
             pipes: [
-              {stdioIndex: 1, destination: mp4frag},
-              {stdioIndex: 4, destination: pipe2jpeg}
+              { stdioIndex: 1, destination: mp4frag },
+              { stdioIndex: 4, destination: pipe2jpeg }
             ],
             killAfterStall: 10,
             spawnAfterExit: 2,

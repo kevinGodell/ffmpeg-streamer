@@ -14,20 +14,20 @@
     "lint:fix": "standard --fix app.js es6_public/*.es6 routes/*.js sockets/*.js lib/*.js"
   },
   "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "ejs": "^2.5.8",
-    "express": "^4.16.3",
-    "ffbinaries": "^1.0.9",
-    "ffmpeg-respawn": "0.0.14",
-    "hls.js": "^0.9.1",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "ffbinaries": "^1.1.1",
+    "ffmpeg-respawn": "^0.1.0",
+    "hls.js": "^0.12.2",
     "material-design-icons": "^3.0.1",
     "material-design-lite": "^1.3.0",
-    "morgan": "^1.9.0",
-    "mp4frag": "0.0.22",
+    "morgan": "^1.9.1",
+    "mp4frag": "^0.1.1",
     "pipe2jpeg": "^0.2.7",
     "serve-favicon": "^2.5.0",
-    "socket.io": "^2.1.0"
+    "socket.io": "^2.2.0"
   },
   "bin": "app.js",
   "main": "app.js",
@@ -47,9 +47,9 @@
   "homepage": "https://github.com/kevinGodell/ffmpeg-streamer#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "pkg": "^4.3.1",
-    "standard": "^11.0.1"
+    "babel-preset-env": "^1.7.0",
+    "pkg": "^4.3.7",
+    "standard": "^12.0.1"
   },
   "pkg": {
     "assets": [

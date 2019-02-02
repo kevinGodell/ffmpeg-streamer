@@ -39,7 +39,7 @@
   })
   jpegSocket.on('jpeg', (data) => {
     const arrayBufferView = new Uint8Array(data)
-    const blob = new window.Blob([arrayBufferView], {type: 'image/jpeg'})
+    const blob = new window.Blob([arrayBufferView], { type: 'image/jpeg' })
     const urlCreator = window.URL || window.webkitURL
     jpegImg.src = urlCreator.createObjectURL(blob)
   })

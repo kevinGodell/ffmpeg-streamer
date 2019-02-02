@@ -1,6 +1,6 @@
 {
   "name": "ffmpeg-streamer",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "private": true,
   "description": "Connect to your video source and stream it to your browser.",
   "scripts": {
